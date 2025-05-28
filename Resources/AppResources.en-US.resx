@@ -1,0 +1,802 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Adicionar" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AdicionarCampoPersonalizado" xml:space="preserve">
+    <value>Add Custom Field</value>
+  </data>
+  <data name="Aguardando" xml:space="preserve">
+    <value>Waiting</value>
+  </data>
+  <data name="Aguarde" xml:space="preserve">
+    <value>Hold...</value>
+  </data>
+  <data name="AguardeConectando" xml:space="preserve">
+    <value>Please wait... Connecting...</value>
+  </data>
+  <data name="AppCelmiAuto" xml:space="preserve">
+    <value>Automotive</value>
+  </data>
+  <data name="AppCelmiAviação" xml:space="preserve">
+    <value>Aviation  </value>
+  </data>
+  <data name="AppCelmiEnsaioDeCampo" xml:space="preserve">
+    <value>Seeds</value>
+  </data>
+  <data name="AppCelmiGeral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="AppCelmiMáquinas" xml:space="preserve">
+    <value>Agricultural machinery</value>
+  </data>
+  <data name="AppCelmiPecuária" xml:space="preserve">
+    <value>Livestock</value>
+  </data>
+  <data name="AreaMedida" xml:space="preserve">
+    <value>Measured area</value>
+  </data>
+  <data name="ArquivoDeBackupInválido" xml:space="preserve">
+    <value>Invalid Backup File</value>
+  </data>
+  <data name="ArrobaMédio" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="Arrobas" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="ArrobaTotal" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="BackupListaPesagens" xml:space="preserve">
+    <value>Backup Weighing List</value>
+  </data>
+  <data name="Balança" xml:space="preserve">
+    <value>Scale</value>
+  </data>
+  <data name="BastaoAllTAGS" xml:space="preserve">
+    <value>ALLTAGS baton</value>
+  </data>
+  <data name="Bateria" xml:space="preserve">
+    <value>Battery</value>
+  </data>
+  <data name="BateriaCarregando" xml:space="preserve">
+    <value>Battery Charging</value>
+  </data>
+  <data name="BluetoothLigado" xml:space="preserve">
+    <value>You need to have Bluetooth turned on to use this app! Please activate!</value>
+  </data>
+  <data name="Bruto" xml:space="preserve">
+    <value>Gross</value>
+  </data>
+  <data name="BuscaPorDispositivosFinalizada" xml:space="preserve">
+    <value>Device search complete...</value>
+  </data>
+  <data name="CamposPersonalizados" xml:space="preserve">
+    <value>Custom fields</value>
+  </data>
+  <data name="Cancelar" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CancelarBuscaDeDispositivos" xml:space="preserve">
+    <value>Cancel Device Search</value>
+  </data>
+  <data name="CargaViva" xml:space="preserve">
+    <value>Live Load</value>
+  </data>
+  <data name="CelmiSistemasDePesagemRelatório" xml:space="preserve">
+    <value>Celmi Weighing Systems - Report</value>
+  </data>
+  <data name="Chassi" xml:space="preserve">
+    <value>Chassis</value>
+  </data>
+  <data name="CidadeLocalização" xml:space="preserve">
+    <value>City/Location</value>
+  </data>
+  <data name="Cliente" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="CliqueEmPROCURARParaPesquisarPorDispositivosPróximos" xml:space="preserve">
+    <value>Click SEARCH to find Nearby Devices</value>
+  </data>
+  <data name="Conectado" xml:space="preserve">
+    <value>Connected</value>
+  </data>
+  <data name="ConectadoADispositivoCI" xml:space="preserve">
+    <value>Connected to CI Device</value>
+  </data>
+  <data name="ConectadoADispositivoCSP10A" xml:space="preserve">
+    <value>Connected to CSP-10A Device</value>
+  </data>
+  <data name="ConectadoADispositivoRX" xml:space="preserve">
+    <value>Connected to RX Device</value>
+  </data>
+  <data name="Conectando" xml:space="preserve">
+    <value>Connecting</value>
+  </data>
+  <data name="ConectandoImpressora" xml:space="preserve">
+    <value>Connecting Printer :</value>
+  </data>
+  <data name="ConectarParcial" xml:space="preserve">
+    <value>Connect Partial</value>
+  </data>
+  <data name="ConexãoBluetooth" xml:space="preserve">
+    <value>Bluetooth connection</value>
+  </data>
+  <data name="CONFIGURAÇÕES" xml:space="preserve">
+    <value>SETTINGS</value>
+  </data>
+  <data name="ConfiguraçõesCamelCase" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="DadosDoEnsaio" xml:space="preserve">
+    <value>Test Data</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DataHora" xml:space="preserve">
+    <value>Date/Time</value>
+  </data>
+  <data name="Desconectado" xml:space="preserve">
+    <value>Disconnected</value>
+  </data>
+  <data name="Desconectando" xml:space="preserve">
+    <value>Disconnecting</value>
+  </data>
+  <data name="Desconectar" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="Desconhecido" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="DesejaMesmoImportarEssasPesagens" xml:space="preserve">
+    <value>Do you really want to import these weights?</value>
+  </data>
+  <data name="DesejaSubstituirTodasAsPesagensPelasQueEstãoSendoImportadasOuAdicionarNovas" xml:space="preserve">
+    <value>Do you want to replace all weighings with the ones being imported or add new ones?</value>
+  </data>
+  <data name="DispositivoTXEncontradoS" xml:space="preserve">
+    <value>TX Device - Found</value>
+  </data>
+  <data name="Eixo" xml:space="preserve">
+    <value>Axle  </value>
+  </data>
+  <data name="EixoDianteiro" xml:space="preserve">
+    <value>Front Axle</value>
+  </data>
+  <data name="EixoTraseiro" xml:space="preserve">
+    <value>Rear axle</value>
+  </data>
+  <data name="EMAILSDECONTATO" xml:space="preserve">
+    <value>CONTACT EMAILS</value>
+  </data>
+  <data name="EnviarComando" xml:space="preserve">
+    <value>Send Command</value>
+  </data>
+  <data name="Erro" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Espanhol" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="EsteAplicativo" xml:space="preserve">
+    <value>THIS APP</value>
+  </data>
+  <data name="Excluir" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ExcluirPesagens" xml:space="preserve">
+    <value>Delete Weighings?</value>
+  </data>
+  <data name="FazendaPropriedade" xml:space="preserve">
+    <value>Farm/Property</value>
+  </data>
+  <data name="GerarRelatório" xml:space="preserve">
+    <value>Generate report</value>
+  </data>
+  <data name="Grão" xml:space="preserve">
+    <value>Grain</value>
+  </data>
+  <data name="Hora" xml:space="preserve">
+    <value>Hour</value>
+  </data>
+  <data name="Horímetro" xml:space="preserve">
+    <value>Hour Meter</value>
+  </data>
+  <data name="Identificador" xml:space="preserve">
+    <value>identifier</value>
+  </data>
+  <data name="IdentificarPesagem" xml:space="preserve">
+    <value>Identify Weighing</value>
+  </data>
+  <data name="IdentificarPesagemDescv" xml:space="preserve">
+    <value>When saving the weighing, it is possible to inform an identification for the weighing (bag number or the animal's earring, for example). The value is taken from saved weights and reports.</value>
+  </data>
+  <data name="Identificação" xml:space="preserve">
+    <value>Identification</value>
+  </data>
+  <data name="IdentificaçãoDaPesagem" xml:space="preserve">
+    <value>Weighing Identification</value>
+  </data>
+  <data name="Idioma" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Impressora" xml:space="preserve">
+    <value>Printer</value>
+  </data>
+  <data name="Informações" xml:space="preserve">
+    <value>Informations</value>
+  </data>
+  <data name="Inglês" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="IniciaConexão" xml:space="preserve">
+    <value>Start Connection</value>
+  </data>
+  <data name="LerComACâmera" xml:space="preserve">
+    <value>read with camera</value>
+  </data>
+  <data name="ListaDePesagens" xml:space="preserve">
+    <value>Weighing List</value>
+  </data>
+  <data name="Local" xml:space="preserve">
+    <value>Place</value>
+  </data>
+  <data name="Localização" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Logotipo" xml:space="preserve">
+    <value>Logo</value>
+  </data>
+  <data name="LogsDoDispositivo" xml:space="preserve">
+    <value>Device Logs</value>
+  </data>
+  <data name="LogsGlobais" xml:space="preserve">
+    <value>Global Logs</value>
+  </data>
+  <data name="Líquido" xml:space="preserve">
+    <value>Liquid</value>
+  </data>
+  <data name="Marca" xml:space="preserve">
+    <value>Brand</value>
+  </data>
+  <data name="Modelo" xml:space="preserve">
+    <value>Model</value>
+  </data>
+  <data name="ModoDeVisualização" xml:space="preserve">
+    <value>View Mode</value>
+  </data>
+  <data name="MultiplasConexoesDesc" xml:space="preserve">
+    <value>Some devices do not support multiple Bluetooth connections. Leave this option checked if you are having connection problems.</value>
+  </data>
+  <data name="NaoConectadoANenhumDispositivo" xml:space="preserve">
+    <value>NOT CONNECTED TO ANY DEVICE</value>
+  </data>
+  <data name="NaoFoiPossivelRegistrarBluetooth" xml:space="preserve">
+    <value>Unable to register for Bluetooth service.\nIf connection is not possible, please turn airplane mode on/off, if still not resolved, please restart your phone and try again...\nTrying again in 5 seconds...</value>
+  </data>
+  <data name="NenhumaImpressoraConectada" xml:space="preserve">
+    <value>No Printer Connected</value>
+  </data>
+  <data name="NenhumCampoPersonalizado" xml:space="preserve">
+    <value>No Custom Field</value>
+  </data>
+  <data name="NenhumEquipamentoConectado" xml:space="preserve">
+    <value>No equipment connected!</value>
+  </data>
+  <data name="NomeDoCampo" xml:space="preserve">
+    <value>Field name</value>
+  </data>
+  <data name="NumeroRedeBalancaDescricao" xml:space="preserve">
+    <value>Scale network number (Check label on scale module)</value>
+  </data>
+  <data name="NºPesagem" xml:space="preserve">
+    <value>Weighing Nº:</value>
+  </data>
+  <data name="Não" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NãoConectado" xml:space="preserve">
+    <value>Not Connected</value>
+  </data>
+  <data name="NãoConectadoANenhumDispositivo" xml:space="preserve">
+    <value>Not Connected to Any Device...</value>
+  </data>
+  <data name="NãoDetectado" xml:space="preserve">
+    <value>No detectado</value>
+  </data>
+  <data name="NãoFoiPossívelLigarOAdaptadorBluetooth" xml:space="preserve">
+    <value>Unable to connect the Bluetooth adapter</value>
+  </data>
+  <data name="NãoHáNenhumEquipamentoConectadoParaEnviarComando" xml:space="preserve">
+    <value>There is no equipment connected to send command...</value>
+  </data>
+  <data name="NãoÉPossívelProcurar" xml:space="preserve">
+    <value>Unable to search!</value>
+  </data>
+  <data name="Observações" xml:space="preserve">
+    <value>Observations</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="OpçõesAdicionais" xml:space="preserve">
+    <value>Additional Options</value>
+  </data>
+  <data name="OUTROSAPLICATIVOSDACELMI" xml:space="preserve">
+    <value>OTHER CELMI APPLICATIONS</value>
+  </data>
+  <data name="Permissões" xml:space="preserve">
+    <value>Permissions</value>
+  </data>
+  <data name="PESAGEM" xml:space="preserve">
+    <value>WEIGHING</value>
+  </data>
+  <data name="PesagemAbreviada" xml:space="preserve">
+    <value>W</value>
+  </data>
+  <data name="PesagemArmazenadaComSucesso" xml:space="preserve">
+    <value>Weighing Stored Successfully!</value>
+  </data>
+  <data name="PesagemDinâmica" xml:space="preserve">
+    <value>Dynamic Weighing</value>
+  </data>
+  <data name="PesagemSalva" xml:space="preserve">
+    <value>Weighing Saved</value>
+  </data>
+  <data name="PesagemSalvaComSucesso" xml:space="preserve">
+    <value>Weighing Saved Successfully</value>
+  </data>
+  <data name="Pesagens" xml:space="preserve">
+    <value>Weighings</value>
+  </data>
+  <data name="PesagensImportadasComSucesso" xml:space="preserve">
+    <value>Weighings imported successfully...</value>
+  </data>
+  <data name="Peso1" xml:space="preserve">
+    <value>weight 1</value>
+  </data>
+  <data name="Peso2" xml:space="preserve">
+    <value>weight 2</value>
+  </data>
+  <data name="Peso3" xml:space="preserve">
+    <value>weight 3</value>
+  </data>
+  <data name="Peso4" xml:space="preserve">
+    <value>weight 4</value>
+  </data>
+  <data name="Peso5" xml:space="preserve">
+    <value>weight 5</value>
+  </data>
+  <data name="Peso6" xml:space="preserve">
+    <value>weight 6</value>
+  </data>
+  <data name="Peso7" xml:space="preserve">
+    <value>weight 7</value>
+  </data>
+  <data name="Peso8" xml:space="preserve">
+    <value>weight 8</value>
+  </data>
+  <data name="PesoAcumulado" xml:space="preserve">
+    <value>Accumulated Weight</value>
+  </data>
+  <data name="PesoBruto" xml:space="preserve">
+    <value>Gross weight</value>
+  </data>
+  <data name="PesoEixo1" xml:space="preserve">
+    <value>Axle Weight 1</value>
+  </data>
+  <data name="PesoEixo2" xml:space="preserve">
+    <value>Axle Weight 2</value>
+  </data>
+  <data name="PesoEixo3" xml:space="preserve">
+    <value>Axle Weight 3</value>
+  </data>
+  <data name="PesoEixo4" xml:space="preserve">
+    <value>Axle Weight 4</value>
+  </data>
+  <data name="PesoEixos" xml:space="preserve">
+    <value>Axle Weight</value>
+  </data>
+  <data name="PesoIndividual" xml:space="preserve">
+    <value>Individual weight</value>
+  </data>
+  <data name="PesoMédio" xml:space="preserve">
+    <value>Weight (Average)</value>
+  </data>
+  <data name="PesoPorHectare" xml:space="preserve">
+    <value>Weight per Hectare:</value>
+  </data>
+  <data name="PesoTotal" xml:space="preserve">
+    <value>Total weight</value>
+  </data>
+  <data name="Plataforma" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="PlataformaDesconectadaSalvarErro" xml:space="preserve">
+    <value>Cannot save weighing if any platform is disconnected. Wait for all platforms to connect and try again.</value>
+  </data>
+  <data name="Plataformas" xml:space="preserve">
+    <value>Platforms</value>
+  </data>
+  <data name="PlataformasDetectadas" xml:space="preserve">
+    <value>Platforms Detected</value>
+  </data>
+  <data name="PlataformasOutraRede" xml:space="preserve">
+    <value>Platforms Detected on Network {0}</value>
+  </data>
+  <data name="PlataformaSPróximaS" xml:space="preserve">
+    <value>Near Platform(s)</value>
+  </data>
+  <data name="popupBackup_CarregarBackup_ImportarPesagens" xml:space="preserve">
+    <value>Import Weighings</value>
+  </data>
+  <data name="popupBackup_CarregarBackup_PorFavorSelecioneUmBackupDaCelmi" xml:space="preserve">
+    <value>Please select a Celmi Backup</value>
+  </data>
+  <data name="popUpListagemOpcoes_Excluir_PesagensExcluidas" xml:space="preserve">
+    <value>Weighings Excluded!</value>
+  </data>
+  <data name="Porcentual1" xml:space="preserve">
+    <value>percent 1</value>
+  </data>
+  <data name="Porcentual2" xml:space="preserve">
+    <value>percent 2</value>
+  </data>
+  <data name="Porcentual3" xml:space="preserve">
+    <value>percent 3</value>
+  </data>
+  <data name="Porcentual4" xml:space="preserve">
+    <value>percent 4</value>
+  </data>
+  <data name="Porcentual5" xml:space="preserve">
+    <value>percent 5</value>
+  </data>
+  <data name="Porcentual6" xml:space="preserve">
+    <value>percent 6</value>
+  </data>
+  <data name="Porcentual7" xml:space="preserve">
+    <value>percent 7</value>
+  </data>
+  <data name="Porcentual8" xml:space="preserve">
+    <value>percent 8</value>
+  </data>
+  <data name="PorcentualEixo1" xml:space="preserve">
+    <value>Axle Percent 1</value>
+  </data>
+  <data name="PorcentualEixo2" xml:space="preserve">
+    <value>Axle Percent 2</value>
+  </data>
+  <data name="PorcentualEixo3" xml:space="preserve">
+    <value>Axle Percent 3</value>
+  </data>
+  <data name="PorcentualEixo4" xml:space="preserve">
+    <value>Axle Percent 4</value>
+  </data>
+  <data name="Português" xml:space="preserve">
+    <value>Portuguese</value>
+  </data>
+  <data name="PROCURANDO" xml:space="preserve">
+    <value>SEARCHING...</value>
+  </data>
+  <data name="ProcurandoDispositivos" xml:space="preserve">
+    <value>Searching for Devices...</value>
+  </data>
+  <data name="PROCURAR" xml:space="preserve">
+    <value>SEARCH</value>
+  </data>
+  <data name="ProdutorFazenda" xml:space="preserve">
+    <value>Producer/Farm</value>
+  </data>
+  <data name="PropriedadeFazenda" xml:space="preserve">
+    <value>Property/Fazenda</value>
+  </data>
+  <data name="QtdePesagens" xml:space="preserve">
+    <value>Weighing Qty:</value>
+  </data>
+  <data name="QuantidadeDePesagens" xml:space="preserve">
+    <value>Number of weighings</value>
+  </data>
+  <data name="RECONECTAR" xml:space="preserve">
+    <value>RECONNECT</value>
+  </data>
+  <data name="Rede" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="RelatorioDadosDoEnsaio" xml:space="preserve">
+    <value>Test Data</value>
+  </data>
+  <data name="RelatorioObservações" xml:space="preserve">
+    <value>Comments :</value>
+  </data>
+  <data name="RelatorioPesoTotal" xml:space="preserve">
+    <value>Weight (Total)</value>
+  </data>
+  <data name="RelatórioAutomotivo" xml:space="preserve">
+    <value>Automotive Report</value>
+  </data>
+  <data name="RelatórioAviação" xml:space="preserve">
+    <value>Aviation Report</value>
+  </data>
+  <data name="RelatórioDePesagem" xml:space="preserve">
+    <value>Weighing report</value>
+  </data>
+  <data name="RelatórioEnsaioDeCampo" xml:space="preserve">
+    <value>Field Test Report</value>
+  </data>
+  <data name="RelatórioGeral" xml:space="preserve">
+    <value>General Report</value>
+  </data>
+  <data name="RelatórioIndustrial" xml:space="preserve">
+    <value>Industrial Report</value>
+  </data>
+  <data name="RelatórioMáquinaAgrícola" xml:space="preserve">
+    <value>Agricultural Machine Report</value>
+  </data>
+  <data name="RelatórioPecurário" xml:space="preserve">
+    <value>Livestock Report</value>
+  </data>
+  <data name="Relatórios" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="Responsável" xml:space="preserve">
+    <value>Responsible</value>
+  </data>
+  <data name="RestaurarBackup" xml:space="preserve">
+    <value>Restore Backup</value>
+  </data>
+  <data name="SacasPorHectare" xml:space="preserve">
+    <value>Bags per Hectare:</value>
+  </data>
+  <data name="SalvaCargaVivaDesc" xml:space="preserve">
+    <value>Automatically saves weighing when live load stabilization occurs</value>
+  </data>
+  <data name="SalvandoPesagem" xml:space="preserve">
+    <value>Saving Weighing....</value>
+  </data>
+  <data name="Salvar" xml:space="preserve">
+    <value>To save</value>
+  </data>
+  <data name="SalvarAoEstabilizar" xml:space="preserve">
+    <value>Save on Stabilization</value>
+  </data>
+  <data name="SalvarBackup" xml:space="preserve">
+    <value>Save Backup</value>
+  </data>
+  <data name="Selecionados" xml:space="preserve">
+    <value>selected</value>
+  </data>
+  <data name="SelecioneDispositivoParaVerLogEspecífico" xml:space="preserve">
+    <value>Select device to view specific log!</value>
+  </data>
+  <data name="Seleção" xml:space="preserve">
+    <value>Selection</value>
+  </data>
+  <data name="SemCalibração" xml:space="preserve">
+    <value>No Calibration</value>
+  </data>
+  <data name="Sim" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Sobre" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="SomenteUmaConexãoPorVez" xml:space="preserve">
+    <value>Only One Connection at a Time</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status :</value>
+  </data>
+  <data name="Substituir" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="SUPORTETÉCNICO" xml:space="preserve">
+    <value>TECHNICAL SUPPORT</value>
+  </data>
+  <data name="Tara" xml:space="preserve">
+    <value>Tare</value>
+  </data>
+  <data name="TELEFONESDECONTATO" xml:space="preserve">
+    <value>CONTACT NUMBERS</value>
+  </data>
+  <data name="TipoDePesagem" xml:space="preserve">
+    <value>Weighing Type</value>
+  </data>
+  <data name="TipoDeServiCO" xml:space="preserve">
+    <value>Type of service</value>
+  </data>
+  <data name="TipoDeServiço" xml:space="preserve">
+    <value>Service Type</value>
+  </data>
+  <data name="TotalDePlataformas" xml:space="preserve">
+    <value>Total Platforms</value>
+  </data>
+  <data name="TrocarLogo" xml:space="preserve">
+    <value>Change Logo</value>
+  </data>
+  <data name="Umidade" xml:space="preserve">
+    <value>Moisture</value>
+  </data>
+  <data name="ValorLido" xml:space="preserve">
+    <value>Value Read:</value>
+  </data>
+  <data name="Variedade" xml:space="preserve">
+    <value>Variety</value>
+  </data>
+  <data name="VENDAS" xml:space="preserve">
+    <value>SALES</value>
+  </data>
+  <data name="Versão" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="ZerarAcumulador" xml:space="preserve">
+    <value>Reset Accumulator</value>
+  </data>
+  <data name="Zero" xml:space="preserve">
+    <value>Zero</value>
+  </data>
+  <data name="_0DSelecionados" xml:space="preserve">
+    <value>{0:d} selected</value>
+  </data>
+  <data name="ÁreaMedida" xml:space="preserve">
+    <value>Measured Area</value>
+  </data>
+  <data name="ÉNecessárioAtivarOBLUETOOTHParaProcurarPorDispositivos" xml:space="preserve">
+    <value>You need to activate BLUETOOTH to search for devices!</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="PlataformaAbreviado" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="NomeEmpresa" xml:space="preserve">
+    <value>Company Name</value>
+  </data>
+  <data name="Alterar" xml:space="preserve">
+    <value>Change name</value>
+  </data>
+  <data name="ConexaoPorPlataformasDesc" xml:space="preserve">
+    <value>Allows connections on individual platforms. Use this option if you don't have an RX display and want to connect directly to the platforms.</value>
+  </data>
+  <data name="ConexãoPorPlataforma" xml:space="preserve">
+    <value>Connection by Platform</value>
+  </data>
+  <data name="ATARAFoiDesativada" xml:space="preserve">
+    <value>TARE has been disabled!</value>
+  </data>
+  <data name="ATARAFoiAtivada" xml:space="preserve">
+    <value>TARE has been Enabled!</value>
+  </data>
+  <data name="NãoÉPossívelEnviarComandoParaUmEquipamentoDesconectado" xml:space="preserve">
+    <value>It is not possible to send commands to a disconnected device!</value>
+  </data>
+  <data name="ComandoTARAEnviado" xml:space="preserve">
+    <value>TARE Command Sent</value>
+  </data>
+  <data name="ComandoZEROEnviado" xml:space="preserve">
+    <value>ZERO Command Sent</value>
+  </data>
+  <data name="ConexaoPorPlataformas" xml:space="preserve">
+    <value>Allows Connection on Individual Platforms</value>
+  </data>
+  <data name="PesoLiquido" xml:space="preserve">
+    <value>Net weight</value>
+  </data>
+  <data name="VerNoMapa" xml:space="preserve">
+    <value>View in Map</value>
+  </data>
+  <data name="ImprimirBluetooth" xml:space="preserve">
+    <value>Bluetooth Print</value>
+  </data>
+  <data name="CamposPadrão" xml:space="preserve">
+    <value>Default fields</value>
+  </data>
+  <data name="NaoEstaEstavel" xml:space="preserve">
+    <value>It is necessary for all platforms to be stable in order to send commands!</value>
+  </data>
+  <data name="PesoDoAnimal" xml:space="preserve">
+    <value>Animal Weight</value>
+  </data>
+  <data name="NumeroAnimal" xml:space="preserve">
+    <value>Weighing No.</value>
+  </data>
+</root>

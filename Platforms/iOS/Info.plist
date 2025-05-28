@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<key>UIDeviceFamily</key>
+		<array>
+			<integer>1</integer>
+			<integer>2</integer>
+		</array>
+		<key>UIRequiredDeviceCapabilities</key>
+		<array>
+			<string>arm64</string>
+		</array>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>XSAppIconAssets</key>
+		<string>Assets.xcassets/appicon.appiconset</string>
+		<key>NSBluetoothPeripheralUsageDescription</key>
+		<string>APPCelmi uses Bluetooth to connect to your weighing scales. This allows the app to read and display your weight measurements.</string>
+
+		<key>NSBluetoothAlwaysUsageDescription</key>
+		<string>APPCelmi uses Bluetooth to maintain a connection with your weighing scales. This ensures reliable data transfer and allows for quick access to your scale, even when the app is running in the background.</string>
+	</dict>
+</plist>

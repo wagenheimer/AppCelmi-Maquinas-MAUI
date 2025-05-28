@@ -1,0 +1,23 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    <NoWarn>$(NoWarn);NU1507</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageVersion Include="LocalizationResourceManager.Maui" Version="1.2.2" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="9.0.5" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="9.0.70" />
+    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.70" />
+    <PackageVersion Include="Microsoft.Maui.Essentials" Version="9.0.70" />
+    <PackageVersion Include="Sharpnado.Tabs.Maui" Version="3.2.1" />
+    <PackageVersion Include="Shiny.BluetoothLE" Version="3.3.4" />
+    <PackageVersion Include="Shiny.Core" Version="3.3.4" />
+    <PackageVersion Include="Shiny.Extensions.Configuration" Version="3.3.4" />
+    <PackageVersion Include="Shiny.Hosting.Maui" Version="3.3.4" />
+    <PackageVersion Include="Syncfusion.Licensing" Version="29.2.5" />
+    <PackageVersion Include="Syncfusion.Maui.TabView" Version="29.2.5" />
+    <PackageVersion Include="Syncfusion.Maui.Toolkit" Version="1.0.5" />
+  </ItemGroup>
+</Project>

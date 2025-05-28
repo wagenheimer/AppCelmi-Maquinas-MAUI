@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="AppCelmiPecuaria.Views.PesagemView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fontAwesome="clr-namespace:FontAwesome"
+    xmlns:localization="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui">
+    <VerticalStackLayout>
+        <Border Padding="5,2" Style="{StaticResource ConfiguracaoHeaderBorderStyle}">
+            <StackLayout Margin="0" Orientation="Horizontal">
+
+                <Label
+                    FontFamily="FontAwesomeLight"
+                    FontSize="Large"
+                    Text="{x:Static fontAwesome:FontAwesomeIcons.WeightHanging}"
+                    TextColor="White"
+                    VerticalOptions="Center" />
+
+                <Label
+                    Padding="5,0"
+                    FontAttributes="Bold"
+                    FontSize="Header"
+                    Text="{localization:Translate PESAGEM}"
+                    TextColor="White"
+                    VerticalOptions="Center"
+                    VerticalTextAlignment="End" />
+
+
+
+                <Image
+                    Margin="0"
+                    Aspect="AspectFit"
+                    HeightRequest="40"
+                    HorizontalOptions="EndAndExpand"
+                    Source="appicon.svg" />
+
+            </StackLayout>
+        </Border>
+
+    </VerticalStackLayout>
+</ContentView>

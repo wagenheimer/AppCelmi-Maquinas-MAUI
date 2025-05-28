@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="AppCelmiPecuaria.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:fontAwesome="using:FontAwesome"
+    xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tabView="clr-namespace:Syncfusion.Maui.Toolkit.TabView;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:viewModels="using:AppCelmiPecuaria.ViewModel"
+    xmlns:views="clr-namespace:AppCelmiPecuaria.Views"
+    x:DataType="viewModels:MainPageViewModel"
+    Shell.NavBarIsVisible="false"
+    mc:Ignorable="d">
+
+    <Grid RowDefinitions="*">
+        <tabView:SfTabView
+            x:Name="tabView"
+            Grid.Row="0"
+            Background="{StaticResource CorFundo}"
+            EnableSwiping="False"
+            HeaderDisplayMode="Image"
+            IndicatorBackground="OrangeRed"
+            IndicatorCornerRadius="0"
+            IndicatorPlacement="Fill"
+            IndicatorStrokeThickness="1"
+            IndicatorWidthMode="Stretch"
+            IsCenterButtonEnabled="true"
+            SelectionChanged="tabView_SelectionChanged"
+            TabBarHeight="50"
+            TabBarPlacement="Bottom">
+
+            <tabView:SfTabView.TabBarBackground>
+                <LinearGradientBrush EndPoint="0,1">
+                    <GradientStop Offset="0.1" Color="Orange" />
+                    <GradientStop Offset="1.0" Color="{StaticResource CorPrincipalEscura}" />
+                </LinearGradientBrush>
+            </tabView:SfTabView.TabBarBackground>
+
+            <tabView:SfTabItem
+                FontFamily="FontAwesomeLight"
+                FontSize="28"
+                Header="{x:Static fontAwesome:FontAwesomeIcons.WeightHanging}"
+                TextColor="{StaticResource CorPrincipalQuaseBrancoAbsoluto}">
+                <tabView:SfTabItem.Content>
+                    <views:PesagemView />
+                </tabView:SfTabItem.Content>
+            </tabView:SfTabItem>
+
+
+            <tabView:SfTabItem
+                FontFamily="FontAwesomeLight"
+                FontSize="28"
+                Header="{x:Static fontAwesome:FontAwesomeIcons.Bluetooth}"
+                TextColor="{StaticResource CorPrincipalQuaseBrancoAbsoluto}">
+                <tabView:SfTabItem.Content>
+                    <views:ConfiguracaoView />
+                </tabView:SfTabItem.Content>
+            </tabView:SfTabItem>
+
+            <tabView:SfTabItem
+                FontFamily="FontAwesomeLight"
+                FontSize="28"
+                Header="{x:Static fontAwesome:FontAwesomeIcons.List}"
+                TextColor="{StaticResource CorPrincipalQuaseBrancoAbsoluto}">
+                <tabView:SfTabItem.Content>
+                    <views:ConfiguracaoView />
+                </tabView:SfTabItem.Content>
+            </tabView:SfTabItem>
+
+
+
+            <tabView:SfTabItem
+                FontFamily="FontAwesomeLight"
+                FontSize="28"
+                Header="{x:Static fontAwesome:FontAwesomeIcons.Gear}"
+                TextColor="{StaticResource CorPrincipalQuaseBrancoAbsoluto}">
+                <tabView:SfTabItem.Content>
+                    <views:ConfiguracaoView />
+                </tabView:SfTabItem.Content>
+            </tabView:SfTabItem>
+
+            <tabView:SfTabView.CenterButtonSettings>
+                <tabView:CenterButtonSettings
+                    Width="80"
+                    Height="90"
+                    CornerRadius="40"
+                    DisplayMode="Image"
+                    ImageSize="70"
+                    ImageSource="logo_c.png" />
+            </tabView:SfTabView.CenterButtonSettings>
+        </tabView:SfTabView>
+
+        <Label
+            Grid.Row="0"
+            Margin="0,0,0,2"
+            d:Text="{maui:Translate VersionLabelText}"
+            FontSize="10"
+            HorizontalOptions="Center"
+            InputTransparent="True"
+            Text="{Binding Localization.AppVersionText}"
+            TextColor="{StaticResource CorPrincipalQuaseBrancoAbsoluto}"
+            VerticalOptions="End" />
+    </Grid>
+</ContentPage>  
