@@ -7,7 +7,7 @@
     xmlns:fontAwesome="using:FontAwesome"
     xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:tabView="clr-namespace:Syncfusion.Maui.Toolkit.TabView;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:tabView="http://schemas.syncfusion.com/maui/toolkit"
     xmlns:viewModels="using:AppCelmiPecuaria.ViewModel"
     xmlns:views="clr-namespace:AppCelmiPecuaria.Views"
     x:DataType="viewModels:MainPageViewModel"
@@ -15,6 +15,7 @@
     mc:Ignorable="d">
 
     <Grid RowDefinitions="*">
+
         <tabView:SfTabView
             x:Name="tabView"
             Grid.Row="0"
@@ -103,4 +104,4 @@
             TextColor="{StaticResource CorPrincipalQuaseBrancoAbsoluto}"
             VerticalOptions="End" />
     </Grid>
-</ContentPage>  
+</ContentPage>

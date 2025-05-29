@@ -819,4 +819,40 @@
   <data name="NumeroAnimal" xml:space="preserve">
     <value>Pesagem Nº</value>
   </data>
+  <data name="AdicionarCampo" xml:space="preserve">
+    <value>Adicionar Campo</value>
+  </data>
+  <data name="DetalhesDoCampo" xml:space="preserve">
+    <value>Detalhes do Campo</value>
+  </data>
+  <data name="NovoTitulo" xml:space="preserve">
+    <value>Novo Campo</value>
+  </data>
+  <data name="InserirTituloCampo" xml:space="preserve">
+    <value>Digite o título do campo</value>
+  </data>
+  <data name="EditarTitulo" xml:space="preserve">
+    <value>Editar Campo</value>
+  </data>
+  <data name="EditarTituloCampo" xml:space="preserve">
+    <value>Digite o novo título do campo</value>
+  </data>
+  <data name="ConfigurarOpcoes" xml:space="preserve">
+    <value>Configurar Opções</value>
+  </data>
+  <data name="InserirOpcoesPorLinha" xml:space="preserve">
+    <value>Digite as opções (uma por linha)</value>
+  </data>
+  <data name="Tipo" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="Obrigatorio" xml:space="preserve">
+    <value>Obrigatório</value>
+  </data>
+  <data name="Descricao" xml:space="preserve">
+    <value>Descrição</value>
+  </data>
+  <data name="Confirmar" xml:space="preserve">
+    <value>Confirmar</value>
+  </data>
 </root>

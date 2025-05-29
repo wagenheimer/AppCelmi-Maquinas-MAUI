@@ -17,6 +17,9 @@
             <converters:SelectedToOrangeBrushConverter x:Key="SelectedToOrangeBrushConverter" />
             <converters:SelectedToDarkOrangeBrushConverter x:Key="SelectedToDarkOrangeBrushConverter" />
             <converters:SelectedToBrushConverter x:Key="SelectedToBrushConverter" />
+            <converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+            <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
+            <converters:EnumToCollectionConverter x:Key="EnumToCollectionConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

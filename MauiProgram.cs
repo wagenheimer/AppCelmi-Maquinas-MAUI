@@ -2,9 +2,13 @@
 using AppCelmiPecuaria.Resources;
 using AppCelmiPecuaria.Services;
 using AppCelmiPecuaria.ViewModel;
+
 using LocalizationResourceManager.Maui;
+
 using Microsoft.Extensions.Logging;
+
 using Shiny;
+
 using Syncfusion.Maui.Core.Hosting;
 using Syncfusion.Maui.Toolkit.Hosting;
 
@@ -12,7 +16,7 @@ namespace AppCelmiPecuaria
 {
     public static class MauiProgram
     {
-        public static IServiceProvider Services { get; private set; }
+        public static IServiceProvider? Services { get; private set; }
 
         public static MauiApp CreateMauiApp()
         {
@@ -42,7 +46,8 @@ namespace AppCelmiPecuaria
                 .RegisterViews();
 
 #if DEBUG
-            builder.Logging.AddDebug();
+            // Configure logging in a way compatible with .NET 9
+            builder.Services.AddLogging(loggingBuilder => loggingBuilder.AddConsole());
 #endif
 
             var app = builder.Build();
@@ -63,15 +68,15 @@ namespace AppCelmiPecuaria
             return mauiAppBuilder;
         }
 
-        public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
+        public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
         {
-            mauiAppBuilder.Services.AddSingleton<MainPageViewModel>();
-            mauiAppBuilder.Services.AddTransient<LanguageSelectorViewModel>();
-            mauiAppBuilder.Services.AddTransient<ConfiguracaoViewModel>();
+            builder.Services.AddSingleton<MainPageViewModel>();
+            builder.Services.AddTransient<LanguageSelectorViewModel>();
+            builder.Services.AddTransient<ConfiguracaoViewModel>();
 
             // More view-models registered here.
 
-            return mauiAppBuilder;
+            return builder;
         }
 
         public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)

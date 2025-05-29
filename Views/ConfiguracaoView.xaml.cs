@@ -1,8 +1,6 @@
 using AppCelmiPecuaria.ViewModel;
-
 using LocalizationResourceManager.Maui;
-
-using Microsoft.Extensions.DependencyInjection;
+using AppCelmiPecuaria.Services;
 
 namespace AppCelmiPecuaria.Views;
 
@@ -12,6 +10,10 @@ public partial class ConfiguracaoView : ContentView
     {
         InitializeComponent();
 
-        BindingContext = new ConfiguracaoViewModel(MauiProgram.Services.GetService<ILocalizationResourceManager>(), MauiProgram.Services.GetService<LanguageSelectorViewModel>());
+        var resourceManager = MauiProgram.Services.GetService<ILocalizationResourceManager>()!;
+        var languageSelectorViewModel = MauiProgram.Services.GetService<LanguageSelectorViewModel>()!;
+        var appConfig = MauiProgram.Services.GetService<IAppConfigurationService>()!;
+
+        BindingContext = new ConfiguracaoViewModel(resourceManager, languageSelectorViewModel, appConfig);
     }
 }

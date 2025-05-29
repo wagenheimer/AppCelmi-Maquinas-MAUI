@@ -50,6 +50,7 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" />
 		<PackageReference Include="LocalizationResourceManager.Maui" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
 		<PackageReference Include="Microsoft.Maui.Controls" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" />
@@ -59,7 +60,7 @@
 		<PackageReference Include="Shiny.Core" />
 		<PackageReference Include="Shiny.Hosting.Maui" />
 		<PackageReference Include="Syncfusion.Licensing" />
-		<PackageReference Include="Syncfusion.Maui.TabView" />
+		<PackageReference Include="Syncfusion.Maui.Core" />
 		<PackageReference Include="Syncfusion.Maui.Toolkit" />
 	</ItemGroup>
 	<ItemGroup>
