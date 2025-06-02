@@ -885,4 +885,10 @@
   <data name="ConfirmacaoExcluirCampo" xml:space="preserve">
     <value>Tem certeza que deseja excluir o campo {0}?</value>
   </data>
+  <data name="DadosSalvosComSucesso" xml:space="preserve">
+    <value>Dados salvos com sucesso!</value>
+  </data>
+  <data name="ErroAoSalvar" xml:space="preserve">
+    <value>Erro ao salvar os dados. Por favor, tente novamente.</value>
+  </data>
 </root>

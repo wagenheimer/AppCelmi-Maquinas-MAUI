@@ -74,7 +74,7 @@ namespace AppCelmiPecuaria
             builder.Services.AddSingleton<MainPageViewModel>();
             builder.Services.AddSingleton<ConfiguracaoViewModel>();
             builder.Services.AddSingleton<LanguageSelectorViewModel>();
-            builder.Services.AddSingleton<RelatorioCamposPersonalizadosViewModel>();
+            builder.Services.AddSingleton<ConfiguracaoRelatoriosViewModel>();
 
             // More view-models registered here.
 
@@ -84,7 +84,7 @@ namespace AppCelmiPecuaria
         public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
         {
             mauiAppBuilder.Services.AddSingleton<MainPage>();
-            mauiAppBuilder.Services.AddTransient<Views.RelatorioCamposPersonalizadosView>();
+            mauiAppBuilder.Services.AddTransient<Views.ConfiguracaoRelatoriosView>();
 
             // More views registered here.
 

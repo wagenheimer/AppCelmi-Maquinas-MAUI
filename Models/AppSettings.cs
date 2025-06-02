@@ -43,12 +43,6 @@ namespace AppCelmiPecuaria.Models
         string telefone = string.Empty;
 
         /// <summary>
-        /// Logomarca da empresa (armazenada como array de bytes).
-        /// </summary>
-        [ObservableProperty]
-        byte[]? logoMarca;
-
-        /// <summary>
         /// Lista de campos personalizados configurados.
         /// </summary>
         [ObservableProperty]

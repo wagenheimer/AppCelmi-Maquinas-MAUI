@@ -84,8 +84,8 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>AppResources.resx</DependentUpon>
 		</Compile>
-		<Compile Update="Views\Configurações\RelatorioCamposPersonalizadosView.xaml.cs">
-		  <DependentUpon>RelatorioCamposPersonalizadosView.xaml</DependentUpon>
+		<Compile Update="Views\Configurações\ConfiguracaoRelatoriosView.xaml.cs">
+		  <DependentUpon>ConfiguracaoRelatoriosView.xaml</DependentUpon>
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
@@ -104,7 +104,7 @@
 		<MauiXaml Update="Views\Configurações\ConfiguracaoView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="Views\Configurações\RelatorioCamposPersonalizadosView.xaml">
+		<MauiXaml Update="Views\Configurações\ConfiguracaoRelatoriosView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\Configurações\LanguageSelectorView.xaml">

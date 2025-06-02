@@ -62,7 +62,7 @@
             </Border>
 
             <!--  Campos Personalizados  -->
-            <views:RelatorioCamposPersonalizadosView />
+            <views:ConfiguracaoRelatoriosView />
         </VerticalStackLayout>
     </ScrollView>
 </ContentView>

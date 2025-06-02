@@ -2,7 +2,6 @@
     x:Class="AppCelmiPecuaria.Views.LanguageSelectorView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:converters="clr-namespace:AppCelmiPecuaria.Converters"
     xmlns:fontAwesome="clr-namespace:FontAwesome"
     xmlns:localization="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
     xmlns:vm="clr-namespace:AppCelmiPecuaria.ViewModel"
@@ -32,7 +31,6 @@
                 <Label
                     FontAttributes="Italic"
                     FontSize="Small"
-                    HorizontalOptions="EndAndExpand"
                     Text="{Binding SelectedLanguage.DisplayName}"
                     TextColor="{StaticResource ToolbarFont}"
                     VerticalOptions="Center" />

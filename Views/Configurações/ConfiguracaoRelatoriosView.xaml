@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView
-    x:Class="AppCelmiPecuaria.Views.RelatorioCamposPersonalizadosView"
+    x:Class="AppCelmiPecuaria.Views.ConfiguracaoRelatoriosView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fontAwesome="clr-namespace:FontAwesome"
@@ -35,7 +35,7 @@
                         StrokeShape="RoundRectangle 8"
                         WidthRequest="100">
                         <Grid>
-                            <Image Aspect="AspectFit" Source="{Binding AppConfigurationService.AppSettings.LogoMarca, Converter={StaticResource ByteArrayToImageSourceConverter}}" />
+                            <Image Aspect="AspectFit" Source="{Binding LogoImageSource}" />
                             <Button
                                 Padding="0"
                                 BackgroundColor="Transparent"
@@ -81,7 +81,6 @@
                         TextColor="{StaticResource Primary}" />
                 </syncfusion:SfTextInputLayout>
 
-
                 <syncfusion:SfTextInputLayout
                     ContainerBackground="Transparent"
                     ContainerType="Outlined"
@@ -92,6 +91,15 @@
                         Text="{Binding AppConfigurationService.AppSettings.Telefone}"
                         TextColor="{StaticResource Primary}" />
                 </syncfusion:SfTextInputLayout>
+
+                <Button
+                    Margin="10,0,0,0"
+                    BackgroundColor="{StaticResource Primary}"
+                    Command="{Binding SaveCommand}"
+                    FontAttributes="Bold"
+                    HorizontalOptions="End"
+                    Text="{maui:Translate Salvar}"
+                    TextColor="{StaticResource White}" />
             </VerticalStackLayout>
         </Border>
 
@@ -130,24 +138,20 @@
 
                                     <Button
                                         Grid.Column="1"
-                                        BackgroundColor="Transparent"
                                         Command="{Binding Source={x:Reference RootContentView}, Path=VM.EditCustomFieldCommand}"
                                         CommandParameter="{Binding .}"
                                         FontFamily="FontAwesomeLight"
                                         HeightRequest="36"
                                         Text="{x:Static fontAwesome:FontAwesomeIcons.PenToSquare}"
-                                        TextColor="{StaticResource Primary}"
                                         WidthRequest="36" />
                                     <Button
                                         Grid.Column="2"
                                         Margin="5"
-                                        BackgroundColor="Transparent"
                                         Command="{Binding Source={x:Reference RootContentView}, Path=VM.RemoveCustomFieldCommand}"
                                         CommandParameter="{Binding .}"
                                         FontFamily="FontAwesomeLight"
                                         HeightRequest="36"
                                         Text="{x:Static fontAwesome:FontAwesomeIcons.Trash}"
-                                        TextColor="{StaticResource Danger}"
                                         WidthRequest="36" />
                                 </Grid>
                             </Border>

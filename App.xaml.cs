@@ -12,7 +12,7 @@ namespace AppCelmiPecuaria
             InitializeComponent();
 
             //https://www.syncfusion.com/account/downloads
-            SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NBaF5cXmZCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWXxfeHVTR2NZWEV0VkI=");
+            SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NNaF5cXmBCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXlecnVWQmFeWEJxWkJWYUA=\r\n");
 
             VersionTracking.Track();
 

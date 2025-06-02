@@ -11,13 +11,14 @@ using Microsoft.Maui.Storage;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 
 using Application = Microsoft.Maui.Controls.Application;
 using Microsoft.Maui.Controls;
 
 namespace AppCelmiPecuaria.ViewModel
 {
-    public partial class RelatorioCamposPersonalizadosViewModel : ViewModelBase
+    public partial class ConfiguracaoRelatoriosViewModel : ViewModelBase
     {
         private const string DefaultLogoPath = "Resources/Images/logo.png";
         private readonly string _logoFilePath = Path.Combine(FileSystem.AppDataDirectory, "logo.png");
@@ -28,7 +29,7 @@ namespace AppCelmiPecuaria.ViewModel
         [ObservableProperty]
         CustomField? _selectedCustomField;
 
-        public RelatorioCamposPersonalizadosViewModel(ILocalizationResourceManager resourceManager, AppConfigurationService appConfigurationService)
+        public ConfiguracaoRelatoriosViewModel(ILocalizationResourceManager resourceManager, AppConfigurationService appConfigurationService)
             : base(resourceManager)
         {
             Debug.WriteLine("[RelatorioCamposPersonalizadosViewModel] Construtor chamado.");
@@ -40,8 +41,7 @@ namespace AppCelmiPecuaria.ViewModel
                 CopyDefaultLogo();
         }
 
-        public ImageSource LogoImageSource =>
-            File.Exists(_logoFilePath)
+        public ImageSource LogoImageSource => File.Exists(_logoFilePath)
                 ? ImageSource.FromFile(_logoFilePath)
                 : ImageSource.FromFile(DefaultLogoPath);
 
@@ -141,6 +141,33 @@ namespace AppCelmiPecuaria.ViewModel
                     ResourceManager["ErroSelecionarImagem"],
                     ResourceManager["Ok"]);
                 Debug.WriteLine($"[PickLogoCommand] Erro: {ex.Message}");
+            }
+        }
+
+        [RelayCommand]
+        private async Task Save()
+        {
+            try
+            {
+                AppConfigurationService.Save();
+                if (Application.Current?.MainPage != null)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        ResourceManager["Salvar"],
+                        ResourceManager["DadosSalvosComSucesso"],
+                        ResourceManager["Ok"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (Application.Current?.MainPage != null)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        ResourceManager["Erro"],
+                        ResourceManager["ErroAoSalvar"],
+                        ResourceManager["Ok"]);
+                }
+                Debug.WriteLine($"[SaveCommand] Erro: {ex.Message}");
             }
         }
 
