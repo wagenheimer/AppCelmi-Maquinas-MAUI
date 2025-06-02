@@ -4,47 +4,40 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using AppCelmiPecuaria.Models;
 using AppCelmiPecuaria.Services;
 using Microsoft.Maui.Storage;
+using System.Diagnostics;
 
 namespace AppCelmiPecuaria.Implementations
 {
     /// <summary>
     /// Serviço responsável por salvar e carregar configurações persistentes do aplicativo usando Preferences do .NET MAUI.
     /// </summary>
-    public partial class AppConfigurationService : ObservableObject, IAppConfigurationService
+    public partial class AppConfigurationService : ObservableObject
     {
         private const string SETTINGS_KEY = "AppSettings";
-        private AppSettings _settings = new();
-        private readonly ObservableCollection<CustomField> _customFields;
 
-        /// <summary>
-        /// Cultura atual do aplicativo. Sempre persistida ao ser alterada.
-        /// </summary>
+
         [ObservableProperty]
-        private string currentCulture;
+        private AppSettings appSettings;
 
-        /// <summary>
-        /// Chamado automaticamente quando <see cref="CurrentCulture"/> é alterado.
-        /// Persiste a configuração.
-        /// </summary>
-        /// <param name="value">Novo valor da cultura.</param>
-        partial void OnCurrentCultureChanged(string value)
+        private static readonly JsonSerializerOptions _jsonOptions;
+
+        #region AppConfigurationService
+        static AppConfigurationService()
         {
-            Save();
+            _jsonOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                WriteIndented = true,
+            };
         }
-
-        /// <summary>
-        /// Lista de campos personalizados configurados.
-        /// </summary>
-        public ObservableCollection<CustomField> CustomFields => _customFields;
 
         /// <summary>
         /// Inicializa uma nova instância do serviço de configuração.
         /// </summary>
         public AppConfigurationService()
         {
-            currentCulture = _settings.CurrentCulture;
-            _customFields = new ObservableCollection<CustomField>(_settings.CustomFields);
-            _customFields.CollectionChanged += (s, e) => Save();
+            AppSettings = new AppSettings(); // Inicializa com configurações padrão
+            Load(); // Carrega as configurações ao inicializar o serviço
         }
 
         /// <summary>
@@ -52,23 +45,34 @@ namespace AppCelmiPecuaria.Implementations
         /// </summary>
         public void Load()
         {
+            Debug.WriteLine("[AppConfigurationService] Iniciando Load().");
             var json = Preferences.Get(SETTINGS_KEY, null);
+
             if (!string.IsNullOrEmpty(json))
             {
+                Debug.WriteLine($"[AppConfigurationService] JSON lido das Preferences: {json}");
                 try
                 {
-                    _settings = JsonSerializer.Deserialize<AppSettings>(json) ?? new AppSettings();
+                    AppSettings = JsonSerializer.Deserialize<AppSettings>(json, _jsonOptions) ?? new AppSettings();
+                    Debug.WriteLine($"[AppConfigurationService] Desserialização bem-sucedida. _settings.CurrentCulture: {AppSettings.CurrentCulture}");
+                    Debug.WriteLine($"[AppConfigurationService] _settings.CustomFields count: {(AppSettings.CustomFields?.Count ?? 0)}");
                 }
-                catch
+                catch (Exception ex)
                 {
-                    _settings = new AppSettings();
+                    Debug.WriteLine($"[AppConfigurationService] Erro ao deserializar configurações: {ex.Message}");
+                    if (ex.InnerException != null)
+                    {
+                        Debug.WriteLine($"[AppConfigurationService] Inner exception: {ex.InnerException.Message}");
+                    }
+                    Debug.WriteLine($"[AppConfigurationService] JSON com erro: {json}");
+                    AppSettings = new AppSettings(); // Reseta para configurações padrão em caso de erro
                 }
             }
-            // Atualiza propriedades públicas
-            CurrentCulture = _settings.CurrentCulture;
-            _customFields.Clear();
-            foreach (var field in _settings.CustomFields.OrderBy(f => f.DisplayOrder))
-                _customFields.Add(field);
+            else
+            {
+                Debug.WriteLine("[AppConfigurationService] Nenhuma configuração encontrada para carregar (JSON vazio ou nulo).");
+                AppSettings = new AppSettings(); // Garante que _settings seja inicializado
+            }
         }
 
         /// <summary>
@@ -76,21 +80,31 @@ namespace AppCelmiPecuaria.Implementations
         /// </summary>
         public void Save()
         {
-            _settings.CurrentCulture = CurrentCulture;
-            _settings.CustomFields = _customFields.ToList();
-            var json = JsonSerializer.Serialize(_settings);
-            Preferences.Set(SETTINGS_KEY, json);
-        }
+            Debug.WriteLine("[AppConfigurationService] Iniciando Save().");
+            Debug.WriteLine($"[AppConfigurationService] _settings preparado para salvar. CustomFields count: {AppSettings.CustomFields.Count}");
 
+            var json = JsonSerializer.Serialize(AppSettings, _jsonOptions);
+            Preferences.Set(SETTINGS_KEY, json);
+
+            Debug.WriteLine($"[AppConfigurationService] Configurações salvas nas Preferences: {json}");
+        }
+        #endregion
+
+        #region Custom Fields        
         /// <summary>
         /// Adiciona um novo campo personalizado à lista e salva as configurações.
         /// </summary>
         /// <param name="field">Campo a ser adicionado.</param>
         public void AddCustomField(CustomField field)
         {
-            field.DisplayOrder = _customFields.Count;
-            _customFields.Add(field);
-            Save();
+            if (field == null)
+            {
+                Debug.WriteLine("[AppConfigurationService] Tentativa de adicionar um CustomField nulo. Ignorando.");
+                return;
+            }
+            Debug.WriteLine($"[AppConfigurationService] Adicionando CustomField com Title: '{field.Title}'. Save() será chamado via CollectionChanged.");
+            AppSettings.CustomFields.Add(field);
+            Save(); // Garante que as alterações sejam salvas imediatamente
         }
 
         /// <summary>
@@ -99,48 +113,15 @@ namespace AppCelmiPecuaria.Implementations
         /// <param name="field">Campo a ser removido.</param>
         public void RemoveCustomField(CustomField field)
         {
-            _customFields.Remove(field);
-            ReorderCustomFields();
-            Save();
-        }
-
-        /// <summary>
-        /// Move um campo personalizado para cima na ordem de exibição e salva as configurações.
-        /// </summary>
-        /// <param name="field">Campo a ser movido.</param>
-        public void MoveCustomFieldUp(CustomField field)
-        {
-            var index = _customFields.IndexOf(field);
-            if (index > 0)
+            if (field == null)
             {
-                _customFields.Move(index, index - 1);
-                ReorderCustomFields();
-                Save();
+                Debug.WriteLine("[AppConfigurationService] Tentativa de remover um CustomField nulo. Ignorando.");
+                return;
             }
+            Debug.WriteLine($"[AppConfigurationService] Removendo CustomField com Title: '{field.Title}'. Save() será chamado via CollectionChanged.");
+            AppSettings.CustomFields.Remove(field);
+            Save(); // Garante que as alterações sejam salvas imediatamente
         }
-
-        /// <summary>
-        /// Move um campo personalizado para baixo na ordem de exibição e salva as configurações.
-        /// </summary>
-        /// <param name="field">Campo a ser movido.</param>
-        public void MoveCustomFieldDown(CustomField field)
-        {
-            var index = _customFields.IndexOf(field);
-            if (index < _customFields.Count - 1)
-            {
-                _customFields.Move(index, index + 1);
-                ReorderCustomFields();
-                Save();
-            }
-        }
-
-        /// <summary>
-        /// Atualiza a ordem de exibição dos campos personalizados.
-        /// </summary>
-        private void ReorderCustomFields()
-        {
-            for (var i = 0; i < _customFields.Count; i++)
-                _customFields[i].DisplayOrder = i;
-        }
+        #endregion
     }
 }

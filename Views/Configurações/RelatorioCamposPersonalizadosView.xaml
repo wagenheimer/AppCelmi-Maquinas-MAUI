@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="AppCelmiPecuaria.Views.RelatorioCamposPersonalizadosView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fontAwesome="clr-namespace:FontAwesome"
+    xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+    xmlns:models="clr-namespace:AppCelmiPecuaria.Models"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:viewmodel="clr-namespace:AppCelmiPecuaria.ViewModel"
+    xmlns:views="clr-namespace:AppCelmiPecuaria.Views"
+    x:Name="RootContentView"
+    BackgroundColor="{StaticResource Gray100}">
+
+    <VerticalStackLayout Spacing="10">
+        <views:SectionHeaderView Icon="{x:Static fontAwesome:FontAwesomeIcons.Building}" Text="{maui:Translate CamposPadrão}" />
+
+        <Border
+            Margin="4,0,4,0"
+            BackgroundColor="{StaticResource White}"
+            Stroke="{StaticResource Gray300}"
+            StrokeThickness="1">
+            <VerticalStackLayout Padding="10" Spacing="8">
+                <Grid
+                    ColumnDefinitions="Auto,*"
+                    ColumnSpacing="15"
+                    RowDefinitions="Auto,Auto">
+                    <Border
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Grid.Column="0"
+                        Margin="0,0,0,10"
+                        BackgroundColor="{StaticResource Gray200}"
+                        HeightRequest="100"
+                        StrokeShape="RoundRectangle 8"
+                        WidthRequest="100">
+                        <Grid>
+                            <Image Aspect="AspectFit" Source="{Binding AppConfigurationService.AppSettings.LogoMarca, Converter={StaticResource ByteArrayToImageSourceConverter}}" />
+                            <Button
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                Command="{Binding PickLogoCommand}"
+                                FontFamily="FontAwesomeLight"
+                                FontSize="24"
+                                Text="{x:Static fontAwesome:FontAwesomeIcons.Camera}"
+                                TextColor="{StaticResource Primary}"
+                                VerticalOptions="End" />
+                        </Grid>
+                    </Border>
+
+                    <syncfusion:SfTextInputLayout
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        ContainerBackground="Transparent"
+                        ContainerType="Outlined"
+                        Hint="{maui:Translate NomeEmpresa}"
+                        Stroke="{StaticResource Primary}">
+                        <Entry Text="{Binding AppConfigurationService.AppSettings.NomeEmpresa}" TextColor="{StaticResource Primary}" />
+                    </syncfusion:SfTextInputLayout>
+
+                    <syncfusion:SfTextInputLayout
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        ContainerBackground="Transparent"
+                        ContainerType="Outlined"
+                        Hint="{maui:Translate Endereco}"
+                        Stroke="{StaticResource Primary}">
+                        <Entry Text="{Binding AppConfigurationService.AppSettings.Endereco}" TextColor="{StaticResource Primary}" />
+                    </syncfusion:SfTextInputLayout>
+
+                </Grid>
+
+                <syncfusion:SfTextInputLayout
+                    ContainerBackground="Transparent"
+                    ContainerType="Outlined"
+                    Hint="{maui:Translate Email}"
+                    Stroke="{StaticResource Primary}">
+                    <Entry
+                        Keyboard="Email"
+                        Text="{Binding AppConfigurationService.AppSettings.Email}"
+                        TextColor="{StaticResource Primary}" />
+                </syncfusion:SfTextInputLayout>
+
+
+                <syncfusion:SfTextInputLayout
+                    ContainerBackground="Transparent"
+                    ContainerType="Outlined"
+                    Hint="{maui:Translate Telefone}"
+                    Stroke="{StaticResource Primary}">
+                    <Entry
+                        Keyboard="Telephone"
+                        Text="{Binding AppConfigurationService.AppSettings.Telefone}"
+                        TextColor="{StaticResource Primary}" />
+                </syncfusion:SfTextInputLayout>
+            </VerticalStackLayout>
+        </Border>
+
+        <views:SectionHeaderView Icon="{x:Static fontAwesome:FontAwesomeIcons.Wrench}" Text="{maui:Translate CamposPersonalizados}" />
+
+        <Border
+            Margin="4,8,4,0"
+            BackgroundColor="{StaticResource White}"
+            Stroke="{StaticResource Gray300}"
+            StrokeThickness="1">
+            <VerticalStackLayout Spacing="8">
+                <CollectionView ItemsSource="{Binding AppConfigurationService.AppSettings.CustomFields}" SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <Label
+                            HorizontalOptions="Center"
+                            Text="{maui:Translate NenhumCampoPersonalizado}"
+                            TextColor="{StaticResource Primary}"
+                            VerticalOptions="Center" />
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Margin="5,2,5,2"
+                                Padding="10,6"
+                                Background="{StaticResource Gray100}"
+                                Stroke="{StaticResource Gray300}"
+                                StrokeShape="RoundRectangle 4"
+                                StrokeThickness="1">
+                                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+                                    <Label
+                                        Grid.Column="0"
+                                        FontSize="Medium"
+                                        Text="{Binding Title}"
+                                        TextColor="{StaticResource Primary}"
+                                        VerticalOptions="Center" />
+
+                                    <Button
+                                        Grid.Column="1"
+                                        BackgroundColor="Transparent"
+                                        Command="{Binding Source={x:Reference RootContentView}, Path=VM.EditCustomFieldCommand}"
+                                        CommandParameter="{Binding .}"
+                                        FontFamily="FontAwesomeLight"
+                                        HeightRequest="36"
+                                        Text="{x:Static fontAwesome:FontAwesomeIcons.PenToSquare}"
+                                        TextColor="{StaticResource Primary}"
+                                        WidthRequest="36" />
+                                    <Button
+                                        Grid.Column="2"
+                                        Margin="5"
+                                        BackgroundColor="Transparent"
+                                        Command="{Binding Source={x:Reference RootContentView}, Path=VM.RemoveCustomFieldCommand}"
+                                        CommandParameter="{Binding .}"
+                                        FontFamily="FontAwesomeLight"
+                                        HeightRequest="36"
+                                        Text="{x:Static fontAwesome:FontAwesomeIcons.Trash}"
+                                        TextColor="{StaticResource Danger}"
+                                        WidthRequest="36" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Button
+                    Margin="10"
+                    BackgroundColor="{StaticResource Primary}"
+                    Command="{Binding AddCustomFieldCommand}"
+                    FontAttributes="Bold"
+                    HorizontalOptions="End"
+                    Text="{maui:Translate AdicionarCampoPersonalizado}"
+                    TextColor="{StaticResource White}" />
+            </VerticalStackLayout>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

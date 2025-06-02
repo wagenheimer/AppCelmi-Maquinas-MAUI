@@ -8,6 +8,8 @@
     xmlns:vm="clr-namespace:AppCelmiPecuaria.ViewModel"
     x:DataType="vm:LanguageSelectorViewModel">
     <VerticalStackLayout Margin="0,0,0,10" Spacing="10">
+
+        <!--  Header  -->
         <Border Padding="5,2" Style="{StaticResource ConfiguracaoHeaderBorderStyleInverse}">
             <StackLayout Orientation="Horizontal">
 

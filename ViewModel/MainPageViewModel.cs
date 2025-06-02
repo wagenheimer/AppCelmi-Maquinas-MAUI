@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Maui.ApplicationModel;
 using LocalizationResourceManager.Maui;
 using AppCelmiPecuaria.Services;
-using Microsoft.Maui.ApplicationModel.DataTransfer;
+using AppCelmiPecuaria.Implementations;
 
 namespace AppCelmiPecuaria.ViewModel
 {
@@ -17,10 +12,10 @@ namespace AppCelmiPecuaria.ViewModel
         [ObservableProperty]
         private int selectedTabIndex;
 
-        public IAppConfigurationService AppConfig { get; }
+        public AppConfigurationService AppConfig { get; }
         public ICelmiLocalizationService Localization { get; }
 
-        public MainPageViewModel(ILocalizationResourceManager resourceManager, IAppConfigurationService appConfig, ICelmiLocalizationService localization)
+        public MainPageViewModel(ILocalizationResourceManager resourceManager, AppConfigurationService appConfig, ICelmiLocalizationService localization)
             : base(resourceManager)
         {
             AppConfig = appConfig;
@@ -34,27 +29,27 @@ namespace AppCelmiPecuaria.ViewModel
         public async Task ShareAppInfo()
         {
             var shareText = new StringBuilder();
-            
+
             // Add app information
             shareText.AppendLine($"{ResourceManager["AppCelmiPecuária"]}");
             shareText.AppendLine($"{Localization.AppVersionText}");
             shareText.AppendLine();
-            
+
             // Add current configuration
             shareText.AppendLine($"{ResourceManager["ConfiguraçõesCamelCase"]}:");
-            shareText.AppendLine($"{ResourceManager["Idioma"]}: {AppConfig.CurrentCulture}");
-            
+            shareText.AppendLine($"{ResourceManager["Idioma"]}: {AppConfig.AppSettings.CurrentCulture}");
+
             // Add custom fields if any
-            if (AppConfig.CustomFields.Any())
+            if (AppConfig.AppSettings.CustomFields.Any())
             {
                 shareText.AppendLine();
                 shareText.AppendLine($"{ResourceManager["CamposPersonalizados"]}:");
-                foreach (var field in AppConfig.CustomFields)
+                foreach (var field in AppConfig.AppSettings.CustomFields)
                 {
                     shareText.AppendLine($"- {field.Title}");
                 }
             }
-            
+
             await Share.Default.RequestAsync(new ShareTextRequest
             {
                 Title = ResourceManager["AppCelmiPecuária"],

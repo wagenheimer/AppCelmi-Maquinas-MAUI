@@ -3,8 +3,8 @@
     x:Class="AppCelmiPecuaria.App"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:AppCelmiPecuaria.Utils.Converters"
     xmlns:local="clr-namespace:AppCelmiPecuaria"
-    xmlns:converters="clr-namespace:AppCelmiPecuaria.Converters"
     xmlns:localization="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui">
     <Application.Resources>
         <ResourceDictionary>
@@ -20,6 +20,7 @@
             <converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
             <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
             <converters:EnumToCollectionConverter x:Key="EnumToCollectionConverter" />
+            <converters:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

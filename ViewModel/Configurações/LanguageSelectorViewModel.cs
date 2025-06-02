@@ -1,8 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Globalization;
-using System.Linq;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using LocalizationResourceManager.Maui;
 

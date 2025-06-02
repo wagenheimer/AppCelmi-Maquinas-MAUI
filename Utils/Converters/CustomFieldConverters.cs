@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace AppCelmiPecuaria.Converters
+namespace AppCelmiPecuaria.Utils.Converters
 {
     public class EnumToBoolConverter : IValueConverter
     {

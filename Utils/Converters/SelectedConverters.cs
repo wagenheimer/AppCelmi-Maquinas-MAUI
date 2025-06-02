@@ -1,9 +1,10 @@
 using System;
 using System.Globalization;
+
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 
-namespace AppCelmiPecuaria.Converters
+namespace AppCelmiPecuaria.Utils.Converters
 {
     public class SelectedToColorConverter : IValueConverter
     {

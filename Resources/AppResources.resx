@@ -165,6 +165,9 @@
   <data name="ArrobaTotal" xml:space="preserve">
     <value>Arroba (total)</value>
   </data>
+  <data name="Atencao" xml:space="preserve">
+    <value>Atenção</value>
+  </data>
   <data name="BackupListaPesagens" xml:space="preserve">
     <value>Backup Lista Pesagens</value>
   </data>
@@ -693,6 +696,9 @@
   <data name="SemCalibração" xml:space="preserve">
     <value>Sem calibração</value>
   </data>
+  <data name="SelecionarLogo" xml:space="preserve">
+    <value>Selecionar Logo</value>
+  </data>
   <data name="Sim" xml:space="preserve">
     <value>Sim</value>
   </data>
@@ -771,8 +777,23 @@
   <data name="NomeEmpresa" xml:space="preserve">
     <value>Nome da Empresa</value>
   </data>
+  <data name="Endereco" xml:space="preserve">
+    <value>Endereço</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Telefone" xml:space="preserve">
+    <value>Telefone</value>
+  </data>
+  <data name="Logotipo" xml:space="preserve">
+    <value>Logotipo</value>
+  </data>
+  <data name="CamposPadrão" xml:space="preserve">
+    <value>Campos Padrão</value>
+  </data>
   <data name="Alterar" xml:space="preserve">
-    <value>Alterar Nome</value>
+    <value>Alterar</value>
   </data>
   <data name="ComandoZEROEnviado" xml:space="preserve">
     <value>Comando ZERO Enviado</value>
@@ -819,9 +840,6 @@
   <data name="NumeroAnimal" xml:space="preserve">
     <value>Pesagem Nº</value>
   </data>
-  <data name="AdicionarCampo" xml:space="preserve">
-    <value>Adicionar Campo</value>
-  </data>
   <data name="DetalhesDoCampo" xml:space="preserve">
     <value>Detalhes do Campo</value>
   </data>
@@ -854,5 +872,17 @@
   </data>
   <data name="Confirmar" xml:space="preserve">
     <value>Confirmar</value>
+  </data>
+  <data name="ErroSelecionarImagem" xml:space="preserve">
+    <value>Erro ao selecionar imagem. Por favor, tente novamente.</value>
+  </data>
+  <data name="BLUETOOTH" xml:space="preserve">
+    <value>BLUETOOTH</value>
+  </data>
+  <data name="LISTA_PESAGENS" xml:space="preserve">
+    <value>LISTA DE PESAGENS</value>
+  </data>
+  <data name="ConfirmacaoExcluirCampo" xml:space="preserve">
+    <value>Tem certeza que deseja excluir o campo {0}?</value>
   </data>
 </root>

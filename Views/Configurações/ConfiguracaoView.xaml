@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="AppCelmiPecuaria.Views.ConfiguracaoView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="http://schemas.syncfusion.com/maui/toolkit"
+    xmlns:fontAwesome="clr-namespace:FontAwesome"
+    xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+    xmlns:models="clr-namespace:AppCelmiPecuaria.Models"
+    xmlns:viewmodel="clr-namespace:AppCelmiPecuaria.ViewModel"
+    xmlns:views="clr-namespace:AppCelmiPecuaria.Views"
+    x:DataType="viewmodel:ConfiguracaoViewModel">
+
+    <ScrollView Background="{StaticResource ToolbarFont}">
+        <VerticalStackLayout>
+            <Border Padding="5,2" Style="{StaticResource ConfiguracaoHeaderBorderStyle}">
+                <StackLayout Margin="0" Orientation="Horizontal">
+                    <Label
+                        FontFamily="FontAwesomeLight"
+                        FontSize="Large"
+                        Text="{x:Static fontAwesome:FontAwesomeIcons.Gear}"
+                        TextColor="White"
+                        VerticalOptions="Center" />
+                    <Label
+                        Padding="5,0"
+                        FontAttributes="Bold"
+                        FontSize="Header"
+                        Text="{maui:Translate CONFIGURAÇÕES}"
+                        TextColor="White"
+                        VerticalOptions="Center"
+                        VerticalTextAlignment="End" />
+                    <Image
+                        Margin="0"
+                        Aspect="AspectFit"
+                        HeightRequest="40"
+                        Source="appicon.svg" />
+                </StackLayout>
+            </Border>
+
+            <views:LanguageSelectorView />
+
+            <!--  Relatórios  -->
+            <Border
+                Padding="5,2"
+                HeightRequest="40"
+                Style="{StaticResource ConfiguracaoHeaderBorderStyle}">
+                <StackLayout Orientation="Horizontal">
+                    <Label
+                        FontAttributes="Bold"
+                        FontFamily="FontAwesomeLight"
+                        FontSize="Medium"
+                        Text="{x:Static fontAwesome:FontAwesomeIcons.Print}"
+                        TextColor="White"
+                        VerticalOptions="Center" />
+                    <Label
+                        Margin="8,0,0,0"
+                        FontSize="Medium"
+                        Text="{maui:Translate Relatórios}"
+                        TextColor="White"
+                        VerticalOptions="Center" />
+                </StackLayout>
+            </Border>
+
+            <!--  Campos Personalizados  -->
+            <views:RelatorioCamposPersonalizadosView />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>

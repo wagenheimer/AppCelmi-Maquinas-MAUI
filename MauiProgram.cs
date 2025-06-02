@@ -6,6 +6,7 @@ using AppCelmiPecuaria.ViewModel;
 using LocalizationResourceManager.Maui;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Hosting;
 
 using Shiny;
 
@@ -62,7 +63,7 @@ namespace AppCelmiPecuaria
 
             // Registra os serviços da aplicação
             mauiAppBuilder.Services.AddSingleton<ICelmiLocalizationService, CelmiLocalizationService>();
-            mauiAppBuilder.Services.AddSingleton<IAppConfigurationService, AppConfigurationService>();
+            mauiAppBuilder.Services.AddSingleton<AppConfigurationService, AppConfigurationService>();
             mauiAppBuilder.Services.AddTransient<AppShell>();
 
             return mauiAppBuilder;
@@ -71,8 +72,9 @@ namespace AppCelmiPecuaria
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
         {
             builder.Services.AddSingleton<MainPageViewModel>();
-            builder.Services.AddTransient<LanguageSelectorViewModel>();
-            builder.Services.AddTransient<ConfiguracaoViewModel>();
+            builder.Services.AddSingleton<ConfiguracaoViewModel>();
+            builder.Services.AddSingleton<LanguageSelectorViewModel>();
+            builder.Services.AddSingleton<RelatorioCamposPersonalizadosViewModel>();
 
             // More view-models registered here.
 
@@ -82,6 +84,7 @@ namespace AppCelmiPecuaria
         public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
         {
             mauiAppBuilder.Services.AddSingleton<MainPage>();
+            mauiAppBuilder.Services.AddTransient<Views.RelatorioCamposPersonalizadosView>();
 
             // More views registered here.
 
