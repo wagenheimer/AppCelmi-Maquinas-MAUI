@@ -1,12 +1,13 @@
 using System.Text.Json;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using AppCelmiPecuaria.Models;
-using AppCelmiPecuaria.Services;
+using AppCelmiMaquinas.Models;
+using AppCelmiMaquinas.Services;
 using Microsoft.Maui.Storage;
 using System.Diagnostics;
+using System.Linq;
 
-namespace AppCelmiPecuaria.Implementations
+namespace AppCelmiMaquinas.Implementations
 {
     /// <summary>
     /// Serviço responsável por salvar e carregar configurações persistentes do aplicativo usando Preferences do .NET MAUI.
@@ -15,6 +16,17 @@ namespace AppCelmiPecuaria.Implementations
     {
         private const string SETTINGS_KEY = "AppSettings";
 
+        // Lista dos campos padrão e suas chaves de tradução
+        private static readonly (string Title, string TranslationKey)[] DefaultFields = new[]
+        {
+            ("Cliente", "CampoPadrao_Cliente"),
+            ("Fazenda/Propriedade", "CampoPadrao_Fazenda"),
+            ("Cidade/Localização", "CampoPadrao_Cidade"),
+            ("Modelo", "CampoPadrao_Modelo"),
+            ("Chassi", "CampoPadrao_Chassi"),
+            ("Horímetro", "CampoPadrao_Horimetro"),
+            ("Responsável", "CampoPadrao_Responsavel")
+        };
 
         [ObservableProperty]
         private AppSettings appSettings;
@@ -38,6 +50,7 @@ namespace AppCelmiPecuaria.Implementations
         {
             AppSettings = new AppSettings(); // Inicializa com configurações padrão
             Load(); // Carrega as configurações ao inicializar o serviço
+            EnsureDefaultFields(); // Garante que os campos padrão estejam presentes
         }
 
         /// <summary>
@@ -73,6 +86,7 @@ namespace AppCelmiPecuaria.Implementations
                 Debug.WriteLine("[AppConfigurationService] Nenhuma configuração encontrada para carregar (JSON vazio ou nulo).");
                 AppSettings = new AppSettings(); // Garante que _settings seja inicializado
             }
+            EnsureDefaultFields(); // Garante que os campos padrão estejam presentes
         }
 
         /// <summary>
@@ -87,6 +101,36 @@ namespace AppCelmiPecuaria.Implementations
             Preferences.Set(SETTINGS_KEY, json);
 
             Debug.WriteLine($"[AppConfigurationService] Configurações salvas nas Preferences: {json}");
+        }
+
+        /// <summary>
+        /// Garante que os campos padrão estejam presentes e não duplicados.
+        /// </summary>
+        private void EnsureDefaultFields()
+        {
+            foreach (var (title, translationKey) in DefaultFields)
+            {
+                if (!AppSettings.CustomFields.Any(f => f.IsDefault && f.TranslationKey == translationKey))
+                {
+                    AppSettings.CustomFields.Insert(0, new CustomField
+                    {
+                        Title = title,
+                        IsDefault = true,
+                        IsEnabled = true,
+                        TranslationKey = translationKey
+                    });
+                }
+            }
+            // Remove duplicatas de campos padrão (caso existam)
+            var grouped = AppSettings.CustomFields
+                .Where(f => f.IsDefault && !string.IsNullOrEmpty(f.TranslationKey))
+                .GroupBy(f => f.TranslationKey)
+                .Where(g => g.Count() > 1);
+            foreach (var group in grouped)
+            {
+                foreach (var dup in group.Skip(1).ToList())
+                    AppSettings.CustomFields.Remove(dup);
+            }
         }
         #endregion
 
@@ -116,6 +160,11 @@ namespace AppCelmiPecuaria.Implementations
             if (field == null)
             {
                 Debug.WriteLine("[AppConfigurationService] Tentativa de remover um CustomField nulo. Ignorando.");
+                return;
+            }
+            if (field.IsDefault)
+            {
+                Debug.WriteLine("[AppConfigurationService] Tentativa de remover um campo padrão. Operação bloqueada.");
                 return;
             }
             Debug.WriteLine($"[AppConfigurationService] Removendo CustomField com Title: '{field.Title}'. Save() será chamado via CollectionChanged.");

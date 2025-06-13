@@ -24,7 +24,8 @@
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment></data>
+        <comment>This is a comment</comment>
+    </data>
                 
     There are any number of "resheader" rows that contain simple 
     name/value pairs.
@@ -163,6 +164,9 @@
   </data>
   <data name="ArrobaTotal" xml:space="preserve">
     <value>Arroba (total)</value>
+  </data>
+  <data name="Atencao" xml:space="preserve">
+    <value>Atención</value>
   </data>
   <data name="BackupListaPesagens" xml:space="preserve">
     <value>Lista de pesaje de respaldo</value>
@@ -427,6 +431,12 @@ Inténtelo de nuevo en 5 segundos...</value>
   <data name="NãoFoiPossívelLigarOAdaptadorBluetooth" xml:space="preserve">
     <value>No se puede conectar el adaptador Bluetooth</value>
   </data>
+  <data name="NãoHáNenhumEquipamentoConectadoParaEnviarComando" xml:space="preserve">
+    <value>No hay ningún equipo conectado para enviar el comando...</value>
+  </data>
+  <data name="NãoÉPossívelProcurar" xml:space="preserve">
+    <value>¡No se puede buscar!</value>
+  </data>
   <data name="Observações" xml:space="preserve">
     <value>Observaciones</value>
   </data>
@@ -525,6 +535,9 @@ Inténtelo de nuevo en 5 segundos...</value>
   </data>
   <data name="Plataforma" xml:space="preserve">
     <value>Plataforma</value>
+  </data>
+  <data name="PlataformaDesconectadaSalvarErro" xml:space="preserve">
+    <value>No se puede guardar el pesaje si alguna plataforma está desconectada. Espere a que todas las plataformas se conecten y vuelva a intentarlo.</value>
   </data>
   <data name="Plataformas" xml:space="preserve">
     <value>Plataformas</value>
@@ -754,15 +767,6 @@ Inténtelo de nuevo en 5 segundos...</value>
   <data name="ÉNecessárioAtivarOBLUETOOTHParaProcurarPorDispositivos" xml:space="preserve">
     <value>¡Necesitas activar BLUETOOTH para buscar dispositivos!</value>
   </data>
-  <data name="Atencao" xml:space="preserve">
-    <value>Atención</value>
-  </data>
-  <data name="ConfirmacaoExcluirCampo" xml:space="preserve">
-    <value>¿Estás seguro de que quieres eliminar el campo {0}?</value>
-  </data>
-  <data name="Confirmar" xml:space="preserve">
-    <value>Confirmar</value>
-  </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>
@@ -771,6 +775,9 @@ Inténtelo de nuevo en 5 segundos...</value>
   </data>
   <data name="NomeEmpresa" xml:space="preserve">
     <value>Nombre de la empresa</value>
+  </data>
+  <data name="CamposPadrão" xml:space="preserve">
+    <value>Campos predeterminados</value>
   </data>
   <data name="Alterar" xml:space="preserve">
     <value>Cambiar nombre</value>
@@ -808,9 +815,6 @@ Inténtelo de nuevo en 5 segundos...</value>
   <data name="VerNoMapa" xml:space="preserve">
     <value>Ver en el mapa</value>
   </data>
-  <data name="CamposPadrão" xml:space="preserve">
-    <value>Campos predeterminados</value>
-  </data>
   <data name="NaoEstaEstavel" xml:space="preserve">
     <value>¡Es necesario que todas las plataformas estén estables para enviar comandos!</value>
   </data>
@@ -819,9 +823,6 @@ Inténtelo de nuevo en 5 segundos...</value>
   </data>
   <data name="NumeroAnimal" xml:space="preserve">
     <value>Pesaje Nº</value>
-  </data>
-  <data name="BLUETOOTH" xml:space="preserve">
-    <value>BLUETOOTH</value>
   </data>
   <data name="DetalhesDoCampo" xml:space="preserve">
     <value>Detalles del campo</value>
@@ -853,16 +854,40 @@ Inténtelo de nuevo en 5 segundos...</value>
   <data name="Descricao" xml:space="preserve">
     <value>Descripción</value>
   </data>
+  <data name="Confirmar" xml:space="preserve">
+    <value>Confirmar</value>
+  </data>
+  <data name="BLUETOOTH" xml:space="preserve">
+    <value>BLUETOOTH</value>
+  </data>
   <data name="LISTA_PESAGENS" xml:space="preserve">
     <value>LISTA DE PESAJE</value>
   </data>
-  <data name="PlataformaDesconectadaSalvarErro" xml:space="preserve">
-    <value>No se puede guardar el pesaje si alguna plataforma está desconectada. Espere a que todas las plataformas se conecten y vuelva a intentarlo.</value>
+  <data name="ConfirmacaoExcluirCampo" xml:space="preserve">
+    <value>¿Estás seguro de que quieres eliminar el campo {0}?</value>
   </data>
-  <data name="NãoHáNenhumEquipamentoConectadoParaEnviarComando" xml:space="preserve">
-    <value>No hay ningún equipo conectado para enviar el comando...</value>
+  <data name="DadosDaEmpresa" xml:space="preserve">
+    <value />
   </data>
-  <data name="NãoÉPossívelProcurar" xml:space="preserve">
-    <value>¡No se puede buscar!</value>
+  <data name="CampoPadrao_Cliente" xml:space="preserve">
+    <value>Cliente</value>
+  </data>
+  <data name="CampoPadrao_Fazenda" xml:space="preserve">
+    <value>Finca/Propiedad</value>
+  </data>
+  <data name="CampoPadrao_Cidade" xml:space="preserve">
+    <value>Ciudad/Ubicación</value>
+  </data>
+  <data name="CampoPadrao_Modelo" xml:space="preserve">
+    <value>Modelo</value>
+  </data>
+  <data name="CampoPadrao_Chassi" xml:space="preserve">
+    <value>Chasis</value>
+  </data>
+  <data name="CampoPadrao_Horimetro" xml:space="preserve">
+    <value>Contador de horas</value>
+  </data>
+  <data name="CampoPadrao_Responsavel" xml:space="preserve">
+    <value>Responsable</value>
   </data>
 </root>

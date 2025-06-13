@@ -1,29 +1,28 @@
 using LocalizationResourceManager.Maui;
-using AppCelmiPecuaria.Services;
-using AppCelmiPecuaria.Implementations;
+using AppCelmiMaquinas.Services;
+using AppCelmiMaquinas.Implementations;
+using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace AppCelmiPecuaria.ViewModel
+namespace AppCelmiMaquinas.ViewModel
 {
     public partial class ConfiguracaoViewModel : ViewModelBase
     {
-        private readonly AppConfigurationService _appConfig;
+        [ObservableProperty]
+        private AppConfigurationService? appConfigurationService;
 
         public LanguageSelectorViewModel LanguageSelectorViewModel { get; }
 
-        public AppConfigurationService AppConfig => _appConfig;
 
-
-        public ConfiguracaoViewModel(ILocalizationResourceManager resourceManager, LanguageSelectorViewModel languageSelectorViewModel, AppConfigurationService appConfig)
+        public ConfiguracaoViewModel(ILocalizationResourceManager resourceManager, LanguageSelectorViewModel languageSelectorViewModel, AppConfigurationService appConfigurationService)
             : base(resourceManager)
         {
+            AppConfigurationService = appConfigurationService;
+
             resourceManager = MauiProgram.Services?.GetService<ILocalizationResourceManager>()!;
             languageSelectorViewModel = MauiProgram.Services?.GetService<LanguageSelectorViewModel>()!;
-            appConfig = MauiProgram.Services?.GetService<AppConfigurationService>()!;
 
-
-            _appConfig = appConfig;
             LanguageSelectorViewModel = languageSelectorViewModel;
-            _appConfig.Load();
+            
         }
 
         protected override void UpdateLocalizedProperties()

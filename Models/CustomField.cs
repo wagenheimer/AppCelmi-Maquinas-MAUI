@@ -1,9 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace AppCelmiPecuaria.Models
+namespace AppCelmiMaquinas.Models
 {
     /// <summary>
-    /// Representa um campo personalizado (apenas título).
+    /// Representa um campo personalizado ou padrão.
     /// </summary>
     public partial class CustomField : ObservableObject
     {
@@ -15,9 +15,27 @@ namespace AppCelmiPecuaria.Models
         }
 
         /// <summary>
-        /// Título do campo personalizado.
+        /// Título do campo personalizado ou padrão.
         /// </summary>
         [ObservableProperty]
         private string title = string.Empty;
+
+        /// <summary>
+        /// Indica se o campo é padrão (não pode ser excluído).
+        /// </summary>
+        [ObservableProperty]
+        private bool isDefault;
+
+        /// <summary>
+        /// Indica se o campo está habilitado ("Utiliza").
+        /// </summary>
+        [ObservableProperty]
+        private bool isEnabled = true;
+
+        /// <summary>
+        /// Chave de tradução para campos padrão (opcional).
+        /// </summary>
+        [ObservableProperty]
+        private string? translationKey;
     }
 }

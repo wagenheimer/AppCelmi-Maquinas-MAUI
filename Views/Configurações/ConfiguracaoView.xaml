@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView
-    x:Class="AppCelmiPecuaria.Views.ConfiguracaoView"
+    x:Class="AppCelmiMaquinas.Views.ConfiguracaoView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:buttons="http://schemas.syncfusion.com/maui/toolkit"
     xmlns:fontAwesome="clr-namespace:FontAwesome"
     xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
-    xmlns:models="clr-namespace:AppCelmiPecuaria.Models"
-    xmlns:viewmodel="clr-namespace:AppCelmiPecuaria.ViewModel"
-    xmlns:views="clr-namespace:AppCelmiPecuaria.Views"
+    xmlns:models="clr-namespace:AppCelmiMaquinas.Models"
+    xmlns:viewmodel="clr-namespace:AppCelmiMaquinas.ViewModel"
+    xmlns:views="clr-namespace:AppCelmiMaquinas.Views"
     x:DataType="viewmodel:ConfiguracaoViewModel">
 
     <ScrollView Background="{StaticResource ToolbarFont}">
@@ -33,11 +33,10 @@
                         Margin="0"
                         Aspect="AspectFit"
                         HeightRequest="40"
-                        Source="appicon.svg" />
+                        HorizontalOptions="EndAndExpand"
+                        Source="appicon_maquinas.png" />
                 </StackLayout>
             </Border>
-
-            <views:LanguageSelectorView />
 
             <!--  Relatórios  -->
             <Border
@@ -63,6 +62,8 @@
 
             <!--  Campos Personalizados  -->
             <views:ConfiguracaoRelatoriosView />
+
+            <views:LanguageSelectorView />
         </VerticalStackLayout>
     </ScrollView>
 </ContentView>

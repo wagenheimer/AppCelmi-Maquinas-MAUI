@@ -1,11 +1,11 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using AppCelmiPecuaria.ViewModel;
+using AppCelmiMaquinas.ViewModel;
 using LocalizationResourceManager.Maui;
 using Microsoft.Maui.Controls;
 
-namespace AppCelmiPecuaria.Views;
+namespace AppCelmiMaquinas.Views;
 
 public partial class LanguageSelectorView : ContentView
 {

@@ -1,7 +1,7 @@
-﻿using AppCelmiPecuaria.Implementations;
-using AppCelmiPecuaria.Resources;
-using AppCelmiPecuaria.Services;
-using AppCelmiPecuaria.ViewModel;
+﻿using AppCelmiMaquinas.Implementations;
+using AppCelmiMaquinas.Resources;
+using AppCelmiMaquinas.Services;
+using AppCelmiMaquinas.ViewModel;
 
 using LocalizationResourceManager.Maui;
 
@@ -13,7 +13,7 @@ using Shiny;
 using Syncfusion.Maui.Core.Hosting;
 using Syncfusion.Maui.Toolkit.Hosting;
 
-namespace AppCelmiPecuaria
+namespace AppCelmiMaquinas
 {
     public static class MauiProgram
     {

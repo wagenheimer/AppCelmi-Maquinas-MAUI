@@ -1,4 +1,4 @@
-namespace AppCelmiPecuaria.Views;
+namespace AppCelmiMaquinas.Views;
 
 public partial class PesagemView : ContentView
 {

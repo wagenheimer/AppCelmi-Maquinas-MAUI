@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCelmi - Pecuaria", "AppCelmi - Pecuaria.csproj", "{9744E721-3315-4C88-A250-0346D4D3F8F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCelmi - Maquinas", "AppCelmi - Maquinas.csproj", "{9744E721-3315-4C88-A250-0346D4D3F8F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

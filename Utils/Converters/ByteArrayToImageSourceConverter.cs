@@ -1,7 +1,7 @@
 using System.Globalization;
 using Microsoft.Maui.Controls;
 
-namespace AppCelmiPecuaria.Utils.Converters
+namespace AppCelmiMaquinas.Utils.Converters
 {
     /// <summary>
     /// Converts a byte array to an ImageSource for display in XAML.

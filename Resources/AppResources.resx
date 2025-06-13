@@ -786,9 +786,6 @@
   <data name="Telefone" xml:space="preserve">
     <value>Telefone</value>
   </data>
-  <data name="Logotipo" xml:space="preserve">
-    <value>Logotipo</value>
-  </data>
   <data name="CamposPadrão" xml:space="preserve">
     <value>Campos Padrão</value>
   </data>
@@ -827,9 +824,6 @@
   </data>
   <data name="VerNoMapa" xml:space="preserve">
     <value>Ver No Mapa</value>
-  </data>
-  <data name="CamposPadrão" xml:space="preserve">
-    <value>Campos Padrão</value>
   </data>
   <data name="NaoEstaEstavel" xml:space="preserve">
     <value>É necessário todas as plataformas estarem estáveis para enviar comandos!</value>
@@ -890,5 +884,29 @@
   </data>
   <data name="ErroAoSalvar" xml:space="preserve">
     <value>Erro ao salvar os dados. Por favor, tente novamente.</value>
+  </data>
+  <data name="DadosDaEmpresa" xml:space="preserve">
+    <value>Dados da Empresa</value>
+  </data>
+  <data name="CampoPadrao_Cliente" xml:space="preserve">
+    <value>Cliente</value>
+  </data>
+  <data name="CampoPadrao_Fazenda" xml:space="preserve">
+    <value>Fazenda</value>
+  </data>
+  <data name="CampoPadrao_Cidade" xml:space="preserve">
+    <value>Cidade</value>
+  </data>
+  <data name="CampoPadrao_Modelo" xml:space="preserve">
+    <value>Modelo</value>
+  </data>
+  <data name="CampoPadrao_Chassi" xml:space="preserve">
+    <value>Chassi</value>
+  </data>
+  <data name="CampoPadrao_Horimetro" xml:space="preserve">
+    <value>Horímetro</value>
+  </data>
+  <data name="CampoPadrao_Responsavel" xml:space="preserve">
+    <value>Responsável</value>
   </data>
 </root>

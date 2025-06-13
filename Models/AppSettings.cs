@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-using AppCelmiPecuaria.Models;
+using AppCelmiMaquinas.Models;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace AppCelmiPecuaria.Models
+namespace AppCelmiMaquinas.Models
 {
     /// <summary>
     /// Representa todas as configurações persistentes do aplicativo.
@@ -47,5 +47,11 @@ namespace AppCelmiPecuaria.Models
         /// </summary>
         [ObservableProperty]
         ObservableCollection<CustomField> customFields = new();
+
+        /// <summary>
+        /// Exibe informações cross-plataformas P1xP4 e P1xP3.
+        /// </summary>
+        [ObservableProperty]
+        bool informacaoCrossPlataformas = false;
     }
 }

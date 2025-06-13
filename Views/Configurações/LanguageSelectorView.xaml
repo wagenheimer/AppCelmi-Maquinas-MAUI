@@ -1,10 +1,10 @@
 <ContentView
-    x:Class="AppCelmiPecuaria.Views.LanguageSelectorView"
+    x:Class="AppCelmiMaquinas.Views.LanguageSelectorView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fontAwesome="clr-namespace:FontAwesome"
     xmlns:localization="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
-    xmlns:vm="clr-namespace:AppCelmiPecuaria.ViewModel"
+    xmlns:vm="clr-namespace:AppCelmiMaquinas.ViewModel"
     x:DataType="vm:LanguageSelectorViewModel">
     <VerticalStackLayout Margin="0,0,0,10" Spacing="10">
 

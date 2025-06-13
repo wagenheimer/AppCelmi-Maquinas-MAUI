@@ -1,10 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using LocalizationResourceManager.Maui;
 using Microsoft.Maui.ApplicationModel;
-using AppCelmiPecuaria.Services;
+using AppCelmiMaquinas.Services;
 using System.ComponentModel;
 
-namespace AppCelmiPecuaria.Implementations
+namespace AppCelmiMaquinas.Implementations
 {
     /// <summary>
     /// Serviço responsável por gerenciar textos localizados e informações de versão do app.

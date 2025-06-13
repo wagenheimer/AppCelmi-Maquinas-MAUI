@@ -1,6 +1,6 @@
 ﻿using LocalizationResourceManager.Maui;
 
-namespace AppCelmiPecuaria
+namespace AppCelmiMaquinas
 {
     public partial class AppShell : Shell
     {

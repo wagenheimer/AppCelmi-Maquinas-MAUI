@@ -1,6 +1,6 @@
 using Microsoft.Maui.Controls;
 
-namespace AppCelmiPecuaria.Views
+namespace AppCelmiMaquinas.Views
 {
     public partial class SectionHeaderView : ContentView
     {

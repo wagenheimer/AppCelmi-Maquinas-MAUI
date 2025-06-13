@@ -1,8 +1,8 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using AppCelmiPecuaria.Models;
+using AppCelmiMaquinas.Models;
 
-namespace AppCelmiPecuaria.Services
+namespace AppCelmiMaquinas.Services
 {
     public interface ICelmiLocalizationService : INotifyPropertyChanged
     {

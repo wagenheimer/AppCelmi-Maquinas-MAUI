@@ -2,7 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using LocalizationResourceManager.Maui;
 using System.ComponentModel;
 
-namespace AppCelmiPecuaria.ViewModel
+namespace AppCelmiMaquinas.ViewModel
 {
     /// <summary>
     /// Classe base para ViewModels, fornecendo funcionalidades comuns como o gerenciamento de recursos de localização.

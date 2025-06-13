@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AppCelmiPecuaria.Resources {
+namespace AppCelmiMaquinas.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AppCelmiPecuaria.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AppCelmiPecuaria.Resources.AppResources", typeof(AppResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AppCelmiMaquinas.Resources.AppResources", typeof(AppResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -115,7 +115,7 @@ namespace AppCelmiPecuaria.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Alterar Nome.
+        ///   Looks up a localized string similar to Alterar.
         /// </summary>
         internal static string Alterar {
             get {
@@ -250,6 +250,15 @@ namespace AppCelmiPecuaria.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Atenção.
+        /// </summary>
+        internal static string Atencao {
+            get {
+                return ResourceManager.GetString("Atencao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backup Lista Pesagens.
         /// </summary>
         internal static string BackupListaPesagens {
@@ -327,6 +336,69 @@ namespace AppCelmiPecuaria.Resources {
         internal static string BuscaPorDispositivosFinalizada {
             get {
                 return ResourceManager.GetString("BuscaPorDispositivosFinalizada", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chassi.
+        /// </summary>
+        internal static string CampoPadrao_Chassi {
+            get {
+                return ResourceManager.GetString("CampoPadrao_Chassi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cidade.
+        /// </summary>
+        internal static string CampoPadrao_Cidade {
+            get {
+                return ResourceManager.GetString("CampoPadrao_Cidade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cliente.
+        /// </summary>
+        internal static string CampoPadrao_Cliente {
+            get {
+                return ResourceManager.GetString("CampoPadrao_Cliente", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fazenda.
+        /// </summary>
+        internal static string CampoPadrao_Fazenda {
+            get {
+                return ResourceManager.GetString("CampoPadrao_Fazenda", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Horímetro.
+        /// </summary>
+        internal static string CampoPadrao_Horimetro {
+            get {
+                return ResourceManager.GetString("CampoPadrao_Horimetro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modelo.
+        /// </summary>
+        internal static string CampoPadrao_Modelo {
+            get {
+                return ResourceManager.GetString("CampoPadrao_Modelo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Responsável.
+        /// </summary>
+        internal static string CampoPadrao_Responsavel {
+            get {
+                return ResourceManager.GetString("CampoPadrao_Responsavel", resourceCulture);
             }
         }
         
@@ -565,6 +637,15 @@ namespace AppCelmiPecuaria.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tem certeza que deseja excluir o campo {0}?.
+        /// </summary>
+        internal static string ConfirmacaoExcluirCampo {
+            get {
+                return ResourceManager.GetString("ConfirmacaoExcluirCampo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirmar.
         /// </summary>
         internal static string Confirmar {
@@ -574,11 +655,29 @@ namespace AppCelmiPecuaria.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dados da Empresa.
+        /// </summary>
+        internal static string DadosDaEmpresa {
+            get {
+                return ResourceManager.GetString("DadosDaEmpresa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dados do ensaio.
         /// </summary>
         internal static string DadosDoEnsaio {
             get {
                 return ResourceManager.GetString("DadosDoEnsaio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dados salvos com sucesso!.
+        /// </summary>
+        internal static string DadosSalvosComSucesso {
+            get {
+                return ResourceManager.GetString("DadosSalvosComSucesso", resourceCulture);
             }
         }
         
@@ -727,11 +826,29 @@ namespace AppCelmiPecuaria.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        internal static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EMAILS DE CONTATO.
         /// </summary>
         internal static string EMAILSDECONTATO {
             get {
                 return ResourceManager.GetString("EMAILSDECONTATO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Endereço.
+        /// </summary>
+        internal static string Endereco {
+            get {
+                return ResourceManager.GetString("Endereco", resourceCulture);
             }
         }
         
@@ -759,6 +876,24 @@ namespace AppCelmiPecuaria.Resources {
         internal static string Erro {
             get {
                 return ResourceManager.GetString("Erro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Erro ao salvar os dados. Por favor, tente novamente..
+        /// </summary>
+        internal static string ErroAoSalvar {
+            get {
+                return ResourceManager.GetString("ErroAoSalvar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Erro ao selecionar imagem. Por favor, tente novamente..
+        /// </summary>
+        internal static string ErroSelecionarImagem {
+            get {
+                return ResourceManager.GetString("ErroSelecionarImagem", resourceCulture);
             }
         }
         
@@ -2068,6 +2203,15 @@ namespace AppCelmiPecuaria.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Selecionar Logo.
+        /// </summary>
+        internal static string SelecionarLogo {
+            get {
+                return ResourceManager.GetString("SelecionarLogo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Selecione dispositivo para ver log específico!.
         /// </summary>
         internal static string SelecioneDispositivoParaVerLogEspecífico {
@@ -2145,6 +2289,15 @@ namespace AppCelmiPecuaria.Resources {
         internal static string Tara {
             get {
                 return ResourceManager.GetString("Tara", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Telefone.
+        /// </summary>
+        internal static string Telefone {
+            get {
+                return ResourceManager.GetString("Telefone", resourceCulture);
             }
         }
         

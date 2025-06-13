@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace AppCelmiPecuaria
+namespace AppCelmiMaquinas
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

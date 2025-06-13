@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="AppCelmiPecuaria.MainPage"
+    x:Class="AppCelmiMaquinas.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,18 +8,22 @@
     xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tabView="http://schemas.syncfusion.com/maui/toolkit"
-    xmlns:viewModels="using:AppCelmiPecuaria.ViewModel"
-    xmlns:views="clr-namespace:AppCelmiPecuaria.Views"
+    xmlns:viewModels="using:AppCelmiMaquinas.ViewModel"
+    xmlns:views="clr-namespace:AppCelmiMaquinas.Views"
     x:DataType="viewModels:MainPageViewModel"
     Shell.NavBarIsVisible="false"
     mc:Ignorable="d">
 
-    <Grid RowDefinitions="*">
+    <Grid BackgroundColor="{StaticResource CorFundo}" RowDefinitions="*">
+
+        <Image
+            Grid.Row="0"
+            Aspect="AspectFill"
+            Source="appbackground.jpg" />
 
         <tabView:SfTabView
             x:Name="tabView"
             Grid.Row="0"
-            Background="{StaticResource CorFundo}"
             EnableSwiping="False"
             HeaderDisplayMode="Image"
             IndicatorBackground="OrangeRed"
@@ -56,7 +60,7 @@
                 Header="{x:Static fontAwesome:FontAwesomeIcons.Bluetooth}"
                 TextColor="{StaticResource CorPrincipalQuaseBrancoAbsoluto}">
                 <tabView:SfTabItem.Content>
-                    <views:BluetoothView/>
+                    <views:BluetoothView />
                 </tabView:SfTabItem.Content>
             </tabView:SfTabItem>
 
@@ -66,7 +70,7 @@
                 Header="{x:Static fontAwesome:FontAwesomeIcons.List}"
                 TextColor="{StaticResource CorPrincipalQuaseBrancoAbsoluto}">
                 <tabView:SfTabItem.Content>
-                    <views:ListaPesagensView/>
+                    <views:ListaPesagensView />
                 </tabView:SfTabItem.Content>
             </tabView:SfTabItem>
 

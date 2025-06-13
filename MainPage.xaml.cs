@@ -1,8 +1,8 @@
 ﻿using LocalizationResourceManager.Maui;
-using AppCelmiPecuaria.ViewModel;
+using AppCelmiMaquinas.ViewModel;
 using Syncfusion.Maui.Toolkit.TabView;
 
-namespace AppCelmiPecuaria
+namespace AppCelmiMaquinas
 {
     public partial class MainPage : ContentPage
     {

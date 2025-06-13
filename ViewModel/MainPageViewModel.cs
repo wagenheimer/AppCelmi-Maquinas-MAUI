@@ -2,10 +2,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LocalizationResourceManager.Maui;
-using AppCelmiPecuaria.Services;
-using AppCelmiPecuaria.Implementations;
+using AppCelmiMaquinas.Services;
+using AppCelmiMaquinas.Implementations;
 
-namespace AppCelmiPecuaria.ViewModel
+namespace AppCelmiMaquinas.ViewModel
 {
     public partial class MainPageViewModel : ViewModelBase
     {

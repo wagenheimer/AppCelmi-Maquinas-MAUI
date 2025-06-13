@@ -2,7 +2,7 @@
 
 using UIKit;
 
-namespace AppCelmiPecuaria
+namespace AppCelmiMaquinas
 {
     public class Program
     {

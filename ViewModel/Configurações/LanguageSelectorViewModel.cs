@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
 using LocalizationResourceManager.Maui;
 
-namespace AppCelmiPecuaria.ViewModel
+namespace AppCelmiMaquinas.ViewModel
 {
     /// <summary>
     /// Representa um idioma disponível para seleção, incluindo o caminho da imagem da bandeira.

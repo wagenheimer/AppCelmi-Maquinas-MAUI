@@ -1,8 +1,8 @@
-using AppCelmiPecuaria.ViewModel;
+using AppCelmiMaquinas.ViewModel;
 using LocalizationResourceManager.Maui;
-using AppCelmiPecuaria.Services;
+using AppCelmiMaquinas.Services;
 
-namespace AppCelmiPecuaria.Views;
+namespace AppCelmiMaquinas.Views;
 
 public partial class ConfiguracaoView : ContentView
 {
@@ -11,6 +11,6 @@ public partial class ConfiguracaoView : ContentView
         InitializeComponent();
 
 
-        BindingContext = AppCelmiPecuaria.MauiProgram.Services?.GetService<ConfiguracaoViewModel>();
+        BindingContext = AppCelmiMaquinas.MauiProgram.Services?.GetService<ConfiguracaoViewModel>();
     }
 }
