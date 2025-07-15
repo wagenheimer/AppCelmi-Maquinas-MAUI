@@ -49,6 +49,7 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appicon_fg.svg" BaseSize="1024,1024" ForegroundScale="0.65" Color="#512BD4" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" />
 		<PackageReference Include="CommunityToolkit.Mvvm" />
 		<PackageReference Include="LocalizationResourceManager.Maui" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
@@ -63,12 +64,19 @@
 		<PackageReference Include="Syncfusion.Licensing" />
 		<PackageReference Include="Syncfusion.Maui.Buttons" />
 		<PackageReference Include="Syncfusion.Maui.Core" />
+		<PackageReference Include="Syncfusion.Maui.Expander" />
 		<PackageReference Include="Syncfusion.Maui.Inputs" />
 		<PackageReference Include="Syncfusion.Maui.Toolkit" />
 	</ItemGroup>
 	<ItemGroup>
+		<AndroidResource Remove="CelmiBluetooth\Ciew\**" />
+		<Compile Remove="CelmiBluetooth\Ciew\**" />
 		<Content Remove="**appsettings.json" />
 		<Content Remove="**appsettings.*.json" />
+		<EmbeddedResource Remove="CelmiBluetooth\Ciew\**" />
+		<MauiCss Remove="CelmiBluetooth\Ciew\**" />
+		<MauiXaml Remove="CelmiBluetooth\Ciew\**" />
+		<None Remove="CelmiBluetooth\Ciew\**" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' OR $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
@@ -108,6 +116,12 @@
 		</MauiXaml>
 		<MauiXaml Update="Views\Configurações\LanguageSelectorView.xaml">
 			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Extras\CollapsibleSectionView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Extras\TitleView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\ListaPesagensView.xaml">
 		  <Generator>MSBuild:Compile</Generator>

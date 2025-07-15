@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="CelmiBluetooth.Views.BluetoothView"
+    x:Name="bluetoothView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:AppCelmiMaquinas.Utils.Converters"
+    xmlns:devices="clr-namespace:CelmiBluetooth.Devices"
+    xmlns:fontAwesome="clr-namespace:FontAwesome"
+    xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+    xmlns:models="clr-namespace:CelmiBluetooth.Models"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:syncfusionInputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:CelmiBluetooth.ViewModels"
+    x:DataType="viewmodels:BluetoothViewModel">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+            <converters:ZeroToTrueConverter x:Key="ZeroToTrueConverter" />
+            <converters:GreaterThanZeroToTrueConverter x:Key="GreaterThanZeroToTrueConverter" />
+            <converters:PlataformasDaRedeResumoConverter x:Key="PlataformasDaRedeResumoConverter" />
+            <converters:RedeIgualConfiguradaToOpacityConverter x:Key="RedeIgualConfiguradaToOpacityConverter" />
+            <converters:RedeIgualConfiguradaToBackgroundConverter x:Key="RedeIgualConfiguradaToBackgroundConverter" />
+            <converters:RedeBackgroundMultiConverter x:Key="RedeBackgroundMultiConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ScrollView Padding="0,0,0,35" Background="{StaticResource ToolbarFont}">
+        <VerticalStackLayout Spacing="15">
+            <!--  Header  -->
+            <Border Padding="5,2" Style="{StaticResource ConfiguracaoHeaderBorderStyle}">
+                <StackLayout Margin="0" Orientation="Horizontal">
+                    <Label
+                        FontFamily="FontAwesomeLight"
+                        FontSize="Large"
+                        Text="{x:Static fontAwesome:FontAwesomeIcons.Bluetooth}"
+                        TextColor="White"
+                        VerticalOptions="Center" />
+                    <Label
+                        Padding="5,0"
+                        FontAttributes="Bold"
+                        FontSize="Header"
+                        Text="{maui:Translate BLUETOOTH}"
+                        TextColor="White"
+                        VerticalOptions="Center"
+                        VerticalTextAlignment="End" />
+                    <Image
+                        Margin="0"
+                        Aspect="AspectFit"
+                        HeightRequest="40"
+                        HorizontalOptions="End"
+                        Source="appicon_maquinas.png" />
+                </StackLayout>
+            </Border>
+
+            <!--  Status da Conexão  -->
+            <Border
+                Margin="15,0"
+                Padding="10,5"
+                BackgroundColor="{StaticResource CorPrincipal}"
+                StrokeShape="RoundRectangle 12">
+                <StackLayout>
+                    <Grid
+                        Grid.Row="0"
+                        ColumnDefinitions="Auto,*"
+                        RowDefinitions="Auto,Auto">
+                        <StackLayout Grid.Row="0" Grid.Column="1">
+                            <HorizontalStackLayout Spacing="5">
+                                <Label
+                                    FontFamily="FontAwesomeLight"
+                                    FontSize="24"
+                                    Text="{x:Static fontAwesome:FontAwesomeIcons.CircleInfo}"
+                                    TextColor="White"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="18"
+                                    Text="Status"
+                                    TextColor="White" />
+                            </HorizontalStackLayout>
+                        </StackLayout>
+                        <HorizontalStackLayout
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Spacing="10">
+                            <!--  Spinner para status de conexão  -->
+                            <ActivityIndicator
+                                IsRunning="{Binding IsBusy}"
+                                IsVisible="{Binding IsBusy}"
+                                VerticalOptions="Center"
+                                Color="White" />
+                            <Label
+                                FontSize="Small"
+                                Text="{Binding ConnectionStatus}"
+                                TextColor="{StaticResource CorPrincipalQuaseBranco}"
+                                VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                    </Grid>
+
+                    <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center">
+                        <Button
+                            BackgroundColor="{StaticResource Gray600}"
+                            Command="{Binding CancelConnectionCommand}"
+                            FontAttributes="Bold"
+                            HeightRequest="45"
+                            HorizontalOptions="Center"
+                            IsVisible="{Binding IsBusy}"
+                            Text="Cancelar"
+                            TextColor="White"
+                            WidthRequest="150" />
+                    </HorizontalStackLayout>
+                </StackLayout>
+            </Border>
+
+            <!--  Container principal dos dispositivos  -->
+            <StackLayout Margin="15,0" Spacing="15">
+                <!--  Lista de Dispositivos BLE Encontrados  -->
+                <Border
+                    Padding="20"
+                    BackgroundColor="White"
+                    IsVisible="{Binding IsDeviceListVisible}"
+                    Stroke="{StaticResource CorPrincipal}"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="2">
+                    <StackLayout Spacing="15">
+                        <!--  Header da Lista  -->
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <Border
+                                Grid.Column="0"
+                                Padding="12"
+                                BackgroundColor="{StaticResource CorPrincipalClara}"
+                                StrokeShape="RoundRectangle 8">
+                                <Label
+                                    FontFamily="FontAwesomeLight"
+                                    FontSize="24"
+                                    Text="{x:Static fontAwesome:FontAwesomeIcons.Bluetooth}"
+                                    TextColor="{StaticResource CorPrincipal}"
+                                    VerticalOptions="Center" />
+                            </Border>
+                            <StackLayout Grid.Column="1" Margin="15,0,0,0">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    Text="Dispositivos BLE-RX Encontrados"
+                                    TextColor="{StaticResource CorPrincipal}" />
+                                <Label
+                                    FontSize="14"
+                                    Text="Selecione um dispositivo para conectar"
+                                    TextColor="{StaticResource Gray600}" />
+                            </StackLayout>
+                            <Button
+                                Grid.Column="2"
+                                Padding="12"
+                                BackgroundColor="{StaticResource Gray600}"
+                                Command="{Binding HideDeviceListCommand}"
+                                FontFamily="FontAwesome"
+                                FontSize="16"
+                                Text="✕"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                        </Grid>
+
+                        <!--  Lista de Dispositivos  -->
+                        <CollectionView ItemsSource="{Binding DiscoveredDevices}" SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="devices:BleDevice">
+                                    <Border
+                                        Margin="0,8"
+                                        Padding="16"
+                                        BackgroundColor="White"
+                                        Stroke="{StaticResource Gray200}"
+                                        StrokeShape="RoundRectangle 12"
+                                        StrokeThickness="1">
+                                        <Border.Shadow>
+                                            <Shadow
+                                                Brush="{StaticResource Gray300}"
+                                                Opacity="0.15"
+                                                Radius="4"
+                                                Offset="0,2" />
+                                        </Border.Shadow>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:BluetoothViewModel}}, Path=ConnectToSpecificDeviceCommand, x:DataType=viewmodels:BluetoothViewModel}" CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+                                        <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="14">
+                                            <!--  Header: Nome do Dispositivo e Status  -->
+                                            <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto">
+                                                <!--  Ícone BLE  -->
+                                                <Border
+                                                    Grid.Column="0"
+                                                    Padding="10"
+                                                    BackgroundColor="{StaticResource CorPrincipalClara}"
+                                                    StrokeShape="RoundRectangle 8">
+                                                    <Label
+                                                        FontFamily="FontAwesomeLight"
+                                                        FontSize="18"
+                                                        Text="{x:Static fontAwesome:FontAwesomeIcons.Bluetooth}"
+                                                        TextColor="{StaticResource CorPrincipal}"
+                                                        VerticalOptions="Center" />
+                                                </Border>
+                                                <!--  Nome do Dispositivo  -->
+                                                <StackLayout
+                                                    Grid.Column="1"
+                                                    Margin="16,0"
+                                                    VerticalOptions="Center">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="16"
+                                                        LineBreakMode="TailTruncation"
+                                                        Text="{Binding Name}"
+                                                        TextColor="{StaticResource Gray900}" />
+                                                    <!--  Indicador de RSSI com ícone  -->
+                                                    <StackLayout Orientation="Horizontal" Spacing="6">
+                                                        <Label
+                                                            FontFamily="FontAwesomeLight"
+                                                            FontSize="11"
+                                                            Text="{x:Static fontAwesome:FontAwesomeIcons.Signal}"
+                                                            TextColor="{StaticResource Gray500}"
+                                                            VerticalOptions="Center"
+                                                            VerticalTextAlignment="Center" />
+                                                        <Label
+                                                            FontSize="12"
+                                                            TextColor="{StaticResource Gray600}"
+                                                            VerticalOptions="Center">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="{Binding Rssi}" />
+                                                                    <Span Text=" dBm" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                        <!--  Badge de Qualidade do Sinal  -->
+                                                        <Border
+                                                            Grid.Column="2"
+                                                            Padding="8,4"
+                                                            BackgroundColor="{Binding SignalColor}"
+                                                            Stroke="Transparent"
+                                                            StrokeShape="RoundRectangle 12">
+                                                            <Label
+                                                                FontAttributes="Bold"
+                                                                FontSize="10"
+                                                                Text="{Binding SignalDescription}"
+                                                                TextColor="White"
+                                                                VerticalOptions="Center" />
+                                                        </Border>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </Grid>
+                                            <!--  Cards de Informações: Rede e Plataformas  -->
+                                            <Grid
+                                                Grid.Row="1"
+                                                ColumnDefinitions="*,*"
+                                                ColumnSpacing="12">
+                                                <!--  Card de Rede  -->
+                                                <Border
+                                                    Grid.Column="0"
+                                                    Padding="14,10"
+                                                    BackgroundColor="{StaticResource CorPrincipalQuaseBranco}"
+                                                    Stroke="{StaticResource CorPrincipalClara}"
+                                                    StrokeShape="RoundRectangle 10"
+                                                    StrokeThickness="1">
+                                                    <StackLayout Spacing="4">
+                                                        <StackLayout Orientation="Horizontal" Spacing="6">
+                                                            <Label
+                                                                FontFamily="FontAwesomeLight"
+                                                                FontSize="12"
+                                                                Text="{x:Static fontAwesome:FontAwesomeIcons.NetworkWired}"
+                                                                TextColor="{StaticResource CorPrincipal}"
+                                                                VerticalOptions="Center" />
+                                                            <Label
+                                                                FontAttributes="Bold"
+                                                                FontSize="11"
+                                                                Text="REDE"
+                                                                TextColor="{StaticResource CorPrincipal}" />
+                                                        </StackLayout>
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="20"
+                                                            HorizontalOptions="Center"
+                                                            Text="{Binding RedeComoNumero}"
+                                                            TextColor="{StaticResource CorPrincipal}" />
+                                                    </StackLayout>
+                                                </Border>
+                                                <!--  Card de Plataformas  -->
+                                                <Border
+                                                    Grid.Column="1"
+                                                    Padding="14,10"
+                                                    BackgroundColor="{StaticResource CorPrincipalQuaseBranco}"
+                                                    Stroke="{StaticResource CorPrincipalClara}"
+                                                    StrokeShape="RoundRectangle 10"
+                                                    StrokeThickness="1">
+                                                    <StackLayout Spacing="4">
+                                                        <StackLayout Orientation="Horizontal" Spacing="6">
+                                                            <Label
+                                                                FontFamily="FontAwesomeLight"
+                                                                FontSize="12"
+                                                                Text="{x:Static fontAwesome:FontAwesomeIcons.LayerGroup}"
+                                                                TextColor="{StaticResource CorPrincipal}"
+                                                                VerticalOptions="Center" />
+                                                            <Label
+                                                                FontAttributes="Bold"
+                                                                FontSize="11"
+                                                                Text="PLATAFORMAS"
+                                                                TextColor="{StaticResource CorPrincipal}" />
+                                                        </StackLayout>
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="20"
+                                                            HorizontalOptions="Center"
+                                                            Text="{Binding Plataformas}"
+                                                            TextColor="{StaticResource CorPrincipal}" />
+                                                    </StackLayout>
+                                                </Border>
+                                            </Grid>
+                                            <!--  Botão de Ação  -->
+                                            <Button
+                                                Grid.Row="2"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:BluetoothViewModel}}, Path=ConnectToSpecificDeviceCommand, x:DataType=viewmodels:BluetoothViewModel}"
+                                                CommandParameter="{Binding .}"
+                                                ContentLayout="Left, 10"
+                                                IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:BluetoothViewModel}}, Path=IsConnectedToRX, x:DataType=viewmodels:BluetoothViewModel, Converter={StaticResource InvertedBoolConverter}}"
+                                                Text="Conectar RX">
+                                                <Button.ImageSource>
+                                                    <FontImageSource
+                                                        FontFamily="FontAwesomeSolid"
+                                                        Glyph="{x:Static fontAwesome:FontAwesomeIcons.Desktop}"
+                                                        Size="18"
+                                                        Color="White" />
+                                                </Button.ImageSource>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                            <CollectionView.EmptyView>
+                                <StackLayout
+                                    HorizontalOptions="Center"
+                                    Spacing="10"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        FontFamily="FontAwesomeLight"
+                                        FontSize="48"
+                                        HorizontalOptions="Center"
+                                        Text="{x:Static fontAwesome:FontAwesomeIcons.MagnifyingGlass}"
+                                        TextColor="{StaticResource Gray400}" />
+                                    <Label
+                                        FontSize="16"
+                                        HorizontalOptions="Center"
+                                        Text="Nenhum dispositivo BLE-RX encontrado"
+                                        TextColor="{StaticResource Gray600}" />
+                                    <Label
+                                        FontSize="14"
+                                        HorizontalOptions="Center"
+                                        Text="Verifique se o dispositivo está ligado e próximo"
+                                        TextColor="{StaticResource Gray500}" />
+                                </StackLayout>
+                            </CollectionView.EmptyView>
+                        </CollectionView>
+                    </StackLayout>
+                </Border>
+
+                <!--  Conectar a Dispositivo RX (Visor)  -->
+                <Border
+                    Padding="20"
+                    BackgroundColor="White"
+                    IsVisible="{Binding IsRXOptionsVisible}"
+                    Stroke="{StaticResource CorPrincipal}"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="2">
+                    <StackLayout Spacing="15">
+                        <!--  Header do RX  -->
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <Border
+                                Grid.Column="0"
+                                Padding="12"
+                                BackgroundColor="{StaticResource CorPrincipalClara}"
+                                StrokeShape="RoundRectangle 8">
+                                <Label
+                                    FontFamily="FontAwesomeLight"
+                                    FontSize="24"
+                                    Text="{x:Static fontAwesome:FontAwesomeIcons.Desktop}"
+                                    TextColor="{StaticResource CorPrincipal}"
+                                    VerticalOptions="Center" />
+                            </Border>
+                            <StackLayout Grid.Column="1" Margin="15,0,0,0">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    Text="Dispositivo RX (Visor)"
+                                    TextColor="{StaticResource CorPrincipal}" />
+                                <Label
+                                    FontSize="14"
+                                    Text="Conecta ao visor receptor para leitura de pesagens"
+                                    TextColor="{StaticResource Gray600}" />
+                            </StackLayout>
+                        </Grid>
+                        <!--  Dispositivo Conectado  -->
+                        <Border
+                            Padding="15,12"
+                            BackgroundColor="{StaticResource CorPrincipalQuaseBranco}"
+                            IsVisible="{Binding IsConnectedToRX}"
+                            StrokeShape="RoundRectangle 8">
+                            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto">
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    FontFamily="FontAwesomeBrands"
+                                    FontSize="40"
+                                    HorizontalOptions="Center"
+                                    Text="{x:Static fontAwesome:FontAwesomeIcons.Bluetooth}"
+                                    TextColor="#0382F7"
+                                    VerticalOptions="Center" />
+                                <StackLayout Grid.Column="1" Margin="12,0">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{Binding SelectedRXDevice.Name, StringFormat='Conectado ao {0}'}"
+                                        TextColor="{StaticResource CorPrincipal}" />
+                                    <Label
+                                        FontSize="12"
+                                        Text="{Binding SelectedRXDevice.RXInfo}"
+                                        TextColor="{StaticResource Gray600}" />
+                                    <Grid Margin="0,3,0,0" ColumnDefinitions="Auto,*">
+                                        <Label
+                                            Grid.Column="0"
+                                            FontSize="12"
+                                            Text="{Binding SelectedRXDevice.FirmwareVersion, StringFormat='Firmware: {0}'}"
+                                            TextColor="{StaticResource Gray600}"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            Grid.Column="1"
+                                            Margin="5,0,0,0"
+                                            FontFamily="FontAwesomeLight"
+                                            FontSize="12"
+                                            Text="{x:Static fontAwesome:FontAwesomeIcons.MicrochipAi}"
+                                            TextColor="{StaticResource Gray600}"
+                                            VerticalOptions="Center" />
+                                    </Grid>
+                                </StackLayout>
+                                <Button
+                                    Grid.Row="2"
+                                    Grid.ColumnSpan="2"
+                                    Margin="0,10,0,0"
+                                    Padding="15,8"
+                                    BackgroundColor="{StaticResource CorPrincipalEscura}"
+                                    Command="{Binding DisconnectCommand}"
+                                    FontSize="14"
+                                    Text="Desconectar"
+                                    TextColor="White">
+                                    <Button.ImageSource>
+                                        <FontImageSource
+                                            FontFamily="FontAwesomeSolid"
+                                            Glyph="{x:Static fontAwesome:FontAwesomeIcons.PlugCircleXmark}"
+                                            Size="18"
+                                            Color="White" />
+                                    </Button.ImageSource>
+                                </Button>
+                            </Grid>
+                        </Border>
+                        <!--  Botão Buscar Dispositivos  -->
+                        <Button
+                            BackgroundColor="{StaticResource CorPrincipal}"
+                            Command="{Binding ConnectToRXDeviceCommand}"
+                            FontAttributes="Bold"
+                            HeightRequest="50"
+                            IsVisible="{Binding IsConnectedToRX, Converter={StaticResource InvertedBoolConverter}}"
+                            Text="Buscar Dispositivos BLE-RX"
+                            TextColor="White" />
+                    </StackLayout>
+                </Border>
+
+                <!--  Conectar a Plataformas  -->
+                <Border
+                    Padding="20"
+                    BackgroundColor="White"
+                    Stroke="{StaticResource CorPrincipal}"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="2">
+                    <StackLayout IsVisible="{Binding IsConnectedToPlatforms, Converter={StaticResource InvertedBoolConverter}}" Spacing="15">
+                        <Grid
+                            IsVisible="{Binding IsConnectingToPlatforms, Converter={StaticResource InvertedBoolConverter}}"
+                            RowDefinitions="Auto,Auto"
+                            RowSpacing="15">
+                            <!--  Número da Rede  -->
+                            <StackLayout Grid.Row="0" Spacing="8">
+                                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+                                    <syncfusion:SfTextInputLayout
+                                        Grid.Column="0"
+                                        ContainerBackground="Transparent"
+                                        ContainerType="Outlined"
+                                        Hint="Número da Rede"
+                                        ReserveSpaceForAssistiveLabels="False"
+                                        Stroke="{StaticResource CorPrincipal}">
+                                        <syncfusion:SfTextInputLayout.TrailingView>
+                                            <Label
+                                                FontFamily="FontAwesomeLight"
+                                                FontSize="20"
+                                                Text="{x:Static fontAwesome:FontAwesomeIcons.Bluetooth}"
+                                                TextColor="{StaticResource CorPrincipal}"
+                                                VerticalOptions="Center" />
+                                        </syncfusion:SfTextInputLayout.TrailingView>
+                                        <Entry
+                                            FontSize="30"
+                                            Keyboard="Numeric"
+                                            Text="{Binding SelectedNetworkNumber}"
+                                            TextColor="{StaticResource CorPrincipal}" />
+                                    </syncfusion:SfTextInputLayout>
+                                    <Button
+                                        Grid.Column="1"
+                                        BackgroundColor="{StaticResource CorPrincipal}"
+                                        Command="{Binding DecrementNetworkCommand}"
+                                        FontFamily="FontAwesome"
+                                        FontSize="18"
+                                        HeightRequest="50"
+                                        Text="−"
+                                        TextColor="White"
+                                        WidthRequest="50" />
+                                    <Button
+                                        Grid.Column="2"
+                                        BackgroundColor="{StaticResource CorPrincipal}"
+                                        Command="{Binding IncrementNetworkCommand}"
+                                        FontFamily="FontAwesome"
+                                        FontSize="18"
+                                        HeightRequest="50"
+                                        Text="+"
+                                        TextColor="White"
+                                        WidthRequest="50" />
+                                </Grid>
+                            </StackLayout>
+                            <!--  Total de Plataformas  -->
+                            <StackLayout Grid.Row="1" Spacing="8">
+                                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+                                    <syncfusion:SfTextInputLayout
+                                        Grid.Column="0"
+                                        ContainerBackground="Transparent"
+                                        ContainerType="Outlined"
+                                        Hint="Total de Plataformas (1-8)"
+                                        ReserveSpaceForAssistiveLabels="False"
+                                        Stroke="{StaticResource CorPrincipal}">
+                                        <syncfusion:SfTextInputLayout.TrailingView>
+                                            <Label
+                                                Grid.Column="0"
+                                                FontFamily="FontAwesomeLight"
+                                                FontSize="20"
+                                                Text="{x:Static fontAwesome:FontAwesomeIcons.LayerGroup}"
+                                                TextColor="{StaticResource CorPrincipal}"
+                                                VerticalOptions="Center" />
+                                        </syncfusion:SfTextInputLayout.TrailingView>
+                                        <Entry
+                                            FontSize="30"
+                                            Keyboard="Numeric"
+                                            Text="{Binding SelectedTotalPlatforms}"
+                                            TextColor="{StaticResource CorPrincipal}" />
+                                    </syncfusion:SfTextInputLayout>
+                                    <Button
+                                        Grid.Column="1"
+                                        BackgroundColor="{StaticResource CorPrincipal}"
+                                        Command="{Binding DecrementPlatformsCommand}"
+                                        FontFamily="FontAwesome"
+                                        FontSize="18"
+                                        HeightRequest="50"
+                                        Text="−"
+                                        TextColor="White"
+                                        WidthRequest="50" />
+                                    <Button
+                                        Grid.Column="2"
+                                        BackgroundColor="{StaticResource CorPrincipal}"
+                                        Command="{Binding IncrementPlatformsCommand}"
+                                        FontFamily="FontAwesome"
+                                        FontSize="18"
+                                        HeightRequest="50"
+                                        Text="+"
+                                        TextColor="White"
+                                        WidthRequest="50" />
+                                </Grid>
+                            </StackLayout>
+                        </Grid>
+                        <!--  Botão para buscar plataformas TX  -->
+                        <Button
+                            Margin="0,10,0,0"
+                            BackgroundColor="{StaticResource CorPrincipalEscura}"
+                            Command="{Binding ConnectToPlatformsCommand}"
+                            FontAttributes="Bold"
+                            HeightRequest="50"
+                            IsVisible="{Binding IsConnectingToPlatforms, Converter={StaticResource InvertedBoolConverter}}"
+                            Text="Buscar Plataformas Individuais BLE-TX"
+                            TextColor="White" />
+                        <!--  Lista de Plataformas Individuais  -->
+                        <StackLayout IsVisible="{Binding DiscoveredTXPlatforms.Count, Converter={StaticResource GreaterThanZeroToTrueConverter}}">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Plataformas Individuais Encontradas"
+                                TextColor="{StaticResource CorPrincipal}" />
+                            <Label
+                                FontSize="14"
+                                Text="{Binding Path=DiscoveredTXPlatforms, Converter={StaticResource PlataformasDaRedeResumoConverter}, ConverterParameter={Binding SelectedNetworkNumber}}"
+                                TextColor="{StaticResource Gray600}" />
+                            <CollectionView
+                                ItemsLayout="VerticalGrid,2"
+                                ItemsSource="{Binding DiscoveredTXPlatforms}"
+                                SelectionMode="None">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="devices:BleDevice">
+                                        <Border
+                                            Margin="0,8"
+                                            Padding="4"
+                                            Stroke="{StaticResource Gray200}"
+                                            StrokeShape="RoundRectangle 12"
+                                            StrokeThickness="1">
+                                            <Border.BackgroundColor>
+                                                <MultiBinding Converter="{StaticResource RedeBackgroundMultiConverter}">
+                                                    <Binding Path="RedeComoNumero" />
+                                                    <Binding Path="SelectedNetworkNumber" Source="{x:Reference Name=bluetoothView}" />
+                                                </MultiBinding>
+                                            </Border.BackgroundColor>
+                                            <Border.Shadow>
+                                                <Shadow
+                                                    Brush="{StaticResource Gray300}"
+                                                    Opacity="0.15"
+                                                    Radius="4"
+                                                    Offset="0,2" />
+                                            </Border.Shadow>
+                                            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
+                                                <Label
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Padding="5,0"
+                                                    FontFamily="FontAwesomeLight"
+                                                    FontSize="Small"
+                                                    Text="{x:Static fontAwesome:FontAwesomeIcons.LayerGroup}"
+                                                    TextColor="{StaticResource CorPrincipal}"
+                                                    VerticalOptions="Center" />
+
+                                                <Label
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Padding="5,0"
+                                                    FontSize="Small"
+                                                    Text="{Binding PlataformaNumero}"
+                                                    TextColor="{StaticResource CorPrincipal}"
+                                                    VerticalOptions="Center" />
+
+                                                <!--  Número da Rede  -->
+                                                <StackLayout
+                                                    Grid.Row="1"
+                                                    Grid.Column="2"
+                                                    Margin="0,4,0,0"
+                                                    Padding="5,0"
+                                                    Orientation="Horizontal"
+                                                    Spacing="10"
+                                                    VerticalOptions="Center">
+                                                    <Label
+                                                        FontSize="12"
+                                                        Text="Rede: "
+                                                        TextColor="{StaticResource Gray600}" />
+                                                    <Label
+                                                        FontSize="12"
+                                                        Text="{Binding RedeComoNumero}"
+                                                        TextColor="{StaticResource CorPrincipal}" />
+
+                                                </StackLayout>
+
+
+                                                <Label
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="3"
+                                                    FontAttributes="Bold"
+                                                    FontSize="Micro"
+                                                    HorizontalOptions="Center"
+                                                    Text="{Binding Name}"
+                                                    TextColor="{StaticResource CorPrincipal}" />
+
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                                <CollectionView.EmptyView>
+                                    <Label
+                                        FontSize="14"
+                                        Text="Nenhuma plataforma BLE-TX encontrada ainda..."
+                                        TextColor="{StaticResource Gray500}" />
+                                </CollectionView.EmptyView>
+                            </CollectionView>
+                            <Button
+                                Margin="0,10,0,0"
+                                BackgroundColor="{StaticResource CorPrincipalEscura}"
+                                Command="{Binding ConnectToPlatformsCommand}"
+                                FontAttributes="Bold"
+                                HeightRequest="50"
+                                IsVisible="{Binding DiscoveredTXPlatforms.Count, Converter={StaticResource ZeroToTrueConverter}}"
+                                Text="Conectar Plataformas"
+                                TextColor="White" />
+                        </StackLayout>
+                    </StackLayout>
+                </Border>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>

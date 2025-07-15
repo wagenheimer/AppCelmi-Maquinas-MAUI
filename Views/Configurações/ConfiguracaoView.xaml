@@ -39,31 +39,29 @@
             </Border>
 
             <!--  Relatórios  -->
-            <Border
-                Padding="5,2"
-                HeightRequest="40"
-                Style="{StaticResource ConfiguracaoHeaderBorderStyle}">
-                <StackLayout Orientation="Horizontal">
-                    <Label
-                        FontAttributes="Bold"
-                        FontFamily="FontAwesomeLight"
-                        FontSize="Medium"
-                        Text="{x:Static fontAwesome:FontAwesomeIcons.Print}"
-                        TextColor="White"
-                        VerticalOptions="Center" />
-                    <Label
-                        Margin="8,0,0,0"
-                        FontSize="Medium"
-                        Text="{maui:Translate Relatórios}"
-                        TextColor="White"
-                        VerticalOptions="Center" />
-                </StackLayout>
-            </Border>
+            <views:CollapsibleSectionView Icon="{x:Static fontAwesome:FontAwesomeIcons.Print}" Text="{maui:Translate Relatórios}">
 
-            <!--  Campos Personalizados  -->
-            <views:ConfiguracaoRelatoriosView />
+                <views:CollapsibleSectionView.View>
+                    <Border
+                        Margin="2,1"
+                        Stroke="{StaticResource Primary}"
+                        StrokeShape="RoundRectangle 5"
+                        StrokeThickness="2">
+                        <views:ConfiguracaoRelatoriosView />
+                    </Border>
+
+                </views:CollapsibleSectionView.View>
+
+            </views:CollapsibleSectionView>
+
+            <!--  Idioma  -->
 
             <views:LanguageSelectorView />
+
+
         </VerticalStackLayout>
+
+
+
     </ScrollView>
 </ContentView>

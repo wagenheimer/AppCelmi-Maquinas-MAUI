@@ -91,6 +91,17 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ConfiguracaoSubHeaderBorderStyle" TargetType="Border">
+        <Setter Property="Padding" Value="0,5" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Background">
+            <LinearGradientBrush EndPoint="0,1">
+                <GradientStop Offset="0.1" Color="{StaticResource CorPrincipalEscura}" />
+                <GradientStop Offset="1.0" Color="Orange" />
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
+
     <Style x:Key="ConfiguracaoHeaderBorderStyleInverse" TargetType="Border">
         <Setter Property="Padding" Value="0,5" />
         <Setter Property="StrokeThickness" Value="0" />

@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
 using LocalizationResourceManager.Maui;
+using CelmiBluetooth.ViewModels;
 
 namespace AppCelmiMaquinas.ViewModel
 {

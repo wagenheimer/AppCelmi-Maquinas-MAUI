@@ -1,4 +1,6 @@
-﻿using LocalizationResourceManager.Maui;
+﻿using CelmiBluetooth.ViewModels;
+
+using LocalizationResourceManager.Maui;
 
 using System;
 using System.Collections.Generic;

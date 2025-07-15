@@ -9,17 +9,19 @@
     xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
     xmlns:models="clr-namespace:AppCelmiMaquinas.Models"
     xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:syncfusionExpander="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
     xmlns:viewmodel="clr-namespace:AppCelmiMaquinas.ViewModel"
     xmlns:views="clr-namespace:AppCelmiMaquinas.Views"
     x:Name="RootContentView"
-    BackgroundColor="{StaticResource Gray100}">
-    <VerticalStackLayout Spacing="10">
-        <views:SectionHeaderView Icon="{x:Static fontAwesome:FontAwesomeIcons.Building}" Text="{maui:Translate DadosDaEmpresa}" />
-
-        <!--  Seção de campos padrão  -->
+    BackgroundColor="White">
+    <ContentView.Resources>
+        <converters:ZeroToTrueConverter x:Key="ZeroToTrueConverter" />
+    </ContentView.Resources>
+    <VerticalStackLayout Margin="0,10,10,10" Spacing="10">
+        <!--  Seção Dados da Empresa  -->
+        <views:TitleView Icon="{x:Static fontAwesome:FontAwesomeIcons.Building}" Text="{maui:Translate DadosDaEmpresa}" />
         <Border
             Margin="4,0,4,0"
-            BackgroundColor="{StaticResource White}"
             Stroke="{StaticResource Gray300}"
             StrokeThickness="1">
             <VerticalStackLayout Padding="10" Spacing="8">
@@ -69,7 +71,6 @@
                         Stroke="{StaticResource Primary}">
                         <Entry Text="{Binding AppConfigurationService.AppSettings.Endereco}" TextColor="{StaticResource Primary}" />
                     </syncfusion:SfTextInputLayout>
-
                 </Grid>
 
                 <syncfusion:SfTextInputLayout
@@ -104,123 +105,125 @@
                     TextColor="{StaticResource White}" />
             </VerticalStackLayout>
         </Border>
-
-        <views:SectionHeaderView Icon="{x:Static fontAwesome:FontAwesomeIcons.Print}" Text="{maui:Translate CamposPadrão}" />
-
-        <!--  Lista de campos padrão  -->
-        <CollectionView ItemsSource="{Binding DefaultFields}" SelectionMode="None">
-            <CollectionView.ItemTemplate>
+        <!--  Seção Campos Padrão  -->
+        <views:TitleView Icon="{x:Static fontAwesome:FontAwesomeIcons.Print}" Text="{maui:Translate CamposPadrão}" />
+        <VerticalStackLayout BindableLayout.ItemsSource="{Binding DefaultFields}" Spacing="4">
+            <BindableLayout.ItemTemplate>
                 <DataTemplate>
-                    <ContentView>
-                        <Border
-                            Margin="5,2,5,2"
-                            Padding="10,6"
-                            Background="{StaticResource Gray100}"
-                            Stroke="{StaticResource Gray300}"
-                            StrokeShape="RoundRectangle 4"
-                            StrokeThickness="1">
-                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                                <Label
-                                    Grid.Column="0"
-                                    FontSize="Medium"
-                                    Text="{Binding TranslationKey, Converter={StaticResource TranslationKeyToTextConverter}, FallbackValue={Binding Title}}"
-                                    TextColor="{StaticResource Primary}"
-                                    VerticalOptions="Center" />
-                                <buttons:SfSwitch
-                                    Grid.Column="1"
-                                    Margin="0"
-                                    HorizontalOptions="End"
-                                    IsOn="{Binding IsEnabled, Mode=TwoWay}"
-                                    VerticalOptions="Center" />
-                            </Grid>
-                        </Border>
-                    </ContentView>
+                    <Border
+                        Margin="5,2,5,2"
+                        Padding="10,6"
+                        Background="{StaticResource Gray100}"
+                        Stroke="{StaticResource Gray300}"
+                        StrokeShape="RoundRectangle 4"
+                        StrokeThickness="1">
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                            <Label
+                                Grid.Column="0"
+                                FontSize="Medium"
+                                Text="{Binding TranslationKey, Converter={StaticResource TranslationKeyToTextConverter}, FallbackValue={Binding Title}}"
+                                TextColor="{StaticResource Primary}"
+                                VerticalOptions="Center" />
+                            <buttons:SfSwitch
+                                Grid.Column="1"
+                                Margin="0"
+                                HorizontalOptions="End"
+                                IsOn="{Binding IsEnabled, Mode=TwoWay}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" />
-            </CollectionView.ItemsLayout>
-        </CollectionView>
+            </BindableLayout.ItemTemplate>
+        </VerticalStackLayout>
 
-        <views:SectionHeaderView Icon="{x:Static fontAwesome:FontAwesomeIcons.Print}" Text="{maui:Translate CamposPersonalizados}" />
-
-        <!--  Lista de campos personalizados  -->
+        <!--  Seção Campos Personalizados  -->
+        <views:TitleView Icon="{x:Static fontAwesome:FontAwesomeIcons.Print}" Text="{maui:Translate CamposPersonalizados}" />
         <Border
             Margin="4,8,4,0"
             BackgroundColor="{StaticResource White}"
             Stroke="{StaticResource Gray300}"
             StrokeThickness="1">
-            <VerticalStackLayout Spacing="8">
-                <CollectionView ItemsSource="{Binding CustomFieldsList}" SelectionMode="None">
-                    <CollectionView.EmptyView>
+
+            <Grid RowDefinitions="*,Auto" RowSpacing="8">
+                <VerticalStackLayout
+                    Grid.Row="0"
+                    BindableLayout.ItemsSource="{Binding CustomFieldsList}"
+                    Spacing="4">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Margin="5,2,5,2"
+                                Padding="10,6"
+                                Background="{StaticResource Gray100}"
+                                Stroke="{StaticResource Gray300}"
+                                StrokeShape="RoundRectangle 4"
+                                StrokeThickness="1">
+                                <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="8">
+                                    <Label
+                                        Grid.Column="0"
+                                        FontSize="Medium"
+                                        Text="{Binding Title}"
+                                        TextColor="{StaticResource Primary}"
+                                        VerticalOptions="Center" />
+
+                                    <Button
+                                        Grid.Column="1"
+                                        Command="{Binding Path=BindingContext.EditCustomFieldCommand, Source={RelativeSource AncestorType={x:Type views:ConfiguracaoRelatoriosView}}}"
+                                        CommandParameter="{Binding .}"
+                                        FontFamily="FontAwesomeLight"
+                                        HeightRequest="36"
+                                        Text="{x:Static fontAwesome:FontAwesomeIcons.PenToSquare}"
+                                        WidthRequest="36" />
+                                    <Button
+                                        Grid.Column="2"
+                                        Command="{Binding Path=BindingContext.MoveCustomFieldUpCommand, Source={RelativeSource AncestorType={x:Type views:ConfiguracaoRelatoriosView}}}"
+                                        CommandParameter="{Binding .}"
+                                        FontFamily="FontAwesomeLight"
+                                        HeightRequest="36"
+                                        Text="↑"
+                                        WidthRequest="36" />
+                                    <Button
+                                        Grid.Column="3"
+                                        Command="{Binding Path=BindingContext.MoveCustomFieldDownCommand, Source={RelativeSource AncestorType={x:Type views:ConfiguracaoRelatoriosView}}}"
+                                        CommandParameter="{Binding .}"
+                                        FontFamily="FontAwesomeLight"
+                                        HeightRequest="36"
+                                        Text="↓"
+                                        WidthRequest="36" />
+                                    <Button
+                                        Grid.Column="4"
+                                        Margin="5"
+                                        Command="{Binding Path=BindingContext.RemoveCustomFieldCommand, Source={RelativeSource AncestorType={x:Type views:ConfiguracaoRelatoriosView}}}"
+                                        CommandParameter="{Binding .}"
+                                        FontFamily="FontAwesomeLight"
+                                        HeightRequest="36"
+                                        Text="{x:Static fontAwesome:FontAwesomeIcons.Trash}"
+                                        WidthRequest="36" />
+
+                                    <buttons:SfSwitch
+                                        Grid.Column="5"
+                                        Margin="0"
+                                        HorizontalOptions="End"
+                                        IsOn="{Binding IsEnabled, Mode=TwoWay}"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+
+                    <BindableLayout.EmptyView>
                         <Label
+                            Grid.Row="0"
                             HorizontalOptions="Center"
-                            Text="{maui:Translate NenhumCampoPersonalizado}"
+                            IsVisible="{Binding CustomFieldsList.Count, Converter={StaticResource ZeroToTrueConverter}}"
                             TextColor="{StaticResource Primary}"
                             VerticalOptions="Center" />
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <ContentView>
-                                <Border
-                                    Margin="5,2,5,2"
-                                    Padding="10,6"
-                                    Background="{StaticResource Gray100}"
-                                    Stroke="{StaticResource Gray300}"
-                                    StrokeShape="RoundRectangle 4"
-                                    StrokeThickness="1">
-                                    <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="8">
-                                        <Label
-                                            Grid.Column="0"
-                                            FontSize="Medium"
-                                            Text="{Binding Title}"
-                                            TextColor="{StaticResource Primary}"
-                                            VerticalOptions="Center" />
-                                        <!--<Switch
-                                            Grid.Column="1"
-                                            IsToggled="{Binding IsEnabled, Mode=TwoWay}"
-                                            VerticalOptions="Center" />-->
-                                        <Button
-                                            Grid.Column="2"
-                                            Command="{Binding Source={x:Reference RootContentView}, Path=VM.EditCustomFieldCommand}"
-                                            CommandParameter="{Binding .}"
-                                            FontFamily="FontAwesomeLight"
-                                            HeightRequest="36"
-                                            Text="{x:Static fontAwesome:FontAwesomeIcons.PenToSquare}"
-                                            WidthRequest="36" />
-                                        <Button
-                                            Grid.Column="3"
-                                            Command="{Binding Source={x:Reference RootContentView}, Path=VM.MoveCustomFieldUpCommand}"
-                                            CommandParameter="{Binding .}"
-                                            FontFamily="FontAwesomeLight"
-                                            HeightRequest="36"
-                                            Text="↑"
-                                            WidthRequest="36" />
-                                        <Button
-                                            Grid.Column="4"
-                                            Command="{Binding Source={x:Reference RootContentView}, Path=VM.MoveCustomFieldDownCommand}"
-                                            CommandParameter="{Binding .}"
-                                            FontFamily="FontAwesomeLight"
-                                            HeightRequest="36"
-                                            Text="↓"
-                                            WidthRequest="36" />
-                                        <Button
-                                            Grid.Column="5"
-                                            Margin="5"
-                                            Command="{Binding Source={x:Reference RootContentView}, Path=VM.RemoveCustomFieldCommand}"
-                                            CommandParameter="{Binding .}"
-                                            FontFamily="FontAwesomeLight"
-                                            HeightRequest="36"
-                                            Text="{x:Static fontAwesome:FontAwesomeIcons.Trash}"
-                                            WidthRequest="36" />
-                                    </Grid>
-                                </Border>
-                            </ContentView>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.EmptyView>
+                </VerticalStackLayout>
+
 
                 <Button
+                    Grid.Row="1"
                     Margin="10"
                     BackgroundColor="{StaticResource Primary}"
                     Command="{Binding AddCustomFieldCommand}"
@@ -228,7 +231,9 @@
                     HorizontalOptions="End"
                     Text="{maui:Translate AdicionarCampoPersonalizado}"
                     TextColor="{StaticResource White}" />
-            </VerticalStackLayout>
+
+
+            </Grid>
         </Border>
     </VerticalStackLayout>
 </ContentView>

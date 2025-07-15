@@ -12,6 +12,11 @@ using Shiny;
 
 using Syncfusion.Maui.Core.Hosting;
 using Syncfusion.Maui.Toolkit.Hosting;
+using CommunityToolkit.Maui;
+using AppCelmiMaquinas.Views;
+using CelmiBluetooth;
+using CelmiBluetooth.ViewModels;
+using CelmiBluetooth.Views;
 
 namespace AppCelmiMaquinas
 {
@@ -25,6 +30,7 @@ namespace AppCelmiMaquinas
             builder
                 .UseMauiApp<App>()
                 .UseShiny()
+                .UseMauiCommunityToolkit()
                 .ConfigureSyncfusionCore()
                 .ConfigureSyncfusionToolkit()
                 .ConfigureFonts(fonts =>
@@ -61,6 +67,9 @@ namespace AppCelmiMaquinas
             // Registra os serviços do Shiny
             mauiAppBuilder.Services.AddBluetoothLE();
 
+            // Register WeightDeviceManager as singleton
+            mauiAppBuilder.Services.AddSingleton<WeightDeviceManager>(_ => WeightDeviceManager.Instance);
+
             // Registra os serviços da aplicação
             mauiAppBuilder.Services.AddSingleton<ICelmiLocalizationService, CelmiLocalizationService>();
             mauiAppBuilder.Services.AddSingleton<AppConfigurationService, AppConfigurationService>();
@@ -73,8 +82,10 @@ namespace AppCelmiMaquinas
         {
             builder.Services.AddSingleton<MainPageViewModel>();
             builder.Services.AddSingleton<ConfiguracaoViewModel>();
-            builder.Services.AddSingleton<LanguageSelectorViewModel>();
             builder.Services.AddSingleton<ConfiguracaoRelatoriosViewModel>();
+            builder.Services.AddSingleton<LanguageSelectorViewModel>();
+            builder.Services.AddTransient<BluetoothViewModel>();
+            builder.Services.AddTransient<PesagemViewModel>();
 
             // More view-models registered here.
 
@@ -85,6 +96,8 @@ namespace AppCelmiMaquinas
         {
             mauiAppBuilder.Services.AddSingleton<MainPage>();
             mauiAppBuilder.Services.AddTransient<Views.ConfiguracaoRelatoriosView>();
+            mauiAppBuilder.Services.AddTransient<BluetoothView>();
+            mauiAppBuilder.Services.AddTransient<PesagemView>();
 
             // More views registered here.
 

@@ -3,39 +3,389 @@
     x:Class="AppCelmiMaquinas.Views.PesagemView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:bluetoothModels="clr-namespace:CelmiBluetooth.Models"
+    xmlns:converters="clr-namespace:AppCelmiMaquinas.Utils.Converters"
     xmlns:fontAwesome="clr-namespace:FontAwesome"
-    xmlns:localization="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui">
-    <VerticalStackLayout>
-        <Border Padding="5,2" Style="{StaticResource ConfiguracaoHeaderBorderStyle}">
-            <StackLayout Margin="0" Orientation="Horizontal">
+    xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodel="clr-namespace:AppCelmiMaquinas.ViewModel"
+    x:DataType="viewmodel:PesagemViewModel">
 
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+            <toolkit:BoolToObjectConverter
+                x:Key="BoolToColorConverter"
+                FalseObject="{StaticResource Red500}"
+                TrueObject="{StaticResource Green500}" />
+            <converters:StabilityConverter x:Key="StabilityConverter" />
+            <converters:UpdateWarningConverter x:Key="UpdateWarningConverter" />
+            <converters:FontSizeByTextLengthConverter x:Key="FontSizeByTextLengthConverter" />
+            <Style x:Key="LabelValueStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="{StaticResource CorPrincipal}" />
+            </Style>
+            <Style x:Key="LabelTitleStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="TextColor" Value="{StaticResource Gray600}" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+        <!--  Status bar  -->
+        <Border
+            Grid.Row="0"
+            Margin="15,0,15,15"
+            Padding="15,10"
+            BackgroundColor="{StaticResource CorPrincipal}"
+            StrokeShape="RoundRectangle 12">
+
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="15">
+                <!--  Status icon  -->
                 <Label
+                    Grid.Column="0"
                     FontFamily="FontAwesomeLight"
-                    FontSize="Large"
-                    Text="{x:Static fontAwesome:FontAwesomeIcons.WeightHanging}"
+                    FontSize="24"
+                    Text="{x:Static fontAwesome:FontAwesomeIcons.CircleInfo}"
                     TextColor="White"
                     VerticalOptions="Center" />
 
-                <Label
-                    Padding="5,0"
-                    FontAttributes="Bold"
-                    FontSize="Header"
-                    Text="{localization:Translate PESAGEM}"
-                    TextColor="White"
-                    VerticalOptions="Center"
-                    VerticalTextAlignment="End" />
+                <!--  Connection status  -->
+                <StackLayout Grid.Column="1" VerticalOptions="Center">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="{Binding DeviceStatus}"
+                        TextColor="White" />
+                    <Label
+                        FontSize="12"
+                        Text="{Binding DeviceName}"
+                        TextColor="{StaticResource CorPrincipalQuaseBranco}" />
+                </StackLayout>
 
-
-
-                <Image
-                    Margin="0"
-                    Aspect="AspectFit"
-                    HeightRequest="40"
-                    HorizontalOptions="EndAndExpand"
-                    Source="appicon_maquinas.png" />
-
-            </StackLayout>
+                <!--  Battery status  -->
+                <StackLayout
+                    Grid.Column="2"
+                    Orientation="Horizontal"
+                    Spacing="5">
+                    <Label
+                        FontFamily="FontAwesomeLight"
+                        FontSize="20"
+                        Text="{x:Static fontAwesome:FontAwesomeIcons.BatteryHalf}"
+                        TextColor="White"
+                        VerticalOptions="Center" />
+                    <Label
+                        FontSize="14"
+                        Text="{Binding BatteryPercentage, StringFormat='{0}%'}"
+                        TextColor="White"
+                        VerticalOptions="Center" />
+                </StackLayout>
+            </Grid>
         </Border>
 
-    </VerticalStackLayout>
+        <!--  Main content  -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="20">
+                <!--  Main weight display  -->
+                <Border
+                    Margin="15,0"
+                    Padding="20"
+                    BackgroundColor="White"
+                    Stroke="{StaticResource CorPrincipal}"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="2">
+
+                    <VerticalStackLayout Spacing="15">
+                        <!--  Weight title  -->
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            HorizontalOptions="Center"
+                            Text="Peso Total"
+                            TextColor="{StaticResource CorPrincipal}" />
+
+                        <!--  Weight value  -->
+                        <Label
+                            FontAttributes="Bold"
+                            FontFamily="Arial"
+                            FontSize="48"
+                            HorizontalOptions="Center"
+                            Text="{Binding FormattedTotalWeight}"
+                            TextColor="{StaticResource CorPrincipal}" />
+
+                        <!--  Stability indicator  -->
+                        <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="10">
+                            <Line
+                                Grid.Column="0"
+                                HorizontalOptions="Fill"
+                                Stroke="{StaticResource Gray300}"
+                                StrokeThickness="1"
+                                X1="0"
+                                X2="1"
+                                Y1="0.5"
+                                Y2="0.5" />
+
+                            <HorizontalStackLayout Grid.Column="1" Spacing="5">
+                                <Ellipse
+                                    Fill="{Binding IsStable, Converter={StaticResource BoolToColorBrushConverter}}"
+                                    HeightRequest="10"
+                                    VerticalOptions="Center"
+                                    WidthRequest="10" />
+
+                                <Label
+                                    FontSize="14"
+                                    Text="{Binding StabilityStatus}"
+                                    TextColor="{StaticResource Gray600}"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+
+                            <Line
+                                Grid.Column="2"
+                                HorizontalOptions="Fill"
+                                Stroke="{StaticResource Gray300}"
+                                StrokeThickness="1"
+                                X1="0"
+                                X2="1"
+                                Y1="0.5"
+                                Y2="0.5" />
+                        </Grid>
+
+                        <!--  Action buttons  -->
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                            <Button
+                                Grid.Column="0"
+                                BackgroundColor="{StaticResource CorPrincipal}"
+                                Command="{Binding ZeroCommand}"
+                                IsEnabled="{Binding IsConnected}"
+                                Text="Zerar">
+                                <Button.ImageSource>
+                                    <FontImageSource
+                                        FontFamily="FontAwesomeSolid"
+                                        Glyph="{x:Static fontAwesome:FontAwesomeIcons.ArrowDown}"
+                                        Size="16"
+                                        Color="White" />
+                                </Button.ImageSource>
+                            </Button>
+
+                            <Button
+                                Grid.Column="1"
+                                BackgroundColor="{StaticResource CorPrincipalEscura}"
+                                Command="{Binding TareCommand}"
+                                IsEnabled="{Binding IsConnected}"
+                                Text="Tarar">
+                                <Button.ImageSource>
+                                    <FontImageSource
+                                        FontFamily="FontAwesomeSolid"
+                                        Glyph="{x:Static fontAwesome:FontAwesomeIcons.ScaleBalanced}"
+                                        Size="16"
+                                        Color="White" />
+                                </Button.ImageSource>
+                            </Button>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!--  Platform weights  -->
+                <Border
+                    Margin="15,0"
+                    BackgroundColor="White"
+                    Stroke="{StaticResource Gray300}"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="1">
+
+                    <VerticalStackLayout>
+                        <!--  Header  -->
+                        <Grid
+                            Padding="15,10"
+                            BackgroundColor="{StaticResource CorPrincipalQuaseBranco}"
+                            ColumnDefinitions="Auto,*"
+                            ColumnSpacing="10">
+
+                            <Label
+                                Grid.Column="0"
+                                FontFamily="FontAwesomeLight"
+                                FontSize="20"
+                                Text="{x:Static fontAwesome:FontAwesomeIcons.LayerGroup}"
+                                TextColor="{StaticResource CorPrincipal}"
+                                VerticalOptions="Center" />
+
+                            <Label
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                Text="Plataformas Individuais"
+                                TextColor="{StaticResource CorPrincipal}"
+                                VerticalOptions="Center" />
+                        </Grid>
+
+                        <!--  Platform list  -->
+                        <CollectionView
+                            Margin="0,5,0,10"
+                            EmptyView="Nenhuma plataforma conectada"
+                            ItemsSource="{Binding PlatformWeights}">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Vertical" Span="2" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="bluetoothModels:PlataformaDados">
+                                    <Border
+                                        Margin="4,4"
+                                        Padding="4"
+                                        Background="{StaticResource CorPrincipalQuaseBranco}"
+                                        Stroke="{StaticResource CorPrincipalEscura}"
+                                        StrokeShape="RoundRectangle 10"
+                                        StrokeThickness="1">
+                                        <Grid
+                                            ColumnDefinitions="Auto, *"
+                                            ColumnSpacing="10"
+                                            RowDefinitions="Auto,Auto,Auto">
+
+                                            <!--  Plataforma  -->
+                                            <Border
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Margin="0"
+                                                BackgroundColor="{StaticResource CorPrincipalClara}"
+                                                Stroke="{StaticResource CorPrincipalEscura}"
+                                                StrokeShape="RoundRectangle 8"
+                                                VerticalOptions="Center"
+                                                WidthRequest="30">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="18"
+                                                    HorizontalOptions="Center"
+                                                    Text="{Binding PlatformId}"
+                                                    TextColor="{StaticResource CorPrincipal}"
+                                                    VerticalOptions="Center" />
+                                            </Border>
+
+                                            <!--  Bateria  -->
+                                            <HorizontalStackLayout
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                HorizontalOptions="End"
+                                                Spacing="12">
+
+
+                                                <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
+                                                    <Label
+                                                        FontFamily="FontAwesomeLight"
+                                                        FontSize="14"
+                                                        Text="{x:Static fontAwesome:FontAwesomeIcons.BatteryHalf}"
+                                                        TextColor="{StaticResource CorPrincipalEscura}" />
+                                                    <Label
+                                                        FontSize="12"
+                                                        Text="{Binding BatteryPercentage, StringFormat='{0}%'}"
+                                                        TextColor="{StaticResource CorPrincipalEscura}" />
+                                                </HorizontalStackLayout>
+
+
+                                            </HorizontalStackLayout>
+
+
+                                            <VerticalStackLayout
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="2"
+                                                Spacing="8"
+                                                VerticalOptions="Center">
+
+                                                <!--  Peso  -->
+                                                <Label
+                                                    Grid.ColumnSpan="2"
+                                                    FontAttributes="Bold"
+                                                    FontSize="28"
+                                                    HorizontalTextAlignment="Center"
+                                                    LineBreakMode="NoWrap"
+                                                    Text="{Binding FormattedWeight}"
+                                                    TextColor="{StaticResource CorPrincipal}" />
+
+
+                                                <HorizontalStackLayout
+                                                    Grid.Row="2"
+                                                    Grid.ColumnSpan="2"
+                                                    HorizontalOptions="Center"
+                                                    Spacing="6"
+                                                    VerticalOptions="Center">
+                                                    <Ellipse
+                                                        Fill="{Binding IsStable, Converter={StaticResource BoolToColorBrushConverter}}"
+                                                        HeightRequest="12"
+                                                        VerticalOptions="Center"
+                                                        WidthRequest="12" />
+                                                    <Label
+                                                        FontSize="Micro"
+                                                        Text="{Binding IsStable, Converter={StaticResource StabilityConverter}}"
+                                                        TextColor="{StaticResource Gray600}"
+                                                        VerticalOptions="Center" />
+                                                </HorizontalStackLayout>
+
+
+
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!--  Weight details  -->
+                <Border
+                    Margin="15,0,15,20"
+                    BackgroundColor="White"
+                    Stroke="{StaticResource Gray300}"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="1">
+
+                    <Grid
+                        Padding="15"
+                        ColumnDefinitions="*,*,*"
+                        RowDefinitions="Auto,Auto"
+                        RowSpacing="20">
+
+                        <!--  Gross weight  -->
+                        <StackLayout Grid.Row="0" Grid.Column="0">
+                            <Label Style="{StaticResource LabelValueStyle}" Text="{Binding GrossWeight}" />
+                            <Label Style="{StaticResource LabelTitleStyle}" Text="Peso Bruto" />
+                        </StackLayout>
+
+                        <!--  Tare weight  -->
+                        <StackLayout Grid.Row="0" Grid.Column="1">
+                            <Label Style="{StaticResource LabelValueStyle}" Text="{Binding TareWeight}" />
+                            <Label Style="{StaticResource LabelTitleStyle}" Text="Tara" />
+                        </StackLayout>
+
+                        <!--  Net weight  -->
+                        <StackLayout Grid.Row="0" Grid.Column="2">
+                            <Label Style="{StaticResource LabelValueStyle}" Text="{Binding NetWeight}" />
+                            <Label Style="{StaticResource LabelTitleStyle}" Text="Peso Líquido" />
+                        </StackLayout>
+
+                        <!--  Total platforms  -->
+                        <StackLayout Grid.Row="1" Grid.Column="0">
+                            <Label Style="{StaticResource LabelValueStyle}" Text="{Binding TotalPlatforms}" />
+                            <Label Style="{StaticResource LabelTitleStyle}" Text="Plataformas" />
+                        </StackLayout>
+
+                        <!--  Connected platforms  -->
+                        <StackLayout Grid.Row="1" Grid.Column="1">
+                            <Label Style="{StaticResource LabelValueStyle}" Text="{Binding ConnectedPlatforms}" />
+                            <Label Style="{StaticResource LabelTitleStyle}" Text="Conectadas" />
+                        </StackLayout>
+
+                        <!--  Network  -->
+                        <StackLayout Grid.Row="1" Grid.Column="2">
+                            <Label Style="{StaticResource LabelValueStyle}" Text="{Binding NetworkId}" />
+                            <Label Style="{StaticResource LabelTitleStyle}" Text="Rede" />
+                        </StackLayout>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 </ContentView>

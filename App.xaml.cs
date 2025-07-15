@@ -12,10 +12,10 @@ namespace AppCelmiMaquinas
             InitializeComponent();
 
             // Força o tema Light sempre
-            Application.Current.UserAppTheme = AppTheme.Light;
+            Application.Current!.UserAppTheme = AppTheme.Light;
 
             //https://www.syncfusion.com/account/downloads
-            SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NNaF5cXmBCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXlecnVWQmFeWEJxWkJWYUA=\r\n");
+            SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JEaF5cXmRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXlcd3VWRmdZWUJwW0FWYEk=");
 
             VersionTracking.Track();
 
@@ -26,7 +26,12 @@ namespace AppCelmiMaquinas
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            // Get AppShell from dependency injection
+            // Get AppShell from dependency injection with null check
+            if (MauiProgram.Services == null)
+            {
+                throw new InvalidOperationException("Services not initialized");
+            }
+            
             var appShell = MauiProgram.Services.GetRequiredService<AppShell>();
             return new Window(appShell);
         }

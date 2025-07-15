@@ -2,6 +2,7 @@ using LocalizationResourceManager.Maui;
 using AppCelmiMaquinas.Services;
 using AppCelmiMaquinas.Implementations;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CelmiBluetooth.ViewModels;
 
 namespace AppCelmiMaquinas.ViewModel
 {

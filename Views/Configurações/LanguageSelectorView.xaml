@@ -4,111 +4,89 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fontAwesome="clr-namespace:FontAwesome"
     xmlns:localization="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+    xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+    xmlns:views="clr-namespace:AppCelmiMaquinas.Views"
     xmlns:vm="clr-namespace:AppCelmiMaquinas.ViewModel"
     x:DataType="vm:LanguageSelectorViewModel">
-    <VerticalStackLayout Margin="0,0,0,10" Spacing="10">
 
-        <!--  Header  -->
-        <Border Padding="5,2" Style="{StaticResource ConfiguracaoHeaderBorderStyleInverse}">
-            <StackLayout Orientation="Horizontal">
+    <views:CollapsibleSectionView
+        Icon="{x:Static fontAwesome:FontAwesomeIcons.Globe}"
+        Text="{maui:Translate Idioma}"
+        Text2="{Binding SelectedLanguage.DisplayName}">
 
-                <Label
-                    FontAttributes="Bold"
-                    FontFamily="FontAwesomeLight"
-                    FontSize="Medium"
-                    Text="{x:Static fontAwesome:FontAwesomeIcons.Globe}"
-                    TextColor="White"
-                    VerticalOptions="Center" />
+        <views:CollapsibleSectionView.View>
+            <HorizontalStackLayout
+                Padding="0,10,0,20"
+                HorizontalOptions="Center"
+                Spacing="12">
+                <!--  Botão para English  -->
+                <Border
+                    Padding="0,5"
+                    Background="Transparent"
+                    Stroke="{Binding AvailableLanguages[0].IsSelected, Converter={StaticResource SelectedToOrangeBrushConverter}, FallbackValue={x:Static Brush.Transparent}}"
+                    StrokeShape="RoundRectangle 56"
+                    StrokeThickness="3">
 
-                <Label
-                    Padding="5,0"
-                    FontAttributes="Bold"
-                    FontSize="Medium"
-                    Text="{localization:Translate Idioma}"
-                    TextColor="{StaticResource ToolbarFont}" />
-
-                <!--  Nome do idioma selecionado  -->
-                <Label
-                    FontAttributes="Italic"
-                    FontSize="Small"
-                    Text="{Binding SelectedLanguage.DisplayName}"
-                    TextColor="{StaticResource ToolbarFont}"
-                    VerticalOptions="Center" />
-            </StackLayout>
-        </Border>
-
-        <HorizontalStackLayout HorizontalOptions="Center" Spacing="12">
-            <!--  Botão para English  -->
-            <Border
-                Padding="0,5"
-                Background="Transparent"
-                Stroke="{Binding AvailableLanguages[0].IsSelected, Converter={StaticResource SelectedToOrangeBrushConverter}, FallbackValue={x:Static Brush.Transparent}}"
-                StrokeShape="RoundRectangle 56"
-                StrokeThickness="3">
-
-                <ImageButton
-                    Padding="0"
-                    BackgroundColor="Transparent"
-                    BorderColor="Transparent"
-                    Command="{Binding SelectLanguageCommand}"
-                    CommandParameter="{Binding AvailableLanguages[0]}"
-                    CornerRadius="24"
-                    HeightRequest="48"
-                    Opacity="{Binding AvailableLanguages[0].IsSelected, Converter={StaticResource SelectedToOpacityConverter}, FallbackValue=0.3}"
-                    Source="{Binding AvailableLanguages[0].ImagePath}"
-                    WidthRequest="80" />
+                    <ImageButton
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"
+                        Command="{Binding SelectLanguageCommand}"
+                        CommandParameter="{Binding AvailableLanguages[0]}"
+                        CornerRadius="24"
+                        HeightRequest="48"
+                        Opacity="{Binding AvailableLanguages[0].IsSelected, Converter={StaticResource SelectedToOpacityConverter}, FallbackValue=0.3}"
+                        Source="{Binding AvailableLanguages[0].ImagePath}"
+                        WidthRequest="80" />
 
 
-            </Border>
-            <!--  Botão para Español  -->
-            <Border
-                Padding="0,5"
-                Background="Transparent"
-                Stroke="{Binding AvailableLanguages[1].IsSelected, Converter={StaticResource SelectedToOrangeBrushConverter}, FallbackValue={x:Static Brush.Transparent}}"
-                StrokeShape="RoundRectangle 56"
-                StrokeThickness="3">
+                </Border>
+                <!--  Botão para Español  -->
+                <Border
+                    Padding="0,5"
+                    Background="Transparent"
+                    Stroke="{Binding AvailableLanguages[1].IsSelected, Converter={StaticResource SelectedToOrangeBrushConverter}, FallbackValue={x:Static Brush.Transparent}}"
+                    StrokeShape="RoundRectangle 56"
+                    StrokeThickness="3">
 
-                <ImageButton
-                    Padding="0"
-                    BackgroundColor="Transparent"
-                    BorderColor="Transparent"
-                    Command="{Binding SelectLanguageCommand}"
-                    CommandParameter="{Binding AvailableLanguages[1]}"
-                    CornerRadius="24"
-                    HeightRequest="48"
-                    Opacity="{Binding AvailableLanguages[1].IsSelected, Converter={StaticResource SelectedToOpacityConverter}, FallbackValue=0.3}"
-                    Source="{Binding AvailableLanguages[1].ImagePath}"
-                    WidthRequest="80" />
+                    <ImageButton
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"
+                        Command="{Binding SelectLanguageCommand}"
+                        CommandParameter="{Binding AvailableLanguages[1]}"
+                        CornerRadius="24"
+                        HeightRequest="48"
+                        Opacity="{Binding AvailableLanguages[1].IsSelected, Converter={StaticResource SelectedToOpacityConverter}, FallbackValue=0.3}"
+                        Source="{Binding AvailableLanguages[1].ImagePath}"
+                        WidthRequest="80" />
 
 
 
-            </Border>
-            <!--  Botão para Português (Brasil)  -->
-            <Border
-                Padding="0,5"
-                Background="Transparent"
-                Stroke="{Binding AvailableLanguages[2].IsSelected, Converter={StaticResource SelectedToOrangeBrushConverter}, FallbackValue={x:Static Brush.Transparent}}"
-                StrokeShape="RoundRectangle 56"
-                StrokeThickness="3">
+                </Border>
+                <!--  Botão para Português (Brasil)  -->
+                <Border
+                    Padding="0,5"
+                    Background="Transparent"
+                    Stroke="{Binding AvailableLanguages[2].IsSelected, Converter={StaticResource SelectedToOrangeBrushConverter}, FallbackValue={x:Static Brush.Transparent}}"
+                    StrokeShape="RoundRectangle 56"
+                    StrokeThickness="3">
 
-                <ImageButton
-                    Padding="0"
-                    BackgroundColor="Transparent"
-                    BorderColor="Transparent"
-                    Command="{Binding SelectLanguageCommand}"
-                    CommandParameter="{Binding AvailableLanguages[2]}"
-                    CornerRadius="24"
-                    HeightRequest="48"
-                    Opacity="{Binding AvailableLanguages[2].IsSelected, Converter={StaticResource SelectedToOpacityConverter}, FallbackValue=0.3}"
-                    Source="{Binding AvailableLanguages[2].ImagePath}"
-                    WidthRequest="80" />
-
-
-            </Border>
-        </HorizontalStackLayout>
+                    <ImageButton
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"
+                        Command="{Binding SelectLanguageCommand}"
+                        CommandParameter="{Binding AvailableLanguages[2]}"
+                        CornerRadius="24"
+                        HeightRequest="48"
+                        Opacity="{Binding AvailableLanguages[2].IsSelected, Converter={StaticResource SelectedToOpacityConverter}, FallbackValue=0.3}"
+                        Source="{Binding AvailableLanguages[2].ImagePath}"
+                        WidthRequest="80" />
 
 
-
-    </VerticalStackLayout>
-
+                </Border>
+            </HorizontalStackLayout>
+        </views:CollapsibleSectionView.View>
+    </views:CollapsibleSectionView>
 </ContentView>

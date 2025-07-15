@@ -10,6 +10,7 @@
     xmlns:tabView="http://schemas.syncfusion.com/maui/toolkit"
     xmlns:viewModels="using:AppCelmiMaquinas.ViewModel"
     xmlns:views="clr-namespace:AppCelmiMaquinas.Views"
+    xmlns:bluetoothViews="clr-namespace:CelmiBluetooth.Views"
     x:DataType="viewModels:MainPageViewModel"
     Shell.NavBarIsVisible="false"
     mc:Ignorable="d">
@@ -60,7 +61,7 @@
                 Header="{x:Static fontAwesome:FontAwesomeIcons.Bluetooth}"
                 TextColor="{StaticResource CorPrincipalQuaseBrancoAbsoluto}">
                 <tabView:SfTabItem.Content>
-                    <views:BluetoothView />
+                    <bluetoothViews:BluetoothView />
                 </tabView:SfTabItem.Content>
             </tabView:SfTabItem>
 

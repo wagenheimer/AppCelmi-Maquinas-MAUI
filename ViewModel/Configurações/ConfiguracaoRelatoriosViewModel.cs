@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 
 using Application = Microsoft.Maui.Controls.Application;
 using Microsoft.Maui.Controls;
+using CelmiBluetooth.ViewModels;
 
 namespace AppCelmiMaquinas.ViewModel
 {
