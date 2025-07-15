@@ -1,27 +1,27 @@
-# AppCelmi - Pecuaria
+# AppCelmi - M√°quinas - MAUI
 
-AppCelmi - Pecuaria È um aplicativo multiplataforma desenvolvido com .NET MAUI, voltado para o gerenciamento de m·quinas e processos no setor pecu·rio.
+AppCelmi - Pecuaria √© um aplicativo multiplataforma desenvolvido com .NET MAUI, voltado para o gerenciamento de m√°quinas e processos no setor pecu√°rio.
 
 ## Tecnologias e Bibliotecas
 - **.NET 9**
 - **.NET MAUI** (Android, iOS, Windows, MacCatalyst)
 - **MVVM** com [CommunityToolkit.Mvvm](https://learn.microsoft.com/dotnet/communitytoolkit/mvvm/)
-- [Shiny](https://shinyorg.github.io/) (serviÁos de background)
-- [Syncfusion](https://www.syncfusion.com/maui-controls) (controles avanÁados)
+- [Shiny](https://shinyorg.github.io/) (servi√ßos de background)
+- [Syncfusion](https://www.syncfusion.com/maui-controls) (controles avan√ßados)
 - [FontAwesome](https://fontawesome.com/)
 - [LocalizationResourceManager.Maui](https://github.com/CrossGeeks/LocalizationResourceManager.Maui)
 
 ## Estrutura do Projeto
-- `Views/` - Telas e p·ginas do aplicativo
-- `ViewModels/` - LÛgica de apresentaÁ„o (MVVM)
-- `Resources/` - Estilos, cores, fontes e recursos de localizaÁ„o
-- `Utils/` - Utilit·rios e helpers
+- `Views/` - Telas e p√°ginas do aplicativo
+- `ViewModels/` - L√≥gica de apresenta√ß√£o (MVVM)
+- `Resources/` - Estilos, cores, fontes e recursos de localiza√ß√£o
+- `Utils/` - Utilit√°rios e helpers
 
-## Padrıes e Boas Pr·ticas
+## Padr√µes e Boas Pr√°ticas
 - Uso extensivo de `[ObservableProperty]` e `[RelayCommand]` do CommunityToolkit.Mvvm
-- InjeÁ„o de dependÍncia e uso de `async/await` para operaÁıes assÌncronas
+- Inje√ß√£o de depend√™ncia e uso de `async/await` para opera√ß√µes ass√≠ncronas
 - Registro de fontes, handlers e recursos em `MauiProgram.cs`
-- OrganizaÁ„o e limpeza do XAML
-- Tratamento de exceÁıes e mensagens amig·veis ao usu·rio
+- Organiza√ß√£o e limpeza do XAML
+- Tratamento de exce√ß√µes e mensagens amig√°veis ao usu√°rio
 
-> Este projeto segue as melhores pr·ticas de .NET MAUI e MVVM. Para mais detalhes, consulte o arquivo `.github/copilot-instructions.md`.
+> Este projeto segue as melhores pr√°ticas de .NET MAUI e MVVM. Para mais detalhes, consulte o arquivo `.github/copilot-instructions.md`.
