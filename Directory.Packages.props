@@ -16,6 +16,7 @@
     <PackageVersion Include="Shiny.Core" Version="3.3.4" />
     <PackageVersion Include="Shiny.Extensions.Configuration" Version="3.3.4" />
     <PackageVersion Include="Shiny.Hosting.Maui" Version="3.3.4" />
+    <PackageVersion Include="System.Reactive" Version="6.0.0" />
     <PackageVersion Include="Syncfusion.Licensing" Version="30.1.37" />
     <PackageVersion Include="Syncfusion.Maui.Buttons" Version="30.1.37" />
     <PackageVersion Include="Syncfusion.Maui.Core" Version="30.1.37" />

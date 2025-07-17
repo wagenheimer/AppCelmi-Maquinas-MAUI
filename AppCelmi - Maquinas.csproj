@@ -61,6 +61,7 @@
 		<PackageReference Include="Shiny.BluetoothLE" />
 		<PackageReference Include="Shiny.Core" />
 		<PackageReference Include="Shiny.Hosting.Maui" />
+		<PackageReference Include="System.Reactive" />
 		<PackageReference Include="Syncfusion.Licensing" />
 		<PackageReference Include="Syncfusion.Maui.Buttons" />
 		<PackageReference Include="Syncfusion.Maui.Core" />

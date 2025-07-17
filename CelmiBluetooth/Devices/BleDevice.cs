@@ -9,8 +9,10 @@ namespace CelmiBluetooth.Devices
     /// <summary>
     /// Representa um dispositivo Bluetooth LE descoberto durante o scan.
     /// </summary>
-    public partial class BleDevice : ObservableObject
+    public partial class BleDevice : ObservableObject, IDisposable
     {
+        private bool _disposed;
+
         /// <summary>
         /// Nome do dispositivo BLE.
         /// </summary>
@@ -270,5 +272,54 @@ namespace CelmiBluetooth.Devices
                 };
             }
         }
+
+        #region IDisposable Implementation
+
+        /// <summary>
+        /// Libera todos os recursos utilizados pelo BleDevice.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Libera os recursos gerenciados e não-gerenciados utilizados pelo BleDevice.
+        /// </summary>
+        /// <param name="disposing">true se chamado de Dispose(); false se chamado do finalizador.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed && disposing)
+            {
+                try
+                {
+                    // Limpar referência ao Peripheral se for IDisposable
+                    if (Peripheral is IDisposable disposablePeripheral)
+                    {
+                        disposablePeripheral.Dispose();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Erro ao fazer dispose do Peripheral: {ex.Message}");
+                }
+                finally
+                {
+                    Peripheral = null;
+                    _disposed = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Finalizador para garantir que os recursos sejam liberados mesmo se Dispose não for chamado.
+        /// </summary>
+        ~BleDevice()
+        {
+            Dispose(false);
+        }
+
+        #endregion
     }
 }

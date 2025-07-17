@@ -87,7 +87,6 @@ namespace CelmiBluetooth.Devices
         private int _valoresSendoLidos = 0;
         private bool _jaLeuDadosGeral = false;
         private bool _jaTeveAlgumaPesagemNovaAposConectar = false;
-        private bool _leituraEmAndamento = false;
 
         // RX Platform data - agora usando PlataformaRX
         private PlataformaRX? _geral;
@@ -528,44 +527,9 @@ namespace CelmiBluetooth.Devices
         }
 
         /// <summary>
-        /// Inicia leitura periódica dos valores.
-        /// </summary>
-        private async Task IniciaLeituraValoresManuaisAsync()
-        {
-            var token = _readingCancellationToken?.Token ?? CancellationToken.None;
-            while (!token.IsCancellationRequested && Conectado && !_disposed)
-            {
-                if (_leituraEmAndamento)
-                {
-                    await Task.Delay(IntervaloLeitura, token);
-                    continue;
-                }
-
-                try
-                {
-                    _leituraEmAndamento = true;
-                    await LerValoresManuaisNoIntervalo();
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Erro na leitura periódica: {ex.Message}");
-                    _leituraEmAndamento = false;
-                    await Task.Delay(2000, token); // Aguarda antes de tentar novamente
-                    continue;
-                }
-                finally
-                {
-                    _leituraEmAndamento = false;
-                }
-
-                await Task.Delay(IntervaloLeitura, token);
-            }
-        }
-
-        /// <summary>
         /// Lê valores iniciais do dispositivo.
         /// </summary>
-        private async Task LerValoresIniciaisAsync()
+        public override async Task LerValoresIniciaisAsync()
         {
             try
             {
@@ -590,6 +554,7 @@ namespace CelmiBluetooth.Devices
                 return;
 
             ExtractFirmwareVersion();
+            return;
 
         }
 
@@ -598,8 +563,7 @@ namespace CelmiBluetooth.Devices
         /// </summary>
         private async Task LerValoresManuaisNoIntervalo()
         {
-            if (_disposed || !Conectado)
-                return;
+            if (_disposed || !Conectado) return;
 
             try
             {

@@ -3,6 +3,8 @@ using CelmiBluetooth.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 using System.Collections.ObjectModel;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 
 namespace CelmiBluetooth.Devices
 {
@@ -15,6 +17,7 @@ namespace CelmiBluetooth.Devices
         #region Campos Privados
         private readonly Dictionary<string, object> _parametrosConexao = new();
         private CancellationTokenSource? _tokenCancelamentoLeitura;
+        private IDisposable? _leituraSubscription;
         private bool _disposed = false;
         #endregion
 
@@ -200,58 +203,68 @@ namespace CelmiBluetooth.Devices
         /// </summary>
         /// <param name="intervalo">Intervalo entre leituras em milissegundos.</param>
 
-        
-
-        public virtual async Task IniciaLeituraValoresManuaisAsync(int intervalo = 250)
-        {
-            if (!Conectado || LeituraAtiva) return;
-
-            IntervaloLeitura = intervalo;
-            _tokenCancelamentoLeitura = new CancellationTokenSource();
-            LeituraAtiva = true;
-
-            // Executar leitura em tarefa em background
-            _ = Task.Run(async () =>
-            {
-                try
-                {
-                    await CriaTaskLeituraValoresNoIntervalo(_tokenCancelamentoLeitura.Token);
-                }
-                catch (OperationCanceledException)
-                {
-                    // Operação cancelada - comportamento esperado
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Erro na leitura de peso: {ex.Message}");
-                    LeituraAtiva = false;
-                }
-            }, _tokenCancelamentoLeitura.Token);
-        }
-
-
         /// <summary>
-        /// Implementação específica de leitura de peso contínua.
+        /// Inicia a leitura contínua dos valores no intervalo definido usando System.Reactive.
         /// </summary>
-        public async Task CriaTaskLeituraValoresNoIntervalo(CancellationToken cancellationToken)
+        /// <returns>Task que representa a operação assíncrona.</returns>
+        public virtual Task IniciaLeituraValoresManuaisAsync()
         {
-            _tokenCancelamentoLeitura = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-
-            // Inicia leitura periódica
-            _ = Task.Run(async () => await IniciaLeituraValoresManuaisAsync(), _tokenCancelamentoLeitura.Token);
+            if (!Conectado || LeituraAtiva)
+                return Task.CompletedTask;
 
             try
             {
-                // Manter a tarefa viva enquanto não for cancelada
-                while (!cancellationToken.IsCancellationRequested && Conectado)
-                {
-                    await Task.Delay(1000, cancellationToken);
-                }
+                _tokenCancelamentoLeitura = new CancellationTokenSource();
+                LeituraAtiva = true;
+
+                // Criar Observable que emite no intervalo especificado com timeout
+                _leituraSubscription = Observable
+                    .Timer(TimeSpan.Zero, TimeSpan.FromMilliseconds(IntervaloLeitura))
+                    .TakeWhile(_ => Conectado && !_tokenCancelamentoLeitura.Token.IsCancellationRequested)
+                    .Timeout(TimeSpan.FromSeconds(30)) // Timeout para detectar travamentos
+                    .Subscribe(
+                        async _ =>
+                        {
+                            try
+                            {
+                                if (!Conectado || _tokenCancelamentoLeitura.Token.IsCancellationRequested)
+                                    return;
+
+                                // Chamada para o método virtual que deve ser implementado pelas classes derivadas
+                                await LerValoresManuaisNoIntervalo().ConfigureAwait(false);
+                            }
+                            catch (OperationCanceledException)
+                            {
+                                // Cancelamento esperado - não logar como erro
+                                System.Diagnostics.Debug.WriteLine("Leitura de peso cancelada");
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Diagnostics.Debug.WriteLine($"Erro na leitura de peso: {ex.Message}");
+                                // Não para a leitura por causa de um erro pontual
+                            }
+                        },
+                        error =>
+                        {
+                            System.Diagnostics.Debug.WriteLine($"Erro fatal na leitura de peso: {error.Message}");
+                            LeituraAtiva = false;
+                        },
+                        () =>
+                        {
+                            System.Diagnostics.Debug.WriteLine("Leitura de peso finalizada");
+                            LeituraAtiva = false;
+                        }
+                    );
+
+                System.Diagnostics.Debug.WriteLine($"Leitura de peso iniciada com intervalo de {IntervaloLeitura}ms");
             }
-            catch (OperationCanceledException)
+            catch (Exception ex)
             {
-                // Cancelamento esperado
+                System.Diagnostics.Debug.WriteLine($"Erro ao iniciar leitura de peso: {ex.Message}");
+                LeituraAtiva = false;
             }
+
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -262,12 +275,30 @@ namespace CelmiBluetooth.Devices
             if (!LeituraAtiva)
                 return;
 
-            _tokenCancelamentoLeitura?.Cancel();
-            _tokenCancelamentoLeitura?.Dispose();
-            _tokenCancelamentoLeitura = null;
-            LeituraAtiva = false;
+            try
+            {
+                // Cancelar o token primeiro
+                _tokenCancelamentoLeitura?.Cancel();
+                
+                // Dispose da subscription do Observable
+                _leituraSubscription?.Dispose();
+                _leituraSubscription = null;
+                
+                // Cleanup dos recursos
+                _tokenCancelamentoLeitura?.Dispose();
+                _tokenCancelamentoLeitura = null;
+                
+                LeituraAtiva = false;
+                
+                System.Diagnostics.Debug.WriteLine("Leitura de peso parada com sucesso");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Erro ao parar leitura de peso: {ex.Message}");
+                LeituraAtiva = false;
+            }
 
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -465,8 +496,18 @@ namespace CelmiBluetooth.Devices
             {
                 try
                 {
-                    PararLeituraValoresManuais().Wait(1000);
-                    DesconectarAsync().Wait(1000);
+                    // Usar ConfigureAwait(false) e timeout mais adequado
+                    var stopTask = PararLeituraValoresManuais();
+                    if (!stopTask.Wait(TimeSpan.FromSeconds(5)))
+                    {
+                        System.Diagnostics.Debug.WriteLine("Timeout ao parar leitura durante dispose");
+                    }
+
+                    var disconnectTask = DesconectarAsync();
+                    if (!disconnectTask.Wait(TimeSpan.FromSeconds(5)))
+                    {
+                        System.Diagnostics.Debug.WriteLine("Timeout ao desconectar durante dispose");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -474,10 +515,90 @@ namespace CelmiBluetooth.Devices
                 }
                 finally
                 {
-                    _tokenCancelamentoLeitura?.Dispose();
+                    // Cleanup garantido de todos os recursos IDisposable
+                    try
+                    {
+                        _leituraSubscription?.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Erro ao fazer dispose da leituraSubscription: {ex.Message}");
+                    }
+                    finally
+                    {
+                        _leituraSubscription = null;
+                    }
+
+                    try
+                    {
+                        _tokenCancelamentoLeitura?.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Erro ao fazer dispose do tokenCancelamentoLeitura: {ex.Message}");
+                    }
+                    finally
+                    {
+                        _tokenCancelamentoLeitura = null;
+                    }
+
                     _disposed = true;
                 }
             }
+        }
+
+        /// <summary>
+        /// Lê os valores iniciais do dispositivo.
+        /// </summary>
+        /// <returns></returns>
+        public virtual Task LerValoresIniciaisAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Lê os valores manuais no intervalo definido.
+        /// </summary>
+        /// <returns></returns>
+
+        public Task LerValoresManuaisNoIntervalo()
+        {
+            return Task.CompletedTask;
+        }
+
+        #endregion
+
+        #region Novos Métodos
+
+        /// <summary>
+        /// Altera o intervalo de leitura dinamicamente.
+        /// Se a leitura estiver ativa, reinicia com o novo intervalo.
+        /// </summary>
+        /// <param name="novoIntervalo">Novo intervalo em milissegundos (mínimo 100ms).</param>
+        /// <param name="cancellationToken">Token de cancelamento para a operação.</param>
+        public virtual async Task AlterarIntervaloLeituraAsync(int novoIntervalo, CancellationToken cancellationToken = default)
+        {
+            if (novoIntervalo < 100)
+                throw new ArgumentOutOfRangeException(nameof(novoIntervalo), "Intervalo mínimo é 100ms");
+
+            var estavaAtiva = LeituraAtiva;
+            
+            if (estavaAtiva)
+            {
+                using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                cts.CancelAfter(TimeSpan.FromSeconds(10)); // Timeout de 10 segundos
+                
+                await PararLeituraValoresManuais().ConfigureAwait(false);
+            }
+            
+            IntervaloLeitura = novoIntervalo;
+            
+            if (estavaAtiva && Conectado && !cancellationToken.IsCancellationRequested)
+            {
+                await IniciaLeituraValoresManuaisAsync().ConfigureAwait(false);
+            }
+            
+            System.Diagnostics.Debug.WriteLine($"Intervalo de leitura alterado para {novoIntervalo}ms");
         }
 
         #endregion

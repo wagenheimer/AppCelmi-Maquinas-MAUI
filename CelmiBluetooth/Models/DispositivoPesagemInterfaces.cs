@@ -79,7 +79,11 @@ namespace CelmiBluetooth.Models
         Task<bool> ConectarAsync();
         Task DesconectarAsync();
         string ObterPesoTotalFormatado();
-        Task CriaTaskLeituraValoresNoIntervalo(CancellationToken cancellationToken);
+        Task LerValoresIniciaisAsync();
+        Task LerValoresManuaisNoIntervalo();
+
+        Task IniciaLeituraValoresManuaisAsync();
+
     }
 
     public interface IPlataformaPesagem

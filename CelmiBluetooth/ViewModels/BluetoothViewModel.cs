@@ -8,9 +8,25 @@ using Microsoft.Maui.ApplicationModel;
 using CelmiBluetooth;
 using CelmiBluetooth.Models;
 using CelmiBluetooth.Devices;
+using System.ComponentModel;
 
 namespace CelmiBluetooth.ViewModels
 {
+    /// <summary>
+    /// Enumera os modos de conexão disponíveis.
+    /// </summary>
+    public enum ConnectionMode
+    {
+        /// <summary>
+        /// Modo de conexão com dispositivo RX (Visor).
+        /// </summary>
+        RX,
+        /// <summary>
+        /// Modo de conexão com Plataformas TX.
+        /// </summary>
+        TX
+    }
+
     /// <summary>
     /// ViewModel para gerenciar conexões Bluetooth com dispositivos RX e plataformas.
     /// </summary>
@@ -20,88 +36,165 @@ namespace CelmiBluetooth.ViewModels
         private readonly WeightDeviceManager _deviceManager;
         private bool _disposed = false;
 
-        #region Observable Properties with AOT compatibility
+        #region Observable Properties
 
+        /// <summary>
+        /// Modo de conexão selecionado (RX ou TX).
+        /// </summary>
         [ObservableProperty]
-        [property: global::CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
-        private bool _isConnectedToRX;
+        [NotifyPropertyChangedFor(nameof(IsRXModeSelected))]
+        [NotifyPropertyChangedFor(nameof(IsTXModeSelected))]
+        [NotifyPropertyChangedFor(nameof(IsRXOptionsVisible))]
+        [NotifyPropertyChangedFor(nameof(IsPlatformsOptionsVisible))]
+        private ConnectionMode selectedMode = ConnectionMode.RX;
+
+        /// <summary>
+        /// Indica se está conectado ao dispositivo RX.
+        /// </summary>
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsConnectedOrConnectingToRX))]
+        [NotifyPropertyChangedFor(nameof(IsAnyDeviceConnected))]
+        [NotifyPropertyChangedFor(nameof(IsRXOptionsVisible))]
+        [NotifyPropertyChangedFor(nameof(IsPlatformsOptionsVisible))]
+        [NotifyPropertyChangedFor(nameof(CanSelectMode))]
+        [NotifyPropertyChangedFor(nameof(CanShowSearchButton))]
+        private bool isConnectedToRX;
 
         partial void OnIsConnectedToRXChanged(bool value)
         {
-            OnPropertyChanged(nameof(IsRXOptionsVisible));
-            OnPropertyChanged(nameof(IsPlatformsOptionsVisible));
+            System.Diagnostics.Debug.WriteLine($"[BluetoothViewModel] IsConnectedToRXChanged {value}");
         }
 
+        /// <summary>
+        /// Indica se está conectado às plataformas.
+        /// </summary>
         [ObservableProperty]
-        [property: global::CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
-        private bool _isConnectedToPlatforms;
+        [NotifyPropertyChangedFor(nameof(IsAnyDeviceConnected))]
+        [NotifyPropertyChangedFor(nameof(IsRXOptionsVisible))]
+        [NotifyPropertyChangedFor(nameof(IsPlatformsOptionsVisible))]
+        [NotifyPropertyChangedFor(nameof(CanSelectMode))]
+        [NotifyPropertyChangedFor(nameof(CanShowSearchButton))]
+        private bool isConnectedToPlatforms;
 
-        partial void OnIsConnectedToPlatformsChanged(bool value)
+        /// <summary>
+        /// Indica se está conectando ao dispositivo RX.
+        /// </summary>
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsConnectedOrConnectingToRX))]
+        [NotifyPropertyChangedFor(nameof(IsConnecting))]
+        [NotifyPropertyChangedFor(nameof(IsBusy))]
+        [NotifyPropertyChangedFor(nameof(CanSwitchMode))]
+        [NotifyPropertyChangedFor(nameof(CanSelectMode))]
+        [NotifyPropertyChangedFor(nameof(CanShowSearchButton))]
+        private bool isConnectingToRX;
+
+        /// <summary>
+        /// Indica se está conectando às plataformas.
+        /// </summary>
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsConnecting))]
+        [NotifyPropertyChangedFor(nameof(IsBusy))]
+        [NotifyPropertyChangedFor(nameof(CanSwitchMode))]
+        [NotifyPropertyChangedFor(nameof(CanSelectMode))]
+        [NotifyPropertyChangedFor(nameof(CanShowSearchButton))]
+        private bool isConnectingToPlatforms;
+
+        /// <summary>
+        /// Indica se está fazendo scan de dispositivos.
+        /// </summary>
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsBusy))]
+        [NotifyPropertyChangedFor(nameof(CanSwitchMode))]
+        private bool isScanningForDevices;
+
+        /// <summary>
+        /// Indica se a lista de dispositivos está visível.
+        /// </summary>
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsRXOptionsVisible))]
+        [NotifyPropertyChangedFor(nameof(IsPlatformsOptionsVisible))]
+        private bool isDeviceListVisible;
+
+        /// <summary>
+        /// Status da conexão atual.
+        /// </summary>
+        [ObservableProperty]
+        private string connectionStatus = "Não Conectado";
+
+        /// <summary>
+        /// Dispositivo RX selecionado.
+        /// </summary>
+        [ObservableProperty]
+        private BleDevice? selectedRXDevice;
+
+        /// <summary>
+        /// Número da rede selecionada.
+        /// </summary>
+        [ObservableProperty]
+        private int selectedNetworkNumber = 1;
+
+        /// <summary>
+        /// Total de plataformas selecionadas.
+        /// </summary>
+        [ObservableProperty]
+        private int selectedTotalPlatforms = 2;
+
+        /// <summary>
+        /// Status do dispositivo.
+        /// </summary>
+        [ObservableProperty]
+        private string deviceStatus = string.Empty;
+
+        /// <summary>
+        /// Indica se o peso está estável.
+        /// </summary>
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(StabilityStatus))]
+        private bool isStable;
+
+        /// <summary>
+        /// Status da estabilidade.
+        /// </summary>
+        [ObservableProperty]
+        private string stabilityStatus = string.Empty;
+
+        #endregion
+
+        #region Event Handlers
+
+        partial void OnSelectedModeChanged(ConnectionMode value)
         {
-            OnPropertyChanged(nameof(IsRXOptionsVisible));
-            OnPropertyChanged(nameof(IsPlatformsOptionsVisible));
+            // Cancelar operações em andamento quando trocar de modo
+            if (IsBusy)
+            {
+                _ = CancelConnectionAsync();
+            }
         }
-
-        [ObservableProperty]
-        [property: global::CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
-        private bool _isConnectingToRX;
 
         partial void OnIsConnectingToRXChanged(bool value)
         {
-            OnPropertyChanged(nameof(IsConnecting));
-            OnPropertyChanged(nameof(IsBusy));
-            OnPropertyChanged(nameof(IsRXOptionsVisible));
-            OnPropertyChanged(nameof(IsPlatformsOptionsVisible));
+            SwitchToRXModeCommand.NotifyCanExecuteChanged();
+            SwitchToTXModeCommand.NotifyCanExecuteChanged();
         }
-
-        [ObservableProperty]
-        [property: global::CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
-        private bool _isConnectingToPlatforms;
 
         partial void OnIsConnectingToPlatformsChanged(bool value)
         {
-            OnPropertyChanged(nameof(IsConnecting));
-            OnPropertyChanged(nameof(IsBusy));
-            OnPropertyChanged(nameof(IsRXOptionsVisible));
-            OnPropertyChanged(nameof(IsPlatformsOptionsVisible));
+            SwitchToRXModeCommand.NotifyCanExecuteChanged();
+            SwitchToTXModeCommand.NotifyCanExecuteChanged();
         }
-
-        [ObservableProperty]
-        [property: global::CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
-        private bool _isScanningForDevices;
 
         partial void OnIsScanningForDevicesChanged(bool value)
         {
-            OnPropertyChanged(nameof(IsBusy));
-            OnPropertyChanged(nameof(IsRXOptionsVisible));
-            OnPropertyChanged(nameof(IsPlatformsOptionsVisible));
+            SwitchToRXModeCommand.NotifyCanExecuteChanged();
+            SwitchToTXModeCommand.NotifyCanExecuteChanged();
         }
 
-        [ObservableProperty]
-        [property: global::CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
-        private bool _isDeviceListVisible;
-
-        partial void OnIsDeviceListVisibleChanged(bool value)
+        partial void OnIsStableChanged(bool value)
         {
-            OnPropertyChanged(nameof(IsRXOptionsVisible));
-            OnPropertyChanged(nameof(IsPlatformsOptionsVisible));
+            StabilityStatus = value ?
+                (ResourceManager["Estável"] ?? "Estável") :
+                (ResourceManager["Instável"] ?? "Instável");
         }
-
-        [ObservableProperty]
-        [property: global::CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
-        private string _connectionStatus = "Não Conectado";
-
-        [ObservableProperty]
-        [property: global::CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
-        private BleDevice? _selectedRXDevice;
-
-        [ObservableProperty]
-        [property: global::CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
-        private int _selectedNetworkNumber = 1;
-
-        [ObservableProperty]
-        [property: global::CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
-        private int _selectedTotalPlatforms = 2;
 
         #endregion
 
@@ -156,16 +249,46 @@ namespace CelmiBluetooth.ViewModels
         public bool IsBusy => IsConnecting || IsScanningForDevices;
 
         /// <summary>
+        /// Indica se o modo RX está selecionado.
+        /// </summary>
+        public bool IsRXModeSelected => SelectedMode == ConnectionMode.RX;
+
+        /// <summary>
+        /// Indica se o modo TX está selecionado.
+        /// </summary>
+        public bool IsTXModeSelected => SelectedMode == ConnectionMode.TX;
+
+        /// <summary>
         /// Indica se as opções do dispositivo RX devem estar visíveis.
         /// </summary>
-        public bool IsRXOptionsVisible => !IsBusy && !IsDeviceListVisible &&
-                                         !IsConnectingToPlatforms && !IsConnectedToPlatforms;
+        public bool IsRXOptionsVisible => IsRXModeSelected;
 
         /// <summary>
         /// Indica se as opções de plataformas devem estar visíveis.
         /// </summary>
-        public bool IsPlatformsOptionsVisible => !IsBusy && !IsDeviceListVisible &&
-                                                !IsConnectingToRX && !IsConnectedToRX;
+        public bool IsPlatformsOptionsVisible => IsTXModeSelected;
+
+        /// <summary>
+        /// Indica se é possível trocar de modo (não durante operações).
+        /// </summary>
+        public bool CanSwitchMode => !IsBusy;
+
+        /// <summary>
+        /// Indica se o seletor de modo deve estar habilitado.
+        /// Desabilitado quando há dispositivos conectados ou conectando.
+        /// </summary>
+        public bool CanSelectMode => !IsAnyDeviceConnected && !IsConnecting;
+
+        /// <summary>
+        /// Indica se o botão "Buscar Dispositivos BLE-RX" deve estar visível.
+        /// Oculto quando há dispositivos conectados ou conectando.
+        /// </summary>
+        public bool CanShowSearchButton => !IsAnyDeviceConnected && !IsConnecting;
+
+        /// <summary>
+        /// Indica se está conectado ou conectando ao RX.
+        /// </summary>
+        public bool IsConnectedOrConnectingToRX => IsConnectedToRX || IsConnectingToRX;
 
         /// <summary>
         /// Construtor do BluetoothViewModel.
@@ -186,14 +309,24 @@ namespace CelmiBluetooth.ViewModels
             _deviceManager.PropertyChanged += (sender, e) =>
             {
                 if (e.PropertyName == nameof(WeightDeviceManager.CurrentDevice) ||
-                    e.PropertyName == nameof(WeightDeviceManager.IsDeviceConnected))
+                    e.PropertyName == nameof(WeightDeviceManager.IsDeviceConnected) ||
+                    e.PropertyName == nameof(WeightDeviceManager.ConnectionPhase))
                 {
+                    System.Diagnostics.Debug.WriteLine($"[BluetoothViewModel] PropertyChanged detectado: {e.PropertyName}");
+
+                    // Se CurrentDevice mudou, reconfigurar monitoramento
+                    if (e.PropertyName == nameof(WeightDeviceManager.CurrentDevice))
+                    {
+                        SetupCurrentDeviceMonitoring();
+                    }
+
                     UpdateConnectionStatusFromManager();
                 }
             };
 
             // Verificar se já existe um dispositivo conectado
             UpdateConnectionStatusFromManager();
+            SetupCurrentDeviceMonitoring();
         }
 
         /// <summary>
@@ -201,55 +334,75 @@ namespace CelmiBluetooth.ViewModels
         /// </summary>
         private void UpdateConnectionStatusFromManager()
         {
-            var currentDevice = _deviceManager.CurrentDevice;
-
-            if (currentDevice != null && currentDevice.Conectado)
+            // Garantir que as atualizações da UI sejam feitas no thread principal
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                if (currentDevice is PhysicalRXDevice physicalRX)
-                {
-                    // Atualizar UI para mostrar que estamos conectados a um dispositivo RX físico
-                    IsConnectedToRX = true;
-                    IsConnectedToPlatforms = false;
+                var currentDevice = _deviceManager.CurrentDevice;
+                var isDeviceConnected = _deviceManager.IsDeviceConnected;
 
-                    var device = DiscoveredDevices.FirstOrDefault(d => d.Address == physicalRX.DeviceId);
-                    if (device != null)
+                System.Diagnostics.Debug.WriteLine($"[BluetoothViewModel] UpdateConnectionStatusFromManager: CurrentDevice={currentDevice?.Nome ?? "null"}, IsDeviceConnected={isDeviceConnected}, Conectado={currentDevice?.Conectado ?? false}");
+
+                // Verificar múltiplas condições para garantir estado correto
+                if (currentDevice != null && currentDevice.Conectado && isDeviceConnected)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[BluetoothViewModel] UpdateConnectionStatusFromManager: Dispositivo conectado - {currentDevice.Nome}");
+
+                    if (currentDevice is PhysicalRXDevice physicalRX)
                     {
-                        device.IsConnected = true;
-                        SelectedRXDevice = device;
-                    }
-                    else
-                    {
-                        // Criar um dispositivo BLE temporário para representar o dispositivo conectado
-                        SelectedRXDevice = new BleDevice
+                        // Atualizar UI para mostrar que estamos conectados a um dispositivo RX físico
+                        IsConnectedToRX = true;
+                        IsConnectedToPlatforms = false;
+
+                        var device = DiscoveredDevices.FirstOrDefault(d => d.Address == physicalRX.DeviceId);
+                        if (device != null)
                         {
-                            Name = physicalRX.DeviceName,
-                            Address = physicalRX.DeviceId,
-                            IsConnected = true
-                        };
+                            device.IsConnected = true;
+                            SelectedRXDevice = device;
+                        }
+                        else
+                        {
+                            // Criar um dispositivo BLE temporário para representar o dispositivo conectado
+                            SelectedRXDevice = new BleDevice
+                            {
+                                Name = physicalRX.DeviceName,
+                                Address = physicalRX.DeviceId,
+                                IsConnected = true
+                            };
+                        }
+
+                        ConnectionStatus = $"Conectado ao {physicalRX.DeviceName}";
+                    }
+                    else if (currentDevice is VirtualRXDevice)
+                    {
+                        // Atualizar UI para mostrar que estamos conectados a um dispositivo RX virtual
+                        IsConnectedToRX = false;
+                        IsConnectedToPlatforms = true;
+                        ConnectionStatus = "Conectado ao dispositivo virtual";
+                    }
+                }
+                else
+                {
+                    // Não há dispositivo conectado ou dispositivo está desconectado
+                    System.Diagnostics.Debug.WriteLine($"[BluetoothViewModel] UpdateConnectionStatusFromManager: Nenhum dispositivo conectado ou dispositivo desconectado. Limpando estado...");
+
+                    // Limpar seleção do dispositivo RX
+                    if (SelectedRXDevice != null)
+                    {
+                        SelectedRXDevice.IsConnected = false;
+                        SelectedRXDevice = null;
                     }
 
-                    ConnectionStatus = $"Conectado ao {physicalRX.DeviceName}";
-                }
-                else if (currentDevice is VirtualRXDevice)
-                {
-                    // Atualizar UI para mostrar que estamos conectados a um dispositivo RX virtual
-                    IsConnectedToRX = true;
-                    IsConnectedToPlatforms = false;
-                    ConnectionStatus = "Conectado ao dispositivo virtual";
-                }
-            }
-            else
-            {
-                // Não há dispositivo conectado
-                if (_connectedPeripheral == null)
-                {
+                    // Limpar referência de peripheral
+                    _connectedPeripheral = null;
+
+                    // Atualizar estados de conexão - FORCE UPDATE
                     IsConnectedToRX = false;
                     IsConnectedToPlatforms = false;
                     ConnectionStatus = "Não Conectado";
-                }
-            }
 
-            OnPropertyChanged(nameof(IsAnyDeviceConnected));
+                    System.Diagnostics.Debug.WriteLine($"[BluetoothViewModel] UpdateConnectionStatusFromManager: Estado limpo - IsConnectedToRX: {IsConnectedToRX}, IsConnectedOrConnectingToRX: {IsConnectedOrConnectingToRX}");
+                }
+            });
         }
 
         /// <summary>
@@ -261,6 +414,69 @@ namespace CelmiBluetooth.ViewModels
             for (int i = 1; i <= 8; i++)
             {
                 TotalPlatforms.Add(i);
+            }
+        }
+
+        /// <summary>
+        /// Comando para conectar a um dispositivo específico.
+        /// </summary>
+        [RelayCommand]
+        private async Task ConnectToSpecificDeviceAsync(BleDevice device)
+        {
+            if (_disposed || device == null) return;
+
+            try
+            {
+                IsConnectingToRX = true;
+                SelectedRXDevice = device; // Set early so UI can show info while connecting
+                ConnectionStatus = $"Conectando ao {device.Name}...";
+
+                // Parar scan se estiver em andamento
+                await StopScanAsync();
+
+                // Verificar se já existe um peripheral
+                if (device.Peripheral is not IPeripheral peripheral)
+                {
+                    ConnectionStatus = "Erro: Dispositivo não disponível para conexão";
+                    return;
+                }
+
+                _connectionCancellationTokenSource = new CancellationTokenSource();
+                var cancellationToken = _connectionCancellationTokenSource.Token;
+
+                // Conectar ao dispositivo via WeightDeviceManager
+                var success = await _deviceManager.ConnectToPhysicalRXAsync(device, peripheral);
+
+                if (success && !cancellationToken.IsCancellationRequested)
+                {
+                    device.IsConnected = true;
+                    SelectedRXDevice = device; // Redundant, but ensures UI is up-to-date
+                    IsConnectedToRX = true;
+                    IsDeviceListVisible = false;
+                    ConnectionStatus = $"Conectado ao {device.Name}";
+                    _connectedPeripheral = peripheral;
+
+                    // Limpar a lista de dispositivos após conexão bem-sucedida
+                    DiscoveredDevices.Clear();
+                }
+                else if (!cancellationToken.IsCancellationRequested)
+                {
+                    ConnectionStatus = $"Falha ao conectar ao {device.Name}";
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                ConnectionStatus = "Conexão cancelada";
+            }
+            catch (Exception ex)
+            {
+                ConnectionStatus = $"Erro: {ex.Message}";
+            }
+            finally
+            {
+                IsConnectingToRX = false;
+                _connectionCancellationTokenSource?.Dispose();
+                _connectionCancellationTokenSource = null;
             }
         }
 
@@ -407,9 +623,20 @@ namespace CelmiBluetooth.ViewModels
         /// </summary>
         private async Task StopScanAsync()
         {
-            _scanSubscription?.Dispose();
-            _scanSubscription = null;
-            await Task.CompletedTask;
+            try
+            {
+                _scanSubscription?.Dispose();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Erro ao fazer dispose da scanSubscription: {ex.Message}");
+            }
+            finally
+            {
+                _scanSubscription = null;
+            }
+            
+            await Task.CompletedTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -559,6 +786,7 @@ namespace CelmiBluetooth.ViewModels
 
                 // Atualizar status
                 ConnectionStatus = "Operação cancelada";
+                SelectedRXDevice = null; // Clear device info on cancel
 
                 // Limpar tokens
                 _connectionCancellationTokenSource?.Dispose();
@@ -621,7 +849,7 @@ namespace CelmiBluetooth.ViewModels
                 finally
                 {
                     _connectedPeripheral = null;
-                    SelectedRXDevice = null;
+                    SelectedRXDevice = null; // Clear device info on disconnect
                 }
             }
             await Task.CompletedTask;
@@ -637,18 +865,30 @@ namespace CelmiBluetooth.ViewModels
             {
                 ConnectionStatus = "Desconectando...";
 
-                // Sempre usar o WeightDeviceManager para desconectar
+                // Usar o WeightDeviceManager para desconectar (que já atualiza IsConnectedToRX via UpdateConnectionStatusFromManager)
                 await _deviceManager.DisconnectCurrentDeviceAsync();
 
-                if (IsConnectedToRX)
+                // Desconectar dispositivos TX/plataformas se necessário
+                IsConnectedToPlatforms = false;
+
+                // Verificar se ainda há peripheral conectado que precisa ser desconectado diretamente
+                if (_connectedPeripheral != null)
                 {
-                    await DisconnectFromRXAsync();
-                    IsConnectedToRX = false;
+                    try
+                    {
+                        _connectedPeripheral.CancelConnection();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Erro ao cancelar conexão do peripheral: {ex.Message}");
+                    }
+                    finally
+                    {
+                        _connectedPeripheral = null;
+                    }
                 }
 
-                IsConnectedToPlatforms = false;
                 ConnectionStatus = "Desconectado";
-                OnPropertyChanged(nameof(IsAnyDeviceConnected));
             }
             catch (Exception ex)
             {
@@ -676,6 +916,9 @@ namespace CelmiBluetooth.ViewModels
                 (ResourceManager["Instável"] ?? "Instável");
         }
 
+        /// <summary>
+        /// Comando para incrementar o número da rede.
+        /// </summary>
         [RelayCommand]
         private void IncrementNetwork()
         {
@@ -683,6 +926,9 @@ namespace CelmiBluetooth.ViewModels
                 SelectedNetworkNumber++;
         }
 
+        /// <summary>
+        /// Comando para decrementar o número da rede.
+        /// </summary>
         [RelayCommand]
         private void DecrementNetwork()
         {
@@ -690,6 +936,9 @@ namespace CelmiBluetooth.ViewModels
                 SelectedNetworkNumber--;
         }
 
+        /// <summary>
+        /// Comando para incrementar o número de plataformas.
+        /// </summary>
         [RelayCommand]
         private void IncrementPlatforms()
         {
@@ -697,11 +946,50 @@ namespace CelmiBluetooth.ViewModels
                 SelectedTotalPlatforms++;
         }
 
+        /// <summary>
+        /// Comando para decrementar o número de plataformas.
+        /// </summary>
         [RelayCommand]
         private void DecrementPlatforms()
         {
             if (SelectedTotalPlatforms > 1)
                 SelectedTotalPlatforms--;
+        }
+
+        /// <summary>
+        /// Comando para alternar para o modo RX.
+        /// </summary>
+        [RelayCommand(CanExecute = nameof(CanSwitchMode))]
+        private async Task SwitchToRXModeAsync()
+        {
+            if (SelectedMode != ConnectionMode.RX)
+            {
+                SelectedMode = ConnectionMode.RX;
+
+                // Se estiver conectado a plataformas, desconectar
+                if (IsConnectedToPlatforms)
+                {
+                    await DisconnectAsync();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Comando para alternar para o modo TX.
+        /// </summary>
+        [RelayCommand(CanExecute = nameof(CanSwitchMode))]
+        private async Task SwitchToTXModeAsync()
+        {
+            if (SelectedMode != ConnectionMode.TX)
+            {
+                SelectedMode = ConnectionMode.TX;
+
+                // Se estiver conectado ao RX, desconectar
+                if (IsConnectedToRX)
+                {
+                    await DisconnectAsync();
+                }
+            }
         }
 
         /// <summary>
@@ -744,9 +1032,51 @@ namespace CelmiBluetooth.ViewModels
                     _scanCancellationTokenSource?.Dispose();
                     _scanCancellationTokenSource = null;
 
-                    // Limpar coleções
-                    DiscoveredDevices.Clear();
-                    DiscoveredTXPlatforms.Clear();
+                    // Limpar monitoramento do dispositivo atual
+                    if (_currentlyMonitoredDevice != null)
+                    {
+                        _currentlyMonitoredDevice.PropertyChanged -= OnCurrentDevicePropertyChanged;
+                        _currentlyMonitoredDevice = null;
+                    }
+
+                    // Limpar coleções de forma thread-safe
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        try
+                        {
+                            // Dispose de todos os BleDevices que implementam IDisposable
+                            foreach (var device in DiscoveredDevices.OfType<IDisposable>())
+                            {
+                                try
+                                {
+                                    device.Dispose();
+                                }
+                                catch (Exception ex)
+                                {
+                                    System.Diagnostics.Debug.WriteLine($"Erro ao fazer dispose de device: {ex.Message}");
+                                }
+                            }
+
+                            foreach (var platform in DiscoveredTXPlatforms.OfType<IDisposable>())
+                            {
+                                try
+                                {
+                                    platform.Dispose();
+                                }
+                                catch (Exception ex)
+                                {
+                                    System.Diagnostics.Debug.WriteLine($"Erro ao fazer dispose de platform: {ex.Message}");
+                                }
+                            }
+
+                            DiscoveredDevices.Clear();
+                            DiscoveredTXPlatforms.Clear();
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"Erro ao limpar coleções: {ex.Message}");
+                        }
+                    });
 
                     // Reset estados
                     IsScanningForDevices = false;
@@ -770,26 +1100,45 @@ namespace CelmiBluetooth.ViewModels
         }
 
         /// <summary>
-        /// Propriedade para compatibilidade com o código existente
-        /// </summary>
-        private string DeviceStatus { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Propriedade para compatibilidade com o código existente
-        /// </summary>
-        private bool IsStable { get; set; }
-
-        /// <summary>
-        /// Propriedade para compatibilidade com o código existente
-        /// </summary>
-        private string StabilityStatus { get; set; } = string.Empty;
-
-        /// <summary>
         /// Finalizador para garantir que os recursos sejam liberados mesmo se Dispose não for chamado.
         /// </summary>
         ~BluetoothViewModel()
         {
             Dispose(false);
+        }
+
+        private IDispositivoPesagem? _currentlyMonitoredDevice;
+
+        /// <summary>
+        /// Configura o monitoramento do dispositivo atual
+        /// </summary>
+        private void SetupCurrentDeviceMonitoring()
+        {
+            // Remover monitoramento do dispositivo anterior
+            if (_currentlyMonitoredDevice != null)
+            {
+                _currentlyMonitoredDevice.PropertyChanged -= OnCurrentDevicePropertyChanged;
+            }
+
+            // Configurar monitoramento do novo dispositivo
+            _currentlyMonitoredDevice = _deviceManager.CurrentDevice;
+            if (_currentlyMonitoredDevice != null)
+            {
+                _currentlyMonitoredDevice.PropertyChanged += OnCurrentDevicePropertyChanged;
+                System.Diagnostics.Debug.WriteLine($"[BluetoothViewModel] Configurado monitoramento para dispositivo: {_currentlyMonitoredDevice.Nome}");
+            }
+        }
+
+        /// <summary>
+        /// Manipulador para mudanças de propriedade do dispositivo atual
+        /// </summary>
+        private void OnCurrentDevicePropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(IDispositivoPesagem.Conectado))
+            {
+                System.Diagnostics.Debug.WriteLine($"[BluetoothViewModel] Dispositivo {((IDispositivoPesagem)sender!).Nome} - Conectado mudou para: {((IDispositivoPesagem)sender).Conectado}");
+                UpdateConnectionStatusFromManager();
+            }
         }
     }
 

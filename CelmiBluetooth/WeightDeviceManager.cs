@@ -55,13 +55,17 @@ namespace CelmiBluetooth
         /// Dispositivo atualmente conectado.
         /// </summary>
         [ObservableProperty]
-        private IDispositivoPesagem? _currentDevice;
+        private IDispositivoPesagem? currentDevice;
 
         /// <summary>
         /// Estado atual da conexão do dispositivo.
         /// </summary>
         [ObservableProperty]
-        private ConnectionPhase _connectionPhase = ConnectionPhase.Disconnected;
+        [NotifyPropertyChangedFor(nameof(IsDeviceConnected))]
+        [NotifyPropertyChangedFor(nameof(IsConnected))]
+        [NotifyPropertyChangedFor(nameof(IsConnecting))]
+        [NotifyPropertyChangedFor(nameof(ConnectionStatusText))]
+        private ConnectionPhase connectionPhase = ConnectionPhase.Disconnected;
 
         /// <summary>
         /// Lista de dispositivos detectados.
@@ -142,8 +146,6 @@ namespace CelmiBluetooth
 
                 // Atualizar fase de conexão para "Conectando"
                 ConnectionPhase = ConnectionPhase.Connecting;
-                OnPropertyChanged(nameof(IsConnecting));
-                OnPropertyChanged(nameof(ConnectionStatusText));
 
                 // Atualizar dispositivo atual antes de conectar para que a UI já mostre que está conectando
                 CurrentDevice = device;
@@ -155,24 +157,20 @@ namespace CelmiBluetooth
                 {
                     // Atualizar para lendo dados iniciais
                     ConnectionPhase = ConnectionPhase.ReadingInitialData;
-                    OnPropertyChanged(nameof(IsConnecting));
-                    OnPropertyChanged(nameof(ConnectionStatusText));
 
-                    // Iniciar leitura de peso se for necessário
-                    await device.CriaTaskLeituraValoresNoIntervalo(CancellationToken.None);
+                    // Ler valores iniciais do dispositivo
+                    await device.LerValoresIniciaisAsync();
+
+                    // Iniciar leitura de peso contínua usando o novo método com Reactive
+                    await device.IniciaLeituraValoresManuaisAsync();
                     
                     // Marcar como conectado apenas quando tiver lido todos os dados
                     ConnectionPhase = ConnectionPhase.Connected;
-                    OnPropertyChanged(nameof(IsConnected));
-                    OnPropertyChanged(nameof(ConnectionStatusText));
                 }
                 else
                 {
                     // Se falhou na conexão, voltar ao estado desconectado
                     ConnectionPhase = ConnectionPhase.Disconnected;
-                    OnPropertyChanged(nameof(IsConnected));
-                    OnPropertyChanged(nameof(IsConnecting));
-                    OnPropertyChanged(nameof(ConnectionStatusText));
                 }
 
                 OnPropertyChanged(nameof(IsDeviceConnected));
@@ -195,25 +193,35 @@ namespace CelmiBluetooth
         public async Task DisconnectCurrentDeviceAsync()
         {
             if (CurrentDevice == null)
+            {
+                System.Diagnostics.Debug.WriteLine("[WeightDeviceManager] DisconnectCurrentDeviceAsync: Nenhum dispositivo conectado para desconectar.");
                 return;
+            }
+
+            System.Diagnostics.Debug.WriteLine($"[WeightDeviceManager] DisconnectCurrentDeviceAsync: Iniciando desconexão do dispositivo '{CurrentDevice.Nome}'.");
 
             try
             {
                 await CurrentDevice.DesconectarAsync();
-
+                System.Diagnostics.Debug.WriteLine($"[WeightDeviceManager] DisconnectCurrentDeviceAsync: Dispositivo '{CurrentDevice.Nome}' desconectado com sucesso.");
                 ConnectionPhase = ConnectionPhase.Disconnected;
-                OnPropertyChanged(nameof(IsDeviceConnected));
-                OnPropertyChanged(nameof(IsConnected));
-                OnPropertyChanged(nameof(IsConnecting));
-                OnPropertyChanged(nameof(ConnectionStatusText));
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Erro ao desconectar dispositivo: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[WeightDeviceManager] DisconnectCurrentDeviceAsync: Erro ao desconectar dispositivo '{CurrentDevice.Nome}': {ex.Message}");
                 ConnectionPhase = ConnectionPhase.Disconnected;
-                OnPropertyChanged(nameof(ConnectionStatusText));
             }
-        }
+            finally
+            {
+                // Limpar referência do dispositivo atual
+                CurrentDevice = null;
+                
+                // Notificar ViewModel para atualizar status de conexão
+                OnPropertyChanged(nameof(CurrentDevice));
+                OnPropertyChanged(nameof(IsDeviceConnected));
+                System.Diagnostics.Debug.WriteLine("[WeightDeviceManager] DisconnectCurrentDeviceAsync: CurrentDevice definido como null e notificações PropertyChanged enviadas para atualizar o BluetoothViewModel.");
+            }
+         }
 
         /// <summary>
         /// Adiciona um dispositivo à lista de disponíveis.
@@ -246,10 +254,6 @@ namespace CelmiBluetooth
                 _ = DisconnectCurrentDeviceAsync();
                 CurrentDevice = null;
                 ConnectionPhase = ConnectionPhase.Disconnected;
-                OnPropertyChanged(nameof(IsDeviceConnected));
-                OnPropertyChanged(nameof(IsConnected));
-                OnPropertyChanged(nameof(IsConnecting));
-                OnPropertyChanged(nameof(ConnectionStatusText));
             }
 
             AvailableDevices.Remove(device);
