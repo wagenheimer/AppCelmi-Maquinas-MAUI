@@ -68,16 +68,16 @@
 		<PackageReference Include="Syncfusion.Maui.Expander" />
 		<PackageReference Include="Syncfusion.Maui.Inputs" />
 		<PackageReference Include="Syncfusion.Maui.Toolkit" />
+		
+		<!-- ✅ TROCAR ProjectReference por PackageReference quando o NuGet estiver pronto -->
+		<!-- Para desenvolvimento local, use ProjectReference: -->
+		<ProjectReference Include="..\CelmiBluetooth.Maui\CelmiBluetooth.Maui.csproj" />
+		<!-- Para produção, use PackageReference: -->
+		<!-- <PackageReference Include="CelmiBluetooth.Maui" Version="1.0.0" /> -->
 	</ItemGroup>
 	<ItemGroup>
-		<AndroidResource Remove="CelmiBluetooth\Ciew\**" />
-		<Compile Remove="CelmiBluetooth\Ciew\**" />
 		<Content Remove="**appsettings.json" />
 		<Content Remove="**appsettings.*.json" />
-		<EmbeddedResource Remove="CelmiBluetooth\Ciew\**" />
-		<MauiCss Remove="CelmiBluetooth\Ciew\**" />
-		<MauiXaml Remove="CelmiBluetooth\Ciew\**" />
-		<None Remove="CelmiBluetooth\Ciew\**" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' OR $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">

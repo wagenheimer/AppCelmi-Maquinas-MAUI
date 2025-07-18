@@ -3,12 +3,12 @@
     x:Class="AppCelmiMaquinas.Views.PesagemView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:bluetoothModels="clr-namespace:CelmiBluetooth.Models"
-    xmlns:converters="clr-namespace:AppCelmiMaquinas.Utils.Converters"
-    xmlns:fontAwesome="clr-namespace:FontAwesome"
+    xmlns:bluetoothModels="clr-namespace:CelmiBluetooth.Models;assembly=CelmiBluetooth.Maui"
+    xmlns:converters="clr-namespace:CelmiBluetooth.Converters;assembly=CelmiBluetooth.Maui"
+    xmlns:fontAwesome="clr-namespace:CelmiBluetooth.FontAwesome;assembly=CelmiBluetooth.Maui"
     xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:viewmodel="clr-namespace:AppCelmiMaquinas.ViewModel"
+    xmlns:viewmodel="clr-namespace:CelmiBluetooth.ViewModels;assembly=CelmiBluetooth.Maui"
     x:DataType="viewmodel:PesagemViewModel">
 
     <ContentView.Resources>
@@ -231,7 +231,7 @@
                                 <GridItemsLayout Orientation="Vertical" Span="2" />
                             </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="bluetoothModels:PlataformaDados">
+                                <DataTemplate x:DataType="bluetoothModels:DadosPlataforma">
                                     <Border
                                         Margin="4,4"
                                         Padding="4"
@@ -258,7 +258,7 @@
                                                     FontAttributes="Bold"
                                                     FontSize="18"
                                                     HorizontalOptions="Center"
-                                                    Text="{Binding PlatformId}"
+                                                    Text="{Binding IdPlataforma}"
                                                     TextColor="{StaticResource CorPrincipal}"
                                                     VerticalOptions="Center" />
                                             </Border>
@@ -270,7 +270,6 @@
                                                 HorizontalOptions="End"
                                                 Spacing="12">
 
-
                                                 <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
                                                     <Label
                                                         FontFamily="FontAwesomeLight"
@@ -279,13 +278,11 @@
                                                         TextColor="{StaticResource CorPrincipalEscura}" />
                                                     <Label
                                                         FontSize="12"
-                                                        Text="{Binding BatteryPercentage, StringFormat='{0}%'}"
+                                                        Text="{Binding PorcentagemBateria, StringFormat='{0}%'}"
                                                         TextColor="{StaticResource CorPrincipalEscura}" />
                                                 </HorizontalStackLayout>
 
-
                                             </HorizontalStackLayout>
-
 
                                             <VerticalStackLayout
                                                 Grid.Row="1"
@@ -301,9 +298,8 @@
                                                     FontSize="28"
                                                     HorizontalTextAlignment="Center"
                                                     LineBreakMode="NoWrap"
-                                                    Text="{Binding FormattedWeight}"
+                                                    Text="{Binding PesoFormatado}"
                                                     TextColor="{StaticResource CorPrincipal}" />
-
 
                                                 <HorizontalStackLayout
                                                     Grid.Row="2"
@@ -312,18 +308,16 @@
                                                     Spacing="6"
                                                     VerticalOptions="Center">
                                                     <Ellipse
-                                                        Fill="{Binding IsStable, Converter={StaticResource BoolToColorBrushConverter}}"
+                                                        Fill="{Binding Estavel, Converter={StaticResource BoolToColorBrushConverter}}"
                                                         HeightRequest="12"
                                                         VerticalOptions="Center"
                                                         WidthRequest="12" />
                                                     <Label
                                                         FontSize="Micro"
-                                                        Text="{Binding IsStable, Converter={StaticResource StabilityConverter}}"
+                                                        Text="{Binding Estavel, Converter={StaticResource StabilityConverter}}"
                                                         TextColor="{StaticResource Gray600}"
                                                         VerticalOptions="Center" />
                                                 </HorizontalStackLayout>
-
-
 
                                             </VerticalStackLayout>
                                         </Grid>

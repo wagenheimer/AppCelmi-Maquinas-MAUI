@@ -3,7 +3,7 @@
     x:Class="AppCelmiMaquinas.App"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:converters="clr-namespace:AppCelmiMaquinas.Utils.Converters"
+    xmlns:converters="clr-namespace:CelmiBluetooth.Converters;assembly=CelmiBluetooth.Maui"
     xmlns:local="clr-namespace:AppCelmiMaquinas"
     xmlns:localization="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
@@ -27,6 +27,7 @@
             <converters:CustomFieldMoveDownEnabledConverter x:Key="CustomFieldMoveDownEnabledConverter" />
             <converters:BoolToChevronConverter x:Key="BoolToChevronConverter" />
             <converters:BoolToColorBrushConverter x:Key="BoolToColorBrushConverter" />
+            <converters:ZeroToTrueConverter x:Key="ZeroToTrueConverter" />
 
             <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
 

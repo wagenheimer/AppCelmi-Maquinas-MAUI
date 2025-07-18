@@ -5,6 +5,8 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCelmi - Maquinas", "AppCelmi - Maquinas.csproj", "{9744E721-3315-4C88-A250-0346D4D3F8F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelmiBluetooth.Maui", "..\CelmiBluetooth.Maui\CelmiBluetooth.Maui.csproj", "{761A3D0B-0AF1-41CA-85EC-46609CEA2DD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +19,16 @@ Global
 		{9744E721-3315-4C88-A250-0346D4D3F8F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9744E721-3315-4C88-A250-0346D4D3F8F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9744E721-3315-4C88-A250-0346D4D3F8F6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{761A3D0B-0AF1-41CA-85EC-46609CEA2DD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{761A3D0B-0AF1-41CA-85EC-46609CEA2DD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{761A3D0B-0AF1-41CA-85EC-46609CEA2DD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{761A3D0B-0AF1-41CA-85EC-46609CEA2DD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_NeutralResourcesLanguage = pt-BR
 		SolutionGuid = {F2936D32-F92F-4EF3-A2D3-4A4E7A25287E}
+		RESX_NeutralResourcesLanguage = pt-BR
 	EndGlobalSection
 EndGlobal

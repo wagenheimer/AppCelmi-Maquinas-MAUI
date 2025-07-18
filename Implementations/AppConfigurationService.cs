@@ -1,11 +1,11 @@
 using System.Text.Json;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using AppCelmiMaquinas.Models;
 using AppCelmiMaquinas.Services;
 using Microsoft.Maui.Storage;
 using System.Diagnostics;
 using System.Linq;
+using CelmiBluetooth.Models;
 
 namespace AppCelmiMaquinas.Implementations
 {

@@ -1,6 +1,8 @@
 ﻿using LocalizationResourceManager.Maui;
 using AppCelmiMaquinas.ViewModel;
 using Syncfusion.Maui.Toolkit.TabView;
+using CelmiBluetooth.Views;
+using Microsoft.Maui.Controls.Internals;
 
 namespace AppCelmiMaquinas
 {
@@ -22,6 +24,9 @@ namespace AppCelmiMaquinas
 
             // Add share button to toolbar
             AddShareButton();
+
+            // ✅ CONFIGURAR O BLUETOOTH VIEW COM DI
+            ConfigurarBluetoothView();
         }
 
         private void AddShareButton()
@@ -51,6 +56,16 @@ namespace AppCelmiMaquinas
             {
                 viewModel.SelectedTabIndex = (int)tabView.SelectedIndex;
             }
+        }
+
+        private void ConfigurarBluetoothView()
+        {
+            // Obter o BluetoothView via DI
+            var bluetoothView = MauiProgram.Services?.GetService<BluetoothView>();
+
+            // Verificar se o BluetoothView foi obtido corretamente e  configurar o conteúdo do TabView
+            if (bluetoothView != null) bluetoothViewContent.Content = bluetoothView;
+
         }
     }
 

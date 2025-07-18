@@ -17,6 +17,7 @@ using AppCelmiMaquinas.Views;
 using CelmiBluetooth;
 using CelmiBluetooth.ViewModels;
 using CelmiBluetooth.Views;
+using CelmiBluetooth.Extensions; // ✅ NOVA EXTENSÃO
 
 namespace AppCelmiMaquinas
 {
@@ -48,6 +49,7 @@ namespace AppCelmiMaquinas
                     settings.AddResource(AppResources.ResourceManager);
                     settings.RestoreLatestCulture(true);
                 })
+                .AddCelmiBluetoothServices() // ✅ USAR A NOVA EXTENSÃO
                 .RegisterServices()
                 .RegisterViewModels()
                 .RegisterViews();
@@ -64,12 +66,8 @@ namespace AppCelmiMaquinas
 
         public static MauiAppBuilder RegisterServices(this MauiAppBuilder mauiAppBuilder)
         {
-            // Registra os serviços do Shiny
-            mauiAppBuilder.Services.AddBluetoothLE();
-
-            // Register WeightDeviceManager as singleton
-            mauiAppBuilder.Services.AddSingleton<WeightDeviceManager>(_ => WeightDeviceManager.Instance);
-
+            // ✅ BLUETOOTH SERVICES MOVIDOS PARA A EXTENSÃO CelmiBluetooth
+            
             // Registra os serviços da aplicação
             mauiAppBuilder.Services.AddSingleton<ICelmiLocalizationService, CelmiLocalizationService>();
             mauiAppBuilder.Services.AddSingleton<AppConfigurationService, AppConfigurationService>();
@@ -84,8 +82,10 @@ namespace AppCelmiMaquinas
             builder.Services.AddSingleton<ConfiguracaoViewModel>();
             builder.Services.AddSingleton<ConfiguracaoRelatoriosViewModel>();
             builder.Services.AddSingleton<LanguageSelectorViewModel>();
-            builder.Services.AddTransient<BluetoothViewModel>();
-            builder.Services.AddTransient<PesagemViewModel>();
+            
+            // ✅ BLUETOOTH VIEWMODELS MOVIDOS PARA A EXTENSÃO CelmiBluetooth
+            // builder.Services.AddTransient<BluetoothViewModel>();
+            // builder.Services.AddTransient<PesagemViewModel>();
 
             // More view-models registered here.
 
@@ -96,8 +96,10 @@ namespace AppCelmiMaquinas
         {
             mauiAppBuilder.Services.AddSingleton<MainPage>();
             mauiAppBuilder.Services.AddTransient<Views.ConfiguracaoRelatoriosView>();
-            mauiAppBuilder.Services.AddTransient<BluetoothView>();
-            mauiAppBuilder.Services.AddTransient<PesagemView>();
+            
+            // ✅ BLUETOOTH VIEWS MOVIDOS PARA A EXTENSÃO CelmiBluetooth
+            // mauiAppBuilder.Services.AddTransient<BluetoothView>();
+            // mauiAppBuilder.Services.AddTransient<PesagemView>();
 
             // More views registered here.
 

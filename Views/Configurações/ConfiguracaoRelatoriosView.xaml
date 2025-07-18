@@ -4,19 +4,15 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
-    xmlns:converters="clr-namespace:AppCelmiMaquinas.Utils.Converters"
-    xmlns:fontAwesome="clr-namespace:FontAwesome"
+    xmlns:fontAwesome="clr-namespace:CelmiBluetooth.FontAwesome;assembly=CelmiBluetooth.Maui"
     xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
-    xmlns:models="clr-namespace:AppCelmiMaquinas.Models"
+    xmlns:models="clr-namespace:CelmiBluetooth.Models;assembly=CelmiBluetooth.Maui"
     xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
     xmlns:syncfusionExpander="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
     xmlns:viewmodel="clr-namespace:AppCelmiMaquinas.ViewModel"
     xmlns:views="clr-namespace:AppCelmiMaquinas.Views"
     x:Name="RootContentView"
     BackgroundColor="White">
-    <ContentView.Resources>
-        <converters:ZeroToTrueConverter x:Key="ZeroToTrueConverter" />
-    </ContentView.Resources>
     <VerticalStackLayout Margin="0,10,10,10" Spacing="10">
         <!--  Seção Dados da Empresa  -->
         <views:TitleView Icon="{x:Static fontAwesome:FontAwesomeIcons.Building}" Text="{maui:Translate DadosDaEmpresa}" />

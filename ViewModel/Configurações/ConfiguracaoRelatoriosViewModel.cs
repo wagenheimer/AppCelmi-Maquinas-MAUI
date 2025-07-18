@@ -1,5 +1,4 @@
 using AppCelmiMaquinas.Implementations;
-using AppCelmiMaquinas.Models;
 using AppCelmiMaquinas.Services;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -18,6 +17,7 @@ using System.Threading.Tasks;
 using Application = Microsoft.Maui.Controls.Application;
 using Microsoft.Maui.Controls;
 using CelmiBluetooth.ViewModels;
+using CelmiBluetooth.Models;
 
 namespace AppCelmiMaquinas.ViewModel
 {

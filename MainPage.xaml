@@ -3,14 +3,14 @@
     x:Class="AppCelmiMaquinas.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:bluetoothViews="clr-namespace:CelmiBluetooth.Views;assembly=CelmiBluetooth.Maui"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:fontAwesome="using:FontAwesome"
+    xmlns:fontAwesome="clr-namespace:CelmiBluetooth.FontAwesome;assembly=CelmiBluetooth.Maui"
     xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tabView="http://schemas.syncfusion.com/maui/toolkit"
-    xmlns:viewModels="using:AppCelmiMaquinas.ViewModel"
+    xmlns:viewModels="clr-namespace:AppCelmiMaquinas.ViewModel"
     xmlns:views="clr-namespace:AppCelmiMaquinas.Views"
-    xmlns:bluetoothViews="clr-namespace:CelmiBluetooth.Views"
     x:DataType="viewModels:MainPageViewModel"
     Shell.NavBarIsVisible="false"
     mc:Ignorable="d">
@@ -61,7 +61,7 @@
                 Header="{x:Static fontAwesome:FontAwesomeIcons.Bluetooth}"
                 TextColor="{StaticResource CorPrincipalQuaseBrancoAbsoluto}">
                 <tabView:SfTabItem.Content>
-                    <bluetoothViews:BluetoothView />
+                    <ContentView x:Name="bluetoothViewContent" />
                 </tabView:SfTabItem.Content>
             </tabView:SfTabItem>
 

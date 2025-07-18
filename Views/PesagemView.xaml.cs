@@ -1,5 +1,7 @@
 using AppCelmiMaquinas.ViewModel;
 
+using CelmiBluetooth.ViewModels;
+
 namespace AppCelmiMaquinas.Views;
 
 public partial class PesagemView : ContentView
