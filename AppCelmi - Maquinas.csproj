@@ -92,9 +92,6 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>AppResources.resx</DependentUpon>
 		</Compile>
-		<Compile Update="Views\Configurações\ConfiguracaoRelatoriosView.xaml.cs">
-		  <DependentUpon>ConfiguracaoRelatoriosView.xaml</DependentUpon>
-		</Compile>
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Update="Resources\AppResources.en-US.resx">
@@ -112,26 +109,11 @@
 		<MauiXaml Update="Views\Configurações\ConfiguracaoView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="Views\Configurações\ConfiguracaoRelatoriosView.xaml">
-		  <Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="Views\Configurações\LanguageSelectorView.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="Views\Extras\CollapsibleSectionView.xaml">
-		  <Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="Views\Extras\TitleView.xaml">
-		  <Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
 		<MauiXaml Update="Views\ListaPesagensView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\PesagemView.xaml">
 			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="Views\Extras\SectionHeaderView.xaml">
-		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">

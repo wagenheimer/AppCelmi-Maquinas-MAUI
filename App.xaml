@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<Application
+﻿<Application
     x:Class="AppCelmiMaquinas.App"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -9,15 +8,16 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
     <Application.Resources>
         <ResourceDictionary>
+
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
-                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+                <!--  ✅ Incluir recursos do módulo CelmiBluetooth.Maui  -->
+                <ResourceDictionary Source="/Resources/CelmiBluetoothResources.xaml;assembly=CelmiBluetooth.Maui" />
             </ResourceDictionary.MergedDictionaries>
-            <converters:SelectedToColorConverter x:Key="SelectedToColorConverter" />
+
+            <Color x:Key="CorFundo">#004b3c</Color>
+
             <converters:SelectedToOpacityConverter x:Key="SelectedToOpacityConverter" />
             <converters:SelectedToOrangeBrushConverter x:Key="SelectedToOrangeBrushConverter" />
-            <converters:SelectedToDarkOrangeBrushConverter x:Key="SelectedToDarkOrangeBrushConverter" />
-            <converters:SelectedToBrushConverter x:Key="SelectedToBrushConverter" />
             <converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
             <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
             <converters:EnumToCollectionConverter x:Key="EnumToCollectionConverter" />
@@ -28,10 +28,7 @@
             <converters:BoolToChevronConverter x:Key="BoolToChevronConverter" />
             <converters:BoolToColorBrushConverter x:Key="BoolToColorBrushConverter" />
             <converters:ZeroToTrueConverter x:Key="ZeroToTrueConverter" />
-
             <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
-
-
         </ResourceDictionary>
     </Application.Resources>
 </Application>

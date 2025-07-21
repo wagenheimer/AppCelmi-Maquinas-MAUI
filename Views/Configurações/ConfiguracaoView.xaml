@@ -3,7 +3,9 @@
     x:Class="AppCelmiMaquinas.Views.ConfiguracaoView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:bluetoothViews="clr-namespace:CelmiBluetooth.Views;assembly=CelmiBluetooth.Maui"
     xmlns:buttons="http://schemas.syncfusion.com/maui/toolkit"
+    xmlns:celmiViews="clr-namespace:CelmiBluetooth.Views;assembly=CelmiBluetooth.Maui"
     xmlns:fontAwesome="clr-namespace:CelmiBluetooth.FontAwesome;assembly=CelmiBluetooth.Maui"
     xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
     xmlns:models="clr-namespace:CelmiBluetooth.Models;assembly=CelmiBluetooth.Maui"
@@ -39,25 +41,24 @@
             </Border>
 
             <!--  Relatórios  -->
-            <views:CollapsibleSectionView Icon="{x:Static fontAwesome:FontAwesomeIcons.Print}" Text="{maui:Translate Relatórios}">
+            <celmiViews:CollapsibleSectionView Icon="{x:Static fontAwesome:FontAwesomeIcons.Print}" Text="{maui:Translate Relatórios}">
 
-                <views:CollapsibleSectionView.View>
+                <celmiViews:CollapsibleSectionView.View>
                     <Border
                         Margin="2,1"
                         Stroke="{StaticResource Primary}"
                         StrokeShape="RoundRectangle 5"
                         StrokeThickness="2">
-                        <views:ConfiguracaoRelatoriosView />
+                        <bluetoothViews:CelmiReportConfigurationView BindingContext="{Binding ReportConfigVM}" />
                     </Border>
 
-                </views:CollapsibleSectionView.View>
+                </celmiViews:CollapsibleSectionView.View>
 
-            </views:CollapsibleSectionView>
+            </celmiViews:CollapsibleSectionView>
 
             <!--  Idioma  -->
 
-            <views:LanguageSelectorView />
-
+            <bluetoothViews:CelmiLanguageSelectorView BindingContext="{Binding LanguageSelectorVM}" />
 
         </VerticalStackLayout>
 

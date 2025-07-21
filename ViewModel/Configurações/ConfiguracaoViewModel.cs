@@ -11,24 +11,25 @@ namespace AppCelmiMaquinas.ViewModel
         [ObservableProperty]
         private AppConfigurationService? appConfigurationService;
 
-        public LanguageSelectorViewModel LanguageSelectorViewModel { get; }
+        public CelmiLanguageSelectorViewModel LanguageSelectorVM { get; }
+        public CelmiReportConfigurationViewModel ReportConfigVM { get; }
 
 
-        public ConfiguracaoViewModel(ILocalizationResourceManager resourceManager, LanguageSelectorViewModel languageSelectorViewModel, AppConfigurationService appConfigurationService)
+        public ConfiguracaoViewModel(ILocalizationResourceManager resourceManager, CelmiLanguageSelectorViewModel languageSelectorVM,
+        CelmiReportConfigurationViewModel reportConfigVM, AppConfigurationService appConfigurationService)
             : base(resourceManager)
         {
             AppConfigurationService = appConfigurationService;
 
             resourceManager = MauiProgram.Services?.GetService<ILocalizationResourceManager>()!;
-            languageSelectorViewModel = MauiProgram.Services?.GetService<LanguageSelectorViewModel>()!;
 
-            LanguageSelectorViewModel = languageSelectorViewModel;
-            
+            LanguageSelectorVM = languageSelectorVM;
+            ReportConfigVM = reportConfigVM;
         }
 
         protected override void UpdateLocalizedProperties()
         {
-            OnPropertyChanged(nameof(LanguageSelectorViewModel));
+            OnPropertyChanged(nameof(LanguageSelectorVM));
         }
     }
 }

@@ -14,10 +14,11 @@ using Syncfusion.Maui.Core.Hosting;
 using Syncfusion.Maui.Toolkit.Hosting;
 using CommunityToolkit.Maui;
 using AppCelmiMaquinas.Views;
-using CelmiBluetooth;
-using CelmiBluetooth.ViewModels;
-using CelmiBluetooth.Views;
-using CelmiBluetooth.Extensions; // ✅ NOVA EXTENSÃO
+
+// ✅ IMPORTAÇÕES PARA O SISTEMA DE CONFIGURAÇÃO
+using CelmiBluetooth.Extensions;
+using CelmiBluetooth.Configuration;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AppCelmiMaquinas
 {
@@ -49,7 +50,7 @@ namespace AppCelmiMaquinas
                     settings.AddResource(AppResources.ResourceManager);
                     settings.RestoreLatestCulture(true);
                 })
-                .AddCelmiBluetoothServices() // ✅ USAR A NOVA EXTENSÃO
+                .AddCelmiBluetoothServices() // ✅ USAR O NOVO SISTEMA DE CONFIGURAÇÃO
                 .RegisterServices()
                 .RegisterViewModels()
                 .RegisterViews();
@@ -66,44 +67,135 @@ namespace AppCelmiMaquinas
 
         public static MauiAppBuilder RegisterServices(this MauiAppBuilder mauiAppBuilder)
         {
-            // ✅ BLUETOOTH SERVICES MOVIDOS PARA A EXTENSÃO CelmiBluetooth
-            
-            // Registra os serviços da aplicação
-            mauiAppBuilder.Services.AddSingleton<ICelmiLocalizationService, CelmiLocalizationService>();
-            mauiAppBuilder.Services.AddSingleton<AppConfigurationService, AppConfigurationService>();
-            mauiAppBuilder.Services.AddTransient<AppShell>();
+            try
+            {
+                // ✅ BLUETOOTH SERVICES AGORA SÃO GERENCIADOS PELA EXTENSÃO CelmiBluetooth
+
+                // Registra os serviços da aplicação
+                mauiAppBuilder.Services.AddSingleton<ICelmiLocalizationService, CelmiLocalizationService>();
+                mauiAppBuilder.Services.AddSingleton<AppConfigurationService>();
+                mauiAppBuilder.Services.AddTransient<AppShell>();
+
+                System.Diagnostics.Debug.WriteLine("[MauiProgram] Serviços registrados com sucesso");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[MauiProgram] ERRO ao registrar serviços: {ex.Message}");
+                throw;
+            }
 
             return mauiAppBuilder;
         }
 
+
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
         {
-            builder.Services.AddSingleton<MainPageViewModel>();
-            builder.Services.AddSingleton<ConfiguracaoViewModel>();
-            builder.Services.AddSingleton<ConfiguracaoRelatoriosViewModel>();
-            builder.Services.AddSingleton<LanguageSelectorViewModel>();
-            
-            // ✅ BLUETOOTH VIEWMODELS MOVIDOS PARA A EXTENSÃO CelmiBluetooth
-            // builder.Services.AddTransient<BluetoothViewModel>();
-            // builder.Services.AddTransient<PesagemViewModel>();
+            try
+            {
+                builder.Services.AddSingleton<MainPageViewModel>();
+                builder.Services.AddSingleton<ConfiguracaoViewModel>();
 
-            // More view-models registered here.
+                // ✅ BLUETOOTH VIEWMODELS AGORA SÃO GERENCIADOS PELA EXTENSÃO CelmiBluetooth
+
+                System.Diagnostics.Debug.WriteLine("[MauiProgram] ViewModels registrados com sucesso");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[MauiProgram] ERRO ao registrar ViewModels: {ex.Message}");
+                throw;
+            }
 
             return builder;
         }
 
         public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
         {
-            mauiAppBuilder.Services.AddSingleton<MainPage>();
-            mauiAppBuilder.Services.AddTransient<Views.ConfiguracaoRelatoriosView>();
-            
-            // ✅ BLUETOOTH VIEWS MOVIDOS PARA A EXTENSÃO CelmiBluetooth
-            // mauiAppBuilder.Services.AddTransient<BluetoothView>();
-            // mauiAppBuilder.Services.AddTransient<PesagemView>();
+            try
+            {
+                mauiAppBuilder.Services.AddSingleton<MainPage>();
 
-            // More views registered here.
+                // ✅ BLUETOOTH VIEWS AGORA SÃO GERENCIADOS PELA EXTENSÃO CelmiBluetooth
+
+                System.Diagnostics.Debug.WriteLine("[MauiProgram] Views registradas com sucesso");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[MauiProgram] ERRO ao registrar Views: {ex.Message}");
+                throw;
+            }
 
             return mauiAppBuilder;
+        }
+    }
+
+    // ✅ EXEMPLO DE CONFIGURAÇÃO PERSONALIZADA PARA O PROJETO
+    public partial class AppCelmiConfiguration : CelmiBluetoothConfiguration
+    {
+        protected override string StorageKey => "AppCelmiMaquinasSettings";
+
+        /// <summary>
+        /// Configurações específicas do App Celmi Máquinas.
+        /// </summary>
+        [ObservableProperty]
+        private AppSpecificSettings appSpecificSettings = new();
+
+        protected override void SetDefaultValues()
+        {
+            base.SetDefaultValues();
+
+            // Configurar valores específicos do app
+            AppSpecificSettings = new AppSpecificSettings
+            {
+                AppMode = "Maquinas",
+                DatabasePath = "AppCelmi.db",
+                MaxRecordsPerPage = 50,
+                EnableAdvancedFeatures = true
+            };
+
+            // Configurar timeouts específicos para máquinas
+            BluetoothConfiguration.ConnectionTimeoutSeconds = 20;
+            BluetoothConfiguration.ScanTimeoutSeconds = 15;
+
+            // Configurar logging mais detalhado
+            LoggingConfiguration.DetailedLoggingEnabled = true;
+            LoggingConfiguration.DataLoggingEnabled = true;
+        }
+
+        protected override bool ValidateSpecificSettings()
+        {
+            return base.ValidateSpecificSettings() &&
+                   AppSpecificSettings?.Validate() == true;
+        }
+    }
+
+    /// <summary>
+    /// Configurações específicas do App Celmi Máquinas.
+    /// </summary>
+    public partial class AppSpecificSettings : ObservableObject
+    {
+        [ObservableProperty]
+        private string appMode = "Maquinas";
+
+        [ObservableProperty]
+        private string databasePath = "AppCelmi.db";
+
+        [ObservableProperty]
+        private int maxRecordsPerPage = 50;
+
+        [ObservableProperty]
+        private bool enableAdvancedFeatures = false;
+
+        [ObservableProperty]
+        private string backupPath = string.Empty;
+
+        [ObservableProperty]
+        private bool autoBackupEnabled = false;
+
+        public bool Validate()
+        {
+            return !string.IsNullOrWhiteSpace(AppMode) &&
+                   !string.IsNullOrWhiteSpace(DatabasePath) &&
+                   MaxRecordsPerPage > 0;
         }
     }
 }

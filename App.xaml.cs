@@ -1,7 +1,11 @@
 ﻿using AppCelmiMaquinas.Implementations;
 using AppCelmiMaquinas.Services;
+
 using Microsoft.Extensions.DependencyInjection;
+
 using Syncfusion.Licensing;
+
+using System.Diagnostics;
 
 namespace AppCelmiMaquinas
 {
@@ -9,31 +13,56 @@ namespace AppCelmiMaquinas
     {
         public App()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
 
-            // Força o tema Light sempre
-            Application.Current!.UserAppTheme = AppTheme.Light;
+                // Força o tema Light sempre
+                Application.Current!.UserAppTheme = AppTheme.Light;
 
-            //https://www.syncfusion.com/account/downloads
-            SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JEaF5cXmRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXlcd3VWRmdZWUJwW0FWYEk=");
+                //https://www.syncfusion.com/account/downloads
+                SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JEaF5cXmRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXlcd3VWRmdZWUJwW0FWYEk=");
 
-            VersionTracking.Track();
+                VersionTracking.Track();
 
-            // Garante que o serviço de configuração seja inicializado.
-            // A chamada a Load() foi removida daqui, pois o construtor do AppConfigurationService já a faz.
-            var appConfigService = MauiProgram.Services?.GetRequiredService<AppConfigurationService>();
+                // Verificar se o serviço de configuração foi inicializado
+                var appConfigService = MauiProgram.Services?.GetService<AppConfigurationService>();
+                if (appConfigService == null)
+                {
+                    Debug.WriteLine("[App] AVISO: AppConfigurationService não foi encontrado no DI");
+                }
+                else
+                {
+                    Debug.WriteLine("[App] AppConfigurationService inicializado com sucesso");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[App] ERRO durante inicialização: {ex.Message}");
+                Debug.WriteLine($"[App] StackTrace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            // Get AppShell from dependency injection with null check
-            if (MauiProgram.Services == null)
+            try
             {
-                throw new InvalidOperationException("Services not initialized");
+                // Get AppShell from dependency injection with null check
+                if (MauiProgram.Services == null)
+                {
+                    throw new InvalidOperationException("Services not initialized");
+                }
+
+                var appShell = MauiProgram.Services.GetRequiredService<AppShell>();
+                return new Window(appShell);
             }
-            
-            var appShell = MauiProgram.Services.GetRequiredService<AppShell>();
-            return new Window(appShell);
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[App] ERRO ao criar Window: {ex.Message}");
+                Debug.WriteLine($"[App] StackTrace: {ex.StackTrace}");
+                throw;
+            }
         }
     }
 }
