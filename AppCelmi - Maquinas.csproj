@@ -87,28 +87,6 @@
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#FFFFFF" />
 	</ItemGroup>
 	<ItemGroup>
-		<Compile Update="Resources\AppResources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>AppResources.resx</DependentUpon>
-		</Compile>
-	</ItemGroup>
-	<ItemGroup>
-		<EmbeddedResource Update="Resources\AppResources.en-US.resx">
-			<Generator></Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Resources\AppResources.es-ES.resx">
-			<Generator></Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Resources\AppResources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>AppResources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-	</ItemGroup>
-	<ItemGroup>
-		<MauiXaml Update="Views\Configurações\ConfiguracaoView.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
 		<MauiXaml Update="Views\ListaPesagensView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
@@ -124,5 +102,8 @@
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-maccatalyst'">
 	  <PackageReference Include="Shiny.Extensions.Configuration" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Views\Configurações\" />
 	</ItemGroup>
 </Project>

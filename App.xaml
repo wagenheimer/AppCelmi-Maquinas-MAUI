@@ -29,6 +29,7 @@
             <converters:BoolToColorBrushConverter x:Key="BoolToColorBrushConverter" />
             <converters:ZeroToTrueConverter x:Key="ZeroToTrueConverter" />
             <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -1,5 +1,4 @@
 ﻿using AppCelmiMaquinas.Implementations;
-using AppCelmiMaquinas.Resources;
 using AppCelmiMaquinas.ViewModel;
 using CelmiBluetooth.Extensions;
 using CelmiBluetooth.Maui.Services.Localizatrion;
@@ -13,6 +12,7 @@ using Syncfusion.Maui.Core.Hosting;
 using Syncfusion.Maui.Toolkit.Hosting;
 using AppCelmiMaquinas.Views;
 using CelmiBluetooth.Utils;
+using CelmiBluetooth.Maui.Resources;
 
 
 namespace AppCelmiMaquinas
@@ -70,9 +70,6 @@ namespace AppCelmiMaquinas
 
                 // ✅ Registrar a própria classe App para permitir a injeção de dependência nela
                 mauiAppBuilder.Services.AddSingleton<App>();
-
-                // ✅ REGISTRAR O SERVIÇO DE LOCALIZAÇÃO
-                mauiAppBuilder.Services.AddSingleton<ICelmiLocalizationService, CelmiLocalizationService>();
 
                 System.Diagnostics.Debug.WriteLine("[MauiProgram] Serviços registrados com sucesso");
             }
