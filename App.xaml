@@ -10,8 +10,8 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <!--  ✅ Incluir recursos do módulo CelmiBluetooth.Maui  -->
-                <ResourceDictionary Source="/Resources/CelmiBluetoothResources.xaml;assembly=CelmiBluetooth.Maui" />
+                <ResourceDictionary Source="/Resources/Styles/Colors.xaml;assembly=CelmiBluetooth.Maui" />
+                <ResourceDictionary Source="/Resources/Styles/Styles.xaml;assembly=CelmiBluetooth.Maui" />
             </ResourceDictionary.MergedDictionaries>
 
             <Color x:Key="CorFundo">#004b3c</Color>

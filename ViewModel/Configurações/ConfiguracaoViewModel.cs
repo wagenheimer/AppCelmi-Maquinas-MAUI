@@ -1,35 +1,46 @@
-using LocalizationResourceManager.Maui;
-using AppCelmiMaquinas.Services;
-using AppCelmiMaquinas.Implementations;
+using CelmiBluetooth.Services.Configuration;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CelmiBluetooth.ViewModels;
+using CommunityToolkit.Mvvm.Input;
+using LocalizationResourceManager.Maui;
+using System.Collections.ObjectModel;
+using CelmiBluetooth.Models;
 
 namespace AppCelmiMaquinas.ViewModel
 {
-    public partial class ConfiguracaoViewModel : ViewModelBase
+    /// <summary>
+    /// ViewModel para a tela de configurações do aplicativo.
+    /// </summary>
+    public partial class ConfiguracaoViewModel : ObservableObject
     {
+        private readonly ICelmiBluetoothConfigurationService _configService;
+
+        /// <summary>
+        /// Configurações da empresa.
+        /// </summary>
         [ObservableProperty]
-        private AppConfigurationService? appConfigurationService;
+        private CompanyConfiguration _companyConfiguration;
 
-        public CelmiLanguageSelectorViewModel LanguageSelectorVM { get; }
-        public CelmiReportConfigurationViewModel ReportConfigVM { get; }
+        /// <summary>
+        /// Configurações de relatório.
+        /// </summary>
+        [ObservableProperty]
+        private ReportConfiguration _reportConfiguration;
 
-
-        public ConfiguracaoViewModel(ILocalizationResourceManager resourceManager, CelmiLanguageSelectorViewModel languageSelectorVM,
-        CelmiReportConfigurationViewModel reportConfigVM, AppConfigurationService appConfigurationService)
-            : base(resourceManager)
+        public ConfiguracaoViewModel(ICelmiBluetoothConfigurationService configService)
         {
-            AppConfigurationService = appConfigurationService;
+            _configService = configService;
 
-            resourceManager = MauiProgram.Services?.GetService<ILocalizationResourceManager>()!;
-
-            LanguageSelectorVM = languageSelectorVM;
-            ReportConfigVM = reportConfigVM;
+            // Carrega as seções de configuração
+            _companyConfiguration = _configService.GetConfiguration<CompanyConfiguration>();
+            _reportConfiguration = _configService.GetConfiguration<ReportConfiguration>();
         }
 
-        protected override void UpdateLocalizedProperties()
+        [RelayCommand]
+        private async Task SaveChangesAsync()
         {
-            OnPropertyChanged(nameof(LanguageSelectorVM));
+            // O salvamento agora é automático ao alterar qualquer propriedade,
+            // mas podemos manter um botão de salvar para forçar a persistência se necessário.
+            await _configService.SaveAsync();
         }
     }
 }

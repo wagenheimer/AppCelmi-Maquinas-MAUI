@@ -1,5 +1,4 @@
-﻿using AppCelmiMaquinas.Implementations;
-using AppCelmiMaquinas.Services;
+﻿using CelmiBluetooth.Services.Configuration;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,23 +17,17 @@ namespace AppCelmiMaquinas
                 InitializeComponent();
 
                 // Força o tema Light sempre
-                Application.Current!.UserAppTheme = AppTheme.Light;
+                if (Application.Current != null)
+                {
+                    Application.Current.UserAppTheme = AppTheme.Light;
+                }
 
                 //https://www.syncfusion.com/account/downloads
                 SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JEaF5cXmRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXlcd3VWRmdZWUJwW0FWYEk=");
 
                 VersionTracking.Track();
 
-                // Verificar se o serviço de configuração foi inicializado
-                var appConfigService = MauiProgram.Services?.GetService<AppConfigurationService>();
-                if (appConfigService == null)
-                {
-                    Debug.WriteLine("[App] AVISO: AppConfigurationService não foi encontrado no DI");
-                }
-                else
-                {
-                    Debug.WriteLine("[App] AppConfigurationService inicializado com sucesso");
-                }
+               
             }
             catch (Exception ex)
             {

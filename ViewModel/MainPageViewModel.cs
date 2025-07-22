@@ -2,8 +2,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LocalizationResourceManager.Maui;
-using AppCelmiMaquinas.Services;
-using AppCelmiMaquinas.Implementations;
+using CelmiBluetooth.Services.Configuration;
+using CelmiBluetooth.Maui.Services.Localizatrion;
+using System.Linq;
 using CelmiBluetooth.ViewModels;
 
 namespace AppCelmiMaquinas.ViewModel
@@ -13,13 +14,16 @@ namespace AppCelmiMaquinas.ViewModel
         [ObservableProperty]
         private int selectedTabIndex;
 
-        public AppConfigurationService AppConfig { get; }
+        private readonly ICelmiBluetoothConfigurationService _configService;
         public ICelmiLocalizationService Localization { get; }
 
-        public MainPageViewModel(ILocalizationResourceManager resourceManager, AppConfigurationService appConfig, ICelmiLocalizationService localization)
+        public MainPageViewModel(
+            ILocalizationResourceManager resourceManager,
+            ICelmiBluetoothConfigurationService configService,
+            ICelmiLocalizationService localization)
             : base(resourceManager)
         {
-            AppConfig = appConfig;
+            _configService = configService;
             Localization = localization;
 
             //Evita Tela de Apagar
@@ -30,6 +34,8 @@ namespace AppCelmiMaquinas.ViewModel
         public async Task ShareAppInfo()
         {
             var shareText = new StringBuilder();
+            var langConfig = _configService.GetConfiguration<LanguageConfiguration>();
+            var reportConfig = _configService.GetConfiguration<ReportConfiguration>();
 
             // Add app information
             shareText.AppendLine($"{ResourceManager["AppCelmiPecuária"]}");
@@ -38,14 +44,17 @@ namespace AppCelmiMaquinas.ViewModel
 
             // Add current configuration
             shareText.AppendLine($"{ResourceManager["ConfiguraçõesCamelCase"]}:");
-            shareText.AppendLine($"{ResourceManager["Idioma"]}: {AppConfig.AppSettings.CurrentCulture}");
+            if (langConfig != null)
+            {
+                shareText.AppendLine($"{ResourceManager["Idioma"]}: {langConfig.CurrentCulture}");
+            }
 
             // Add custom fields if any
-            if (AppConfig.AppSettings.CustomFields.Any())
+            if (reportConfig != null && reportConfig.CustomFields.Any())
             {
                 shareText.AppendLine();
                 shareText.AppendLine($"{ResourceManager["CamposPersonalizados"]}:");
-                foreach (var field in AppConfig.AppSettings.CustomFields)
+                foreach (var field in reportConfig.CustomFields)
                 {
                     shareText.AppendLine($"- {field.Title}");
                 }
